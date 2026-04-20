@@ -15,6 +15,10 @@
 
 import { useEffect, useState } from "react";
 import { archivo, lato } from "./fonts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const images = [
   "/home/images/project1.jpg",
@@ -27,6 +31,8 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [next, setNext] = useState(1);
   const [animate, setAnimate] = useState(false);
+
+  
 
 
   useEffect(() => {
@@ -46,23 +52,32 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [next]);
 
+
+  const goRight = () => {
+  setAnimate(true);
+  console.log("hi")
+  setTimeout(() => {
+    setCurrent(prev => (prev + 1) % images.length);
+    setNext(prev => (prev + 1) % images.length);
+    setAnimate(false);
+  }, 700);
+};
+
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* Current Background */}
       <div
-        className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform duration-700` :""} ${
-          animate ? "-translate-x-full" : "translate-x-0"
-        }`}
+        className={`absolute inset-0 bg-cover bg-center  ${animate ? `transition-transform duration-700 -translate-x-full` :"translate-x-0"} `}
         style={{
           backgroundImage: `url(${images[current]})`,
         }}
       />
 
+      <FontAwesomeIcon className="absolute right-[50px] bottom-[50vh] text-4xl text-white z-40" icon={faAngleRight}  onClick={goRight} />
+
       {/* Next Background */}
       <div
-        className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform duration-700` :""}  ${
-          animate ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform duration-700 translate-x-0` :"translate-x-full"}  `}
         style={{
           backgroundImage: `url(${images[next]})`,
         }}
@@ -83,3 +98,4 @@ export default function Home() {
     </div>
   );
 }
+
