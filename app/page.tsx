@@ -1,15 +1,3 @@
-// // import { archivo, lato } from './fonts';
-
-
-// // export default function Home() {
-// //   return (
-// //     <div className="h-screen w-screen bg-[url('/home/images/project1.jpg')] bg-cover p-[1px]">
-// //       <div className={`${archivo.className} text-[55px] text-white w-fit m-auto font-bold mt-[60px]`}> KAAN{" "}<span className={`${lato.className}`}>Architecten </span></div> 
-     
-// //     </div>
-// //   );
-// // }
-
 
 "use client";
 
@@ -27,6 +15,9 @@ const images = [
    "/home/images/project3.jpg"
 
 ];
+
+const text = ["Project1", "Project2", "Project3"]
+const description = ["Description of Project 1", "Description of project 2", "Description of project 3"]
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
@@ -121,7 +112,12 @@ const goLeft = () => {
         style={{
           backgroundImage: `url(${images[current]})`,
         }}
-      />
+      > 
+     <div className="absolute inset-0 bg-black/10 z-10" >    
+      <div className={`${lato.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}>{text[current]}</div>
+      <div className={`${lato.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}>{description[current]}</div>
+      </div>
+       </div>
 
     
 
@@ -136,7 +132,12 @@ const goLeft = () => {
         style={{
           backgroundImage: `url(${images[next]})`,
         }}
-      />
+      >
+   <div className="absolute inset-0 bg-black/10 z-10" >        
+         <div className={` ${lato.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}>{text[next]}</div>
+         <div className={`${lato.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}>{description[next]}</div>
+         </div>
+       </div>
 
      
 
@@ -147,7 +148,7 @@ const goLeft = () => {
       {/* Hero Content */}
       <div className="relative z-20 h-full w-full">
         <div
-          className={`${archivo.className} text-[55px] text-white w-fit mx-auto font-bold pt-[60px]`}
+          className={`${archivo.className} text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
         >
           KAAN{" "}
           <span className={lato.className}>Architecten</span>
