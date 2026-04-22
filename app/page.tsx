@@ -33,6 +33,7 @@ export default function Home() {
   const [next, setNext] = useState(1);
   const [animate, setAnimate] = useState(false);
   const [right, setRight] = useState(true);
+  const [clickable, setClickable] = useState(true)
   
 
   
@@ -63,12 +64,17 @@ export default function Home() {
 
 
   const goRight = () => {
+  if(!clickable){
+    return
+  }  
   setAnimate(true);
   setRight(true)
+  setClickable(false)
   setTimeout(() => {
     setCurrent(prev => (prev + 1) % images.length);
     setNext(prev => (prev + 1) % images.length);
     setAnimate(false);
+    setClickable(true)
   }, 700);
 };
 
@@ -86,20 +92,23 @@ export default function Home() {
 
 
 const goLeft = () => {
- 
+   if(!clickable){
+    return
+  }  
   const newNext =
     (current - 1 + images.length) % images.length;
    
   setRight(false)
   setNext(newNext);
   setTimeout(() => setAnimate(true),0)
-
+  setClickable(false)
   setTimeout(() => {
    
     setCurrent((prev)=> (prev - 1 + images.length ) % images.length)
     setNext(current)
     setAnimate(false);
     setRight(true);
+    setClickable(true)
   
   }, 700);
 };
