@@ -21,6 +21,7 @@ const description = ["Description of Project 1", "Description of project 2", "De
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
+  const [currentOwl, setCurrentOwl] = useState(0)
   const [next, setNext] = useState(1);
   const [animate, setAnimate] = useState(false);
   const [right, setRight] = useState(true);
@@ -38,7 +39,7 @@ export default function Home() {
     const interval = setInterval(() => {
      
       setAnimate(true);
-
+      setCurrentOwl(next)
       const timeout = setTimeout(() => {
         
         setCurrent(next);
@@ -60,6 +61,7 @@ export default function Home() {
   }  
   setAnimate(true);
   setRight(true)
+  setCurrentOwl(prev => (prev + 1) % images.length)
   setClickable(false)
   setTimeout(() => {
     setCurrent(prev => (prev + 1) % images.length);
@@ -91,6 +93,7 @@ const goLeft = () => {
    
   setRight(false)
   setNext(newNext);
+  setCurrentOwl((prev)=> (prev - 1 + images.length ) % images.length)
   setTimeout(() => setAnimate(true),0)
   setClickable(false)
   setTimeout(() => {
@@ -154,6 +157,19 @@ const goLeft = () => {
           <span className={lato.className}>Architecten</span>
         </div>
       </div>
+
+      <div className="absolute bottom-6 left-1/2  z-30 flex gap-3">
+  {images.map((_, index) => (
+    <div
+      key={index}
+      className={`h-3 w-3 rounded-full cursor-pointer  ${
+        index === currentOwl
+          ? "bg-white scale-125"
+          : "bg-white/50 hover:bg-white"
+      }`}
+    />
+    ))}
+    </div>
     </div>
   );
 }
