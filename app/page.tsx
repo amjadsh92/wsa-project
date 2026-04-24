@@ -30,10 +30,13 @@ export default function Home() {
   const [triggerInterval, setTriggerInterval] = useState(false)
 
   useEffect(() => {
-    if (!right || buttonPressed) {
+    if (!right || buttonPressed || !clickable) {
       return;
     }
+    // setClickable(true)
 
+
+    
     const interval = setInterval(() => {
       setAnimate(true);
       setCurrentOwl(next);
@@ -51,6 +54,11 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [next, triggerInterval]);
 
+
+  const handleTransitionEnd = () => {
+    setAnimate(false)
+  }
+
   const goRight = () => {
     if (!clickable) {
       return;
@@ -63,7 +71,7 @@ export default function Home() {
       setCurrent((prev) => (prev + 1) % images.length);
       setNext((prev) => (prev + 1) % images.length);
       setAnimate(false);
-      setClickable(true);
+      setClickable(true)
     }, 700);
   };
 
@@ -89,21 +97,27 @@ export default function Home() {
 
   const goTo = (index: number) => {
 
-    if(!clickable){
+    if(!clickable || animate){
       return
     }
 
-    setCurrent(index)
-    setNext((index + 1) % images.length);
+    
+    setNext(index);
+    
     setCurrentOwl(index)
     setButtonPressed(true)
+    setClickable(false)
+    setAnimate(true)
     setTimeout(() => {
       
-      
+      setCurrent(index)
+      setClickable(true)
+      setNext((index+1)%(images.length))
       setButtonPressed(false)
+      setAnimate(false)
       setTriggerInterval(!triggerInterval)
       
-    }, 1);
+    }, 700);
 
   }
 
@@ -115,6 +129,7 @@ export default function Home() {
         style={{
           backgroundImage: `url(${images[current]})`,
         }}
+        // onTransitionEnd={handleTransitionEnd}
       >
         <div className="absolute inset-0 bg-black/10 z-10">
           <div
