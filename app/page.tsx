@@ -30,8 +30,8 @@ export default function Home() {
   const [goToFunc, setGoToFunc] = useState(false)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [clickable, setClickable] = useState(true);
-  const [buttonPressed, setButtonPressed] = useState(false)
-  const [triggerInterval, setTriggerInterval] = useState(false)
+  const [buttonPressed, setButtonPressed] = useState(false);
+  const [triggerInterval, setTriggerInterval] = useState(false);
 
   useEffect(() => {
     if (!right || buttonPressed || !clickable) {
@@ -45,14 +45,7 @@ export default function Home() {
       setAnimate(true);
       setCurrentOwl(next);
       setClickable(false)
-      // const timeout = setTimeout(() => {
-      //   setCurrent(next);
-      //   setNext((next + 1) % images.length);
-      //   setClickable(true);
-      //   setAnimate(false);
-      // }, 700);
-
-      // return () => clearTimeout(timeout);
+      
     }, 3000);
 
     return () => clearInterval(interval);
@@ -88,6 +81,7 @@ export default function Home() {
       setNext((photoIndex+1)%(images.length))
       setButtonPressed(false)
       setAnimate(false)
+      setRight(true)
       setGoToFunc(false)
       setTriggerInterval(!triggerInterval)
     }
@@ -112,12 +106,7 @@ export default function Home() {
     setClickable(false);
     setRightFunc(true)
     
-    // setTimeout(() => {
-    //   setCurrent((prev) => (prev + 1) % images.length);
-    //   setNext((prev) => (prev + 1) % images.length);
-    //   setAnimate(false);
-    //   setClickable(true)
-    // }, 700);
+  
   };
 
   const goLeft = () => {
@@ -132,13 +121,7 @@ export default function Home() {
     setTimeout(() => setAnimate(true), 0);
     setClickable(false);
     setLeftFunc(true)
-    // setTimeout(() => {
-    //   setCurrent((prev) => (prev - 1 + images.length) % images.length);
-    //   setNext(current);
-    //   setAnimate(false);
-    //   setRight(true);
-    //   setClickable(true);
-    // }, 700);
+    
   };
 
   const goTo = (index: number) => {
@@ -148,25 +131,39 @@ export default function Home() {
     }
 
     
+    if(index > current){
+      if((index - current) > (images.length % (index +1) + current + 1)){
+             setRight(false)
+      }
+
+     
+
+
+    }
+
+    if(index < current){
+      if((current-index) <= (images.length % (current+1) + index + 1)){
+             setRight(false)
+      }
+
+      
+    }
+
+    if(index === current){
+      return
+    }
+
+
+
     setNext(index);
     
     setCurrentOwl(index)
     setButtonPressed(true)
     setClickable(false)
     setPhotoIndex(index)
-    setAnimate(true)
+    setTimeout(() => setAnimate(true), 0);
     setGoToFunc(true)
-    // setTimeout(() => {
-      
-    //   setCurrent(index)
-    //   setClickable(true)
-    //   setNext((index+1)%(images.length))
-    //   setButtonPressed(false)
-    //   setAnimate(false)
-    //   setTriggerInterval(!triggerInterval)
-      
-    // }, 700);
-
+    
   }
 
   return (
