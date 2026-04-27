@@ -25,6 +25,10 @@ export default function Home() {
   const [next, setNext] = useState(1);
   const [animate, setAnimate] = useState(false);
   const [right, setRight] = useState(true);
+  const [rightFunc, setRightFunc] = useState(false)
+  const [leftFunc, setLeftFunc] = useState(false)
+  const [goToFunc, setGoToFunc] = useState(false)
+  const [photoIndex, setPhotoIndex] = useState(0)
   const [clickable, setClickable] = useState(true);
   const [buttonPressed, setButtonPressed] = useState(false)
   const [triggerInterval, setTriggerInterval] = useState(false)
@@ -41,14 +45,14 @@ export default function Home() {
       setAnimate(true);
       setCurrentOwl(next);
       setClickable(false)
-      const timeout = setTimeout(() => {
-        setCurrent(next);
-        setNext((next + 1) % images.length);
-        setClickable(true);
-        setAnimate(false);
-      }, 700);
+      // const timeout = setTimeout(() => {
+      //   setCurrent(next);
+      //   setNext((next + 1) % images.length);
+      //   setClickable(true);
+      //   setAnimate(false);
+      // }, 700);
 
-      return () => clearTimeout(timeout);
+      // return () => clearTimeout(timeout);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -56,7 +60,46 @@ export default function Home() {
 
 
   const handleTransitionEnd = () => {
-    setAnimate(false)
+    
+    
+       
+    
+    if(rightFunc){
+      setCurrent((prev) => (prev + 1) % images.length);
+      setNext((prev) => (prev + 1) % images.length);
+      setAnimate(false);
+      setClickable(true)
+      setRightFunc(false)
+    }  
+    
+    if(leftFunc){
+       setCurrent((prev) => (prev - 1 + images.length) % images.length);
+       setNext(current);
+       setAnimate(false);
+       setRight(true);
+       setClickable(true);
+       setLeftFunc(false)
+    }
+
+    if(goToFunc){
+
+      setCurrent(photoIndex)
+      setClickable(true)
+      setNext((photoIndex+1)%(images.length))
+      setButtonPressed(false)
+      setAnimate(false)
+      setGoToFunc(false)
+      setTriggerInterval(!triggerInterval)
+    }
+
+    else{
+       setCurrent(next);
+        setNext((next + 1) % images.length);
+        setClickable(true);
+        setAnimate(false);
+    }
+
+    
   }
 
   const goRight = () => {
@@ -67,12 +110,14 @@ export default function Home() {
     setRight(true);
     setCurrentOwl((prev) => (prev + 1) % images.length);
     setClickable(false);
-    setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-      setNext((prev) => (prev + 1) % images.length);
-      setAnimate(false);
-      setClickable(true)
-    }, 700);
+    setRightFunc(true)
+    
+    // setTimeout(() => {
+    //   setCurrent((prev) => (prev + 1) % images.length);
+    //   setNext((prev) => (prev + 1) % images.length);
+    //   setAnimate(false);
+    //   setClickable(true)
+    // }, 700);
   };
 
   const goLeft = () => {
@@ -86,18 +131,19 @@ export default function Home() {
     setCurrentOwl((prev) => (prev - 1 + images.length) % images.length);
     setTimeout(() => setAnimate(true), 0);
     setClickable(false);
-    setTimeout(() => {
-      setCurrent((prev) => (prev - 1 + images.length) % images.length);
-      setNext(current);
-      setAnimate(false);
-      setRight(true);
-      setClickable(true);
-    }, 700);
+    setLeftFunc(true)
+    // setTimeout(() => {
+    //   setCurrent((prev) => (prev - 1 + images.length) % images.length);
+    //   setNext(current);
+    //   setAnimate(false);
+    //   setRight(true);
+    //   setClickable(true);
+    // }, 700);
   };
 
   const goTo = (index: number) => {
 
-    if(!clickable || animate){
+    if(!clickable){
       return
     }
 
@@ -107,17 +153,19 @@ export default function Home() {
     setCurrentOwl(index)
     setButtonPressed(true)
     setClickable(false)
+    setPhotoIndex(index)
     setAnimate(true)
-    setTimeout(() => {
+    setGoToFunc(true)
+    // setTimeout(() => {
       
-      setCurrent(index)
-      setClickable(true)
-      setNext((index+1)%(images.length))
-      setButtonPressed(false)
-      setAnimate(false)
-      setTriggerInterval(!triggerInterval)
+    //   setCurrent(index)
+    //   setClickable(true)
+    //   setNext((index+1)%(images.length))
+    //   setButtonPressed(false)
+    //   setAnimate(false)
+    //   setTriggerInterval(!triggerInterval)
       
-    }, 700);
+    // }, 700);
 
   }
 
@@ -129,7 +177,7 @@ export default function Home() {
         style={{
           backgroundImage: `url(${images[current]})`,
         }}
-        // onTransitionEnd={handleTransitionEnd}
+        onTransitionEnd={handleTransitionEnd}
       >
         <div className="absolute inset-0 bg-black/10 z-10">
           <div
