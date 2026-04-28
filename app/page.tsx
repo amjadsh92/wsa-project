@@ -21,7 +21,7 @@ const description = [
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
-  const [currentOwl, setCurrentOwl] = useState(0);
+  const [currentButton, setCurrentButton] = useState(0);
   const [next, setNext] = useState(1);
   const [animate, setAnimate] = useState(false);
   const [right, setRight] = useState(true);
@@ -31,32 +31,29 @@ export default function Home() {
   const [photoIndex, setPhotoIndex] = useState(0)
   const [clickable, setClickable] = useState(true);
   const [buttonPressed, setButtonPressed] = useState(false);
-  const [triggerInterval, setTriggerInterval] = useState(false);
+  
 
   useEffect(() => {
     if (!right || buttonPressed || !clickable) {
       return;
     }
-    // setClickable(true)
-
-
-    
+    // In normal flow this runs every 3 seconds
     const interval = setInterval(() => {
       setAnimate(true);
-      setCurrentOwl(next);
+      setCurrentButton(next);
       setClickable(false)
       
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [next, triggerInterval]);
+  }, [next]);
 
-
+// This runs when the  transition to the next image is finished 
   const handleTransitionEnd = () => {
     
     
        
-    
+    // Logic when right arrow is pressed    
     if(rightFunc){
       setCurrent((prev) => (prev + 1) % images.length);
       setNext((prev) => (prev + 1) % images.length);
@@ -65,6 +62,7 @@ export default function Home() {
       setRightFunc(false)
     }  
     
+    // Logic when left arrow is pressed
     if(leftFunc){
        setCurrent((prev) => (prev - 1 + images.length) % images.length);
        setNext(current);
@@ -73,7 +71,7 @@ export default function Home() {
        setClickable(true);
        setLeftFunc(false)
     }
-
+    // Logic when a button is pressed
     if(goToFunc){
 
       setCurrent(photoIndex)
@@ -83,11 +81,11 @@ export default function Home() {
       setAnimate(false)
       setRight(true)
       setGoToFunc(false)
-      setTriggerInterval(!triggerInterval)
+    
     }
-
+    // normal flow (photos transition in default to the right direction)
     else{
-       setCurrent(next);
+        setCurrent(next);
         setNext((next + 1) % images.length);
         setClickable(true);
         setAnimate(false);
@@ -96,18 +94,22 @@ export default function Home() {
     
   }
 
+  // This runs when you press the right arrow
+
   const goRight = () => {
     if (!clickable) {
       return;
     }
     setAnimate(true);
     setRight(true);
-    setCurrentOwl((prev) => (prev + 1) % images.length);
+    setCurrentButton((prev) => (prev + 1) % images.length);
     setClickable(false);
     setRightFunc(true)
     
   
   };
+
+  // This runs when you press the left arrow
 
   const goLeft = () => {
     if (!clickable) {
@@ -117,12 +119,14 @@ export default function Home() {
 
     setRight(false);
     setNext(newNext);
-    setCurrentOwl((prev) => (prev - 1 + images.length) % images.length);
+    setCurrentButton((prev) => (prev - 1 + images.length) % images.length);
     setTimeout(() => setAnimate(true), 0);
     setClickable(false);
     setLeftFunc(true)
     
   };
+
+  // This runs when you press a button that takes you to a specific photo
 
   const goTo = (index: number) => {
 
@@ -130,34 +134,25 @@ export default function Home() {
       return
     }
 
-    
-    if(index > current){
-      if((index - current) > (images.length % (index +1) + current + 1)){
+    const stepsToReachIndexFromRightToLeft = images.length % (index +1) + current + 1
+    const stepsToReachIndexFromLeftToRight = images.length % (current+1) + index + 1
+    if(index > current && (index - current) > stepsToReachIndexFromRightToLeft){
+     
              setRight(false)
       }
 
-     
-
-
-    }
-
-    if(index < current){
-      if((current-index) <= (images.length % (current+1) + index + 1)){
+    if(index < current && (current-index) <= stepsToReachIndexFromLeftToRight){
+      
              setRight(false)
       }
 
       
-    }
-
     if(index === current){
       return
     }
 
-
-
     setNext(index);
-    
-    setCurrentOwl(index)
+    setCurrentButton(index)
     setButtonPressed(true)
     setClickable(false)
     setPhotoIndex(index)
@@ -240,7 +235,7 @@ export default function Home() {
             key={index}
             onClick={() => goTo(index)}
             className={`h-3 w-3 rounded-full cursor-pointer  ${
-              index === currentOwl
+              index === currentButton
                 ? "bg-white scale-125"
                 : "bg-white/50 hover:bg-white"
             }`}
