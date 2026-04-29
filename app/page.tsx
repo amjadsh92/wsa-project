@@ -155,7 +155,7 @@ export default function Home() {
     //   setRight(false);
     // }
 
-    if( index < current && (current != images.length - 1)){
+    if( index < current){
       setRight(false)
     }
 
