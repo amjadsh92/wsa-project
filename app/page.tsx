@@ -39,6 +39,8 @@ export default function Home() {
   const [photoIndex, setPhotoIndex] = useState(0);
   // Indicates if arrows are clickable or no
   const [clickable, setClickable] = useState(true); 
+  // Keep photo
+  const [keepPhoto, setKeepPhoto] = useState(false)
 
   useEffect(() => {
     if (!right || !clickable) {
@@ -46,13 +48,21 @@ export default function Home() {
     }
     // In normal flow this runs every 3 seconds
     const interval = setInterval(() => {
+      if(!keepPhoto){
       setAnimate(true);
       setCurrentButton(next);
       setClickable(false);
+      }
+      else{
+        setKeepPhoto(false)
+        
+      }
+      
+     
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [next]);
+  }, [next, keepPhoto]);
 
   // This runs when the  transition to the next image is finished
   const handleTransitionEnd = () => {
@@ -76,12 +86,14 @@ export default function Home() {
     }
     // Logic when a button is pressed
     if (goToFunc) {
+      
       setCurrent(photoIndex);
       setClickable(true);
       setNext((photoIndex + 1) % images.length);
       setAnimate(false);
       setRight(true);
       setGoToFunc(false);
+      
     }
     // normal flow (photos transition in default to the right direction)
     else {
@@ -148,7 +160,8 @@ export default function Home() {
     }
 
     if (index === current) {
-      return;
+      setKeepPhoto(true)
+      return
     }
 
     setNext(index);
