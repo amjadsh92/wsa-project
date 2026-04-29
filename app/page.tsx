@@ -20,79 +20,77 @@ const description = [
 ];
 
 export default function Home() {
-  const [current, setCurrent] = useState(0);
+  // Current project photo
+  const [current, setCurrent] = useState(0); 
+  // The button that is currently highlighted
   const [currentButton, setCurrentButton] = useState(0);
+  // Next project photo 
   const [next, setNext] = useState(1);
+  // Transition to the next photo should begin when animate is true 
   const [animate, setAnimate] = useState(false);
-  const [right, setRight] = useState(true);
-  const [rightFunc, setRightFunc] = useState(false)
-  const [leftFunc, setLeftFunc] = useState(false)
-  const [goToFunc, setGoToFunc] = useState(false)
-  const [photoIndex, setPhotoIndex] = useState(0)
-  const [clickable, setClickable] = useState(true);
-  const [buttonPressed, setButtonPressed] = useState(false);
-  
+  // Transition direction is to right 
+  const [right, setRight] = useState(true); 
+  // This state indicates that you pressed the right arrow and the transition has completed
+  const [rightFunc, setRightFunc] = useState(false); 
+  // This state indicates that you pressed the left arrow and the transition has completed
+  const [leftFunc, setLeftFunc] = useState(false); 
+   // This state indicates that you pressed a button and the transition has completed
+  const [goToFunc, setGoToFunc] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  // Indicates if arrows are clickable or no
+  const [clickable, setClickable] = useState(true); 
 
   useEffect(() => {
-    if (!right || buttonPressed || !clickable) {
+    if (!right || !clickable) {
       return;
     }
     // In normal flow this runs every 3 seconds
     const interval = setInterval(() => {
       setAnimate(true);
       setCurrentButton(next);
-      setClickable(false)
-      
+      setClickable(false);
     }, 3000);
 
     return () => clearInterval(interval);
   }, [next]);
 
-// This runs when the  transition to the next image is finished 
+  // This runs when the  transition to the next image is finished
   const handleTransitionEnd = () => {
-    
-    
-       
-    // Logic when right arrow is pressed    
-    if(rightFunc){
+    // Logic when right arrow is pressed
+    if (rightFunc) {
       setCurrent((prev) => (prev + 1) % images.length);
       setNext((prev) => (prev + 1) % images.length);
       setAnimate(false);
-      setClickable(true)
-      setRightFunc(false)
-    }  
-    
+      setClickable(true);
+      setRightFunc(false);
+    }
+
     // Logic when left arrow is pressed
-    if(leftFunc){
-       setCurrent((prev) => (prev - 1 + images.length) % images.length);
-       setNext(current);
-       setAnimate(false);
-       setRight(true);
-       setClickable(true);
-       setLeftFunc(false)
+    if (leftFunc) {
+      setCurrent((prev) => (prev - 1 + images.length) % images.length);
+      setNext(current);
+      setAnimate(false);
+      setRight(true);
+      setClickable(true);
+      setLeftFunc(false);
     }
     // Logic when a button is pressed
-    if(goToFunc){
-
-      setCurrent(photoIndex)
-      setClickable(true)
-      setNext((photoIndex+1)%(images.length))
-      setButtonPressed(false)
-      setAnimate(false)
-      setRight(true)
-      setGoToFunc(false)
-    
+    if (goToFunc) {
+      setCurrent(photoIndex);
+      setClickable(true);
+      setNext((photoIndex + 1) % images.length);
+      setAnimate(false);
+      setRight(true);
+      setGoToFunc(false);
     }
     // normal flow (photos transition in default to the right direction)
-    else{
-        setCurrent(next);
-        setNext((next + 1) % images.length);
-        setClickable(true);
-        setAnimate(false);
+    else {
+      setCurrent(next);
+      setNext((next + 1) % images.length);
+      setClickable(true);
+      setAnimate(false);
     }
-
-    
-  }
+  };
 
   // This runs when you press the right arrow
 
@@ -104,9 +102,7 @@ export default function Home() {
     setRight(true);
     setCurrentButton((prev) => (prev + 1) % images.length);
     setClickable(false);
-    setRightFunc(true)
-    
-  
+    setRightFunc(true);
   };
 
   // This runs when you press the left arrow
@@ -122,44 +118,46 @@ export default function Home() {
     setCurrentButton((prev) => (prev - 1 + images.length) % images.length);
     setTimeout(() => setAnimate(true), 0);
     setClickable(false);
-    setLeftFunc(true)
-    
+    setLeftFunc(true);
   };
 
   // This runs when you press a button that takes you to a specific photo
 
   const goTo = (index: number) => {
-
-    if(!clickable){
-      return
+    if (!clickable) {
+      return;
     }
 
-    const stepsToReachIndexFromRightToLeft = images.length % (index +1) + current + 1
-    const stepsToReachIndexFromLeftToRight = images.length % (current+1) + index + 1
-    if(index > current && (index - current) > stepsToReachIndexFromRightToLeft){
-     
-             setRight(false)
-      }
+    // const stepsToReachIndexFromRightToLeft =
+    //   (images.length % (index + 1)) + current + 1;
+    // const stepsToReachIndexFromLeftToRight =
+    //   (images.length % (current + 1)) + index + 1;
+    // if (index > current && index - current > stepsToReachIndexFromRightToLeft) {
+    //   setRight(false);
+    // }
 
-    if(index < current && (current-index) <= stepsToReachIndexFromLeftToRight){
-      
-             setRight(false)
-      }
+    // if (
+    //   index < current &&
+    //   current - index <= stepsToReachIndexFromLeftToRight
+    // ) {
+    //   setRight(false);
+    // }
 
-      
-    if(index === current){
-      return
+    if( index < current){
+      setRight(false)
+    }
+
+    if (index === current) {
+      return;
     }
 
     setNext(index);
-    setCurrentButton(index)
-    setButtonPressed(true)
-    setClickable(false)
-    setPhotoIndex(index)
+    setCurrentButton(index);
+    setClickable(false);
+    setPhotoIndex(index);
     setTimeout(() => setAnimate(true), 0);
-    setGoToFunc(true)
-    
-  }
+    setGoToFunc(true);
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
