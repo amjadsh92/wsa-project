@@ -176,7 +176,7 @@ export default function Home() {
     <div className="relative h-screen w-screen overflow-hidden">
       {/* Current Background */}
       <div
-        className={`absolute inset-0 bg-cover bg-center  ${animate ? (right ? `transition-transform duration-700 -translate-x-full` : `transition-transform duration-700 translate-x-full`) : right ? `translate-x-0` : `translate-x-0`} `}
+        className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform duration-700 ${right ? `-translate-x-full` : `translate-x-full`}` : "translate-x-0"}`}
         style={{
           backgroundImage: `url(${images[current]})`,
         }}
@@ -209,7 +209,14 @@ export default function Home() {
 
       {/* Next Background */}
       <div
-        className={`absolute inset-0 bg-cover bg-center ${animate ? (right ? `transition-transform duration-700 translate-x-0` : `transition-transform duration-700 translate-x-0`) : right ? "translate-x-full" : "-translate-x-full"}  `}
+        // className={`absolute inset-0 bg-cover bg-center ${animate ? (right ? `transition-transform duration-700 translate-x-0` : `transition-transform duration-700 translate-x-0`) : right ? "translate-x-full" : "-translate-x-full"}  `}
+         className={`absolute inset-0 bg-cover bg-center ${
+  animate
+    ? "transition-transform duration-700 translate-x-0"
+    : right
+    ? "translate-x-full"
+    : "-translate-x-full"
+}`}
         style={{
           backgroundImage: `url(${images[next]})`,
         }}
