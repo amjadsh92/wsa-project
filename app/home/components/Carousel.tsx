@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { archivo, lato } from "@/app/fonts";
+import { archivo, lato, monteserrat, ttCommons } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -184,18 +184,18 @@ const durationClass = durationMap[speed] || "duration-700";
         }}
         onTransitionEnd={handleTransitionEnd}
       >
-        <div className="absolute inset-0 bg-black/10 z-10">
+        {/* <div className="absolute inset-0 bg-black/10 z-10">
           <div
-            className={`${lato.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
+            className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
           >
             {titles[current]}
           </div>
           <div
-            className={`${lato.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+            className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
           >
             {descriptions[current]}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <FontAwesomeIcon
@@ -223,18 +223,18 @@ const durationClass = durationMap[speed] || "duration-700";
           backgroundImage: `url(${images[next]})`,
         }}
       >
-        <div className="absolute inset-0 bg-black/10 z-10">
+        {/* <div className="absolute inset-0 bg-black/10 z-10">
           <div
-            className={` ${lato.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
+            className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
           >
             {titles[next]}
           </div>
           <div
-            className={`${lato.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+            className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
           >
             {descriptions[next]}
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Dark Overlay */}

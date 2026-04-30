@@ -9,8 +9,8 @@ import localFont from 'next/font/local';
 export const ttCommons = localFont({
   src: [
     {
-      path: './fonts/Fontspring-DEMO-tt_commons_pro_condensed_bold.otf',
-      weight: '400',
+      path: './fonts/Fontspring-DEMO-tt_commons_pro_black.otf',
+      
       style: 'normal',
     },
     
