@@ -257,7 +257,7 @@ const durationClass = durationMap[speed] || "duration-700";
             onClick={() => goTo(index)}
             className={`h-3 w-3  rounded-full cursor-pointer  ${
               index === currentButton
-                ? "bg-white scale-125"
+                ? "bg-white"
                 : "bg-white/50 group-hover:bg-white"
             }`}
           />
