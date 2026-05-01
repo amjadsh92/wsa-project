@@ -9,12 +9,8 @@ const images = [
   "/home/images/project3.jpg",
 ];
 
-const titles = ["Project1", "Project2", "Project3"];
-const descriptions = [
-  "Description of Project 1",
-  "Description of project 2",
-  "Description of project 3",
-];
+const titles = ""
+const descriptions = ""
 
 export default function Home() {
 

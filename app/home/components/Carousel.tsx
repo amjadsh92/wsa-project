@@ -10,8 +10,8 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 type CarouselProps = {
   images: string[];
-  titles: string[];
-  descriptions: string[];
+  titles: string[] | "";
+  descriptions: string[] | "";
   speed:  300 | 500 | 700 | 1000;
 };
 
@@ -184,27 +184,27 @@ const durationClass = durationMap[speed] || "duration-700";
         }}
         onTransitionEnd={handleTransitionEnd}
       >
-        {/* <div className="absolute inset-0 bg-black/10 z-10">
+        <div className="absolute inset-0 bg-black/10 z-10">
           <div
             className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
           >
-            {titles[current]}
+            {titles[current] ? titles[current] : "" }
           </div>
           <div
             className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
           >
-            {descriptions[current]}
+            {descriptions[current] ? descriptions[current] : ""}
           </div>
-        </div> */}
+        </div>
       </div>
 
       <FontAwesomeIcon
-        className="absolute right-[50px] bottom-[50vh] text-4xl text-white z-40"
+        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer"
         icon={faAngleRight}
         onClick={goRight}
       />
       <FontAwesomeIcon
-        className="absolute left-[50px] bottom-[50vh] text-4xl text-white z-40"
+        className="absolute left-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer"
         icon={faAngleLeft}
         onClick={goLeft}
       />
@@ -223,18 +223,18 @@ const durationClass = durationMap[speed] || "duration-700";
           backgroundImage: `url(${images[next]})`,
         }}
       >
-        {/* <div className="absolute inset-0 bg-black/10 z-10">
+        <div className="absolute inset-0 bg-black/10 z-10">
           <div
             className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
           >
-            {titles[next]}
+            {titles[next] ? titles[next] : ""}
           </div>
           <div
             className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
           >
-            {descriptions[next]}
+            {descriptions[next] ? descriptions[next] : "" }
           </div>
-        </div> */}
+        </div>
       </div>
 
       {/* Dark Overlay */}
