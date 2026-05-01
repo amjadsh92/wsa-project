@@ -199,12 +199,12 @@ const durationClass = durationMap[speed] || "duration-700";
       </div>
 
       <FontAwesomeIcon
-        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer"
+        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-70"
         icon={faAngleRight}
         onClick={goRight}
       />
       <FontAwesomeIcon
-        className="absolute left-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer"
+        className="absolute left-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-70"
         icon={faAngleLeft}
         onClick={goLeft}
       />
