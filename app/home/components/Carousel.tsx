@@ -238,7 +238,7 @@ const durationClass = durationMap[speed] || "duration-700";
       </div>
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/30 z-10" />
+      <div className="absolute inset-0 bg-black/20 z-10" />
 
       {/* Hero Content */}
       <div className="relative z-20 h-full w-full">
@@ -249,17 +249,19 @@ const durationClass = durationMap[speed] || "duration-700";
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-1/2  z-30 flex gap-3">
+      <div className="absolute bottom-6 left-1/2 z-30 flex gap-3">
         {images.map((_, index) => (
+          <div key={index} className="p-1 cursor-pointer group" onClick={() => goTo(index)}>
           <div
             key={index}
             onClick={() => goTo(index)}
-            className={`h-3 w-3 rounded-full cursor-pointer  ${
+            className={`h-3 w-3  rounded-full cursor-pointer  ${
               index === currentButton
                 ? "bg-white scale-125"
-                : "bg-white/50 hover:bg-white"
+                : "bg-white/50 group-hover:bg-white"
             }`}
           />
+          </div>
         ))}
       </div>
     </div>
