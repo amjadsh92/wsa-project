@@ -20,6 +20,42 @@ export const ttCommons = localFont({
   display: 'swap', // Prevents layout shift
 });
 
+
+export const suisse = localFont({
+  src: [
+    {
+      path: './fonts/SuisseIntlCondTrial-Medium.otf',
+      weight: '400'
+      
+      
+    },
+     {
+      path: './fonts/SuisseIntlCondTrial-Light.otf',
+       weight: '200'
+      
+      
+    },
+    {
+      path: './fonts/SuisseIntlCondTrial-Bold.otf',
+       weight: '600'
+      
+      
+    },
+     {
+      path: './fonts/SuisseIntlCondTrial-SemiBold.otf',
+       weight: '500'
+      
+      
+    },
+
+    
+    
+    // Add other styles like Italics or Variable versions if available
+  ],
+  variable: '--font-suisse-book', // Define a CSS variable for Tailwind integration
+  display: 'swap', // Prevents layout shift
+});
+
 export const archivo = Archivo_Black({
   subsets: ['latin'],
   weight: '400', 

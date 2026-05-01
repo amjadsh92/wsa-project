@@ -199,12 +199,12 @@ const durationClass = durationMap[speed] || "duration-700";
       </div>
 
       <FontAwesomeIcon
-        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-70"
+        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-80"
         icon={faAngleRight}
         onClick={goRight}
       />
       <FontAwesomeIcon
-        className="absolute left-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-70"
+        className="absolute left-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-80"
         icon={faAngleLeft}
         onClick={goLeft}
       />
@@ -241,13 +241,13 @@ const durationClass = durationMap[speed] || "duration-700";
       <div className="absolute inset-0 bg-black/20 z-10" />
 
       {/* Hero Content */}
-      <div className="relative z-20 h-full w-full">
+      {/* <div className="relative z-20 h-full w-full">
         <div
           className={`${archivo.className} text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
         >
           KAAN <span className={lato.className}>Architecten</span>
         </div>
-      </div>
+      </div> */}
 
       <div className="absolute bottom-6 left-1/2 z-30 flex gap-3">
         {images.map((_, index) => (
