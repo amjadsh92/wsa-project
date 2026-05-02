@@ -184,7 +184,7 @@ const durationClass = durationMap[speed] || "duration-700";
         }}
         onTransitionEnd={handleTransitionEnd}
       >
-        <div className="absolute inset-0 bg-black/10 z-10">
+        {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
           <div
             className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
           >
@@ -195,7 +195,7 @@ const durationClass = durationMap[speed] || "duration-700";
           >
             {descriptions[current] ? descriptions[current] : ""}
           </div>
-        </div>
+        {/* </div> */}
       </div>
 
       <FontAwesomeIcon
@@ -223,7 +223,7 @@ const durationClass = durationMap[speed] || "duration-700";
           backgroundImage: `url(${images[next]})`,
         }}
       >
-        <div className="absolute inset-0 bg-black/10 z-10">
+        {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
           <div
             className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
           >
@@ -234,11 +234,11 @@ const durationClass = durationMap[speed] || "duration-700";
           >
             {descriptions[next] ? descriptions[next] : "" }
           </div>
-        </div>
+        {/* </div> */}
       </div>
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/20 z-10" />
+      <div className="absolute inset-0 bg-black/30 z-10" />
 
       {/* Hero Content */}
       {/* <div className="relative z-20 h-full w-full">

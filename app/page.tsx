@@ -1,6 +1,6 @@
 "use client";
 
-import { archivo, lato, monteserrat, suisse } from "@/app/fonts";
+import { suisse } from "@/app/fonts";
 import Carousel from "@/app/home/components/Carousel";
 import { motion } from "framer-motion";
 
@@ -12,6 +12,8 @@ const images = [
 
 const titles = ""
 const descriptions = ""
+
+
 
 export default function Home() {
 
@@ -27,7 +29,30 @@ export default function Home() {
        
           KAAN <span className={`${suisse.className} font-light`} >Architecten</span>
         </motion.div>
+        {/* Words (delayed + staggered) */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                delayChildren: 0.9, 
+                staggerChildren: 0.15 
+              },
+            },
+          }}
+          className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light`}
+        >
+          <Word>Architecture</Word>
+          <Separator />
+          <Word>Art</Word>
+          <Separator />
+          <Word>Design</Word>
+        </motion.div>
+
       </div>
+
     <Carousel images={images} titles={titles} descriptions={descriptions} speed={700} />
 
     
@@ -35,6 +60,39 @@ export default function Home() {
      
     </>  
   )
+
+
+
  
 
+}
+
+
+
+function Word({ children }:{children:React.ReactNode}) {
+  return (
+    <motion.span
+      variants={{
+        hidden: { y: 10, opacity: 0 },
+        visible: { y: 0, opacity: 1 },
+      }}
+      className="inline-block mx-1"
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+function Separator() {
+  return (
+    <motion.span
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      }}
+      className="inline-block mx-1 align-[2.5px]"
+    >
+      |
+    </motion.span>
+  );
 }
