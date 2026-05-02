@@ -52,6 +52,7 @@ export default function Home() {
         </motion.div>
 
       </div>
+      
 
     <Carousel images={images} titles={titles} descriptions={descriptions} speed={700} />
 
