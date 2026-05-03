@@ -175,7 +175,7 @@ export default function Carousel({images, titles, descriptions, speed}: Carousel
 const durationClass = durationMap[speed] || "duration-700";
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
+    <div className="relative h-screen overflow-hidden">
       {/* Current Background */}
       <div
         className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform ${durationClass} ${right ? `-translate-x-full` : `translate-x-full`}` : "translate-x-0"}`}

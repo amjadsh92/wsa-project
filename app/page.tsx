@@ -56,6 +56,12 @@ export default function Home() {
 
     <Carousel images={images} titles={titles} descriptions={descriptions} speed={700} />
 
+    <div className="bg-black h-screen">
+
+
+
+    </div>
+
     
 
      
