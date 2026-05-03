@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { suisse } from "@/app/fonts";
 import Carousel from "@/app/home/components/Carousel";
 import { motion } from "framer-motion";
@@ -17,6 +17,18 @@ const descriptions = ""
 
 export default function Home() {
 
+  const [hide, setHide] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHide(true); // trigger once
+      window.removeEventListener("scroll", handleScroll);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return(
     <>
     <div className="absolute z-20 h-full w-full">
@@ -24,10 +36,28 @@ export default function Home() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className={`${suisse.className} text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
+        className={`${suisse.className} flex text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
       >
-       
-          KAAN <span className={`${suisse.className} font-light`} >Architecten</span>
+         <span className= "">  KAAN  </span>
+        
+          
+          <motion.span
+          className="font-light ml-2 overflow-hidden"
+          initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
+          animate={
+            hide
+              ? {
+                  width: 0,                       
+                  clipPath: "inset(0% 100% 0% 0%)", 
+                  opacity: 0,                    
+                  marginLeft: 0,                  
+                }
+              : {}
+          }
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          Architecten
+        </motion.span>
         </motion.div>
         {/* Words (delayed + staggered) */}
         <motion.div
@@ -38,7 +68,7 @@ export default function Home() {
             visible: {
               transition: {
                 delayChildren: 0.9, 
-                staggerChildren: 0.15 
+                staggerChildren: 0.07 
               },
             },
           }}
