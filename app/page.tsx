@@ -1,3 +1,165 @@
+// "use client";
+// import { useEffect, useState } from "react";
+// import { suisse } from "@/app/fonts";
+// import Carousel from "@/app/home/components/Carousel";
+// import { motion } from "framer-motion";
+
+// const images = [
+//   "/home/images/project1.jpg",
+//   "/home/images/project2.jpg",
+//   "/home/images/project3.jpg",
+// ];
+
+// const titles = ""
+// const descriptions = ""
+
+
+
+
+
+// export default function Home() {
+
+//   const [hide, setHide] = useState(false);
+//   const [jump, setJump] = useState(false);
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+      
+
+//       if (window.scrollY > window.innerHeight * 0.15) {
+//         setJump(true);
+//       } else {
+//         setJump(false);
+//       }
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
+
+  
+  
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       setHide(true); 
+//       window.removeEventListener("scroll", handleScroll);
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
+
+//   return(
+//     <>
+//     <div className="fixed z-20 w-full">
+//       <motion.div
+//         initial={{ y: 20, opacity: 0 }}
+//         animate={{ y: 0, opacity: 1 }}
+//         transition={{ duration: 0.8, ease: "easeOut" }}
+//         className={`${suisse.className} flex text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
+//       >
+//          <span className= "">  KAAN  </span>
+        
+          
+//           <motion.span
+//           className="font-light ml-2 overflow-hidden"
+//           initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
+//           animate={
+//             hide
+//               ? {
+//                   width: 0,                       
+//                   clipPath: "inset(0% 100% 0% 0%)", 
+//                   opacity: 0,                    
+//                   marginLeft: 0,                  
+//                 }
+//               : {}
+//           }
+//           transition={{ duration: 0.5, ease: "easeInOut" }}
+//         >
+//           Architecten
+//         </motion.span>
+//         </motion.div>
+      
+//         <motion.div
+//           initial="hidden"
+//           animate="visible"
+//           variants={{
+//             hidden: {},
+//             visible: {
+//               transition: {
+//                 delayChildren: 0.4, 
+//                 staggerChildren: 0.07 
+//               },
+//             },
+//           }}
+//           className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light`}
+//         >
+//           <Word>Architecture</Word>
+//           <Separator />
+//           <Word>Art</Word>
+//           <Separator />
+//           <Word>Design</Word>
+//         </motion.div>
+
+//       </div>
+//     <div className="h-[200vh]"> 
+//     <div className="sticky top-0 h-screen w-full overflow-hidden">
+//     <Carousel images={images} titles={titles} descriptions={descriptions} speed={700} />
+//     </div>
+//     <div style ={{transform: jump
+//             ? "translateY(-65vh)"
+//             : "translateY(0vh)",
+
+//           transition: "transform 0.35s ease-out"}}
+//           className="sticky top-0 h-[200vh] overflow-hidden bg-black">
+//     </div>
+//     </div>
+
+    
+
+     
+//     </>  
+//   )
+
+
+
+ 
+
+// }
+
+
+
+// function Word({ children }:{children:React.ReactNode}) {
+//   return (
+//     <motion.span
+//       variants={{
+//         hidden: { y: 10, opacity: 0 },
+//         visible: { y: 0, opacity: 1 },
+//       }}
+//       className="inline-block mx-1"
+//     >
+//       {children}
+//     </motion.span>
+//   );
+// }
+
+// function Separator() {
+//   return (
+//     <motion.span
+//       variants={{
+//         hidden: { opacity: 0 },
+//         visible: { opacity: 1 },
+//       }}
+//       className="inline-block mx-1 align-[2.5px]"
+//     >
+//       |
+//     </motion.span>
+//   );
+// }
+
+
 "use client";
 import { useEffect, useState } from "react";
 import { suisse } from "@/app/fonts";
@@ -15,13 +177,35 @@ const descriptions = ""
 
 
 
+
+
 export default function Home() {
 
   const [hide, setHide] = useState(false);
+  const [jump, setJump] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setHide(true); // trigger once
+      
+
+      if (window.scrollY > window.innerHeight * 0.15) {
+        setJump(true);
+      } else {
+        setJump(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  
+  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHide(true); 
       window.removeEventListener("scroll", handleScroll);
     };
 
@@ -31,7 +215,7 @@ export default function Home() {
 
   return(
     <>
-    <div className="absolute z-20 h-full w-full">
+    <div className="fixed z-20 w-full">
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -59,7 +243,7 @@ export default function Home() {
           Architecten
         </motion.span>
         </motion.div>
-        {/* Words (delayed + staggered) */}
+      
         <motion.div
           initial="hidden"
           animate="visible"
@@ -67,7 +251,7 @@ export default function Home() {
             hidden: {},
             visible: {
               transition: {
-                delayChildren: 0.9, 
+                delayChildren: 0.4, 
                 staggerChildren: 0.07 
               },
             },
@@ -82,14 +266,19 @@ export default function Home() {
         </motion.div>
 
       </div>
-      
-
+    <div className="flex flex-col"> 
+    <div style={{zIndex:1}} className="sticky top-0 h-screen w-full overflow-hidden">
     <Carousel images={images} titles={titles} descriptions={descriptions} speed={700} />
+    </div>
+    <div style ={{transform: jump
+            ? "translateY(-65vh)"
+            : "translateY(0vh)",
+          zIndex:2,
+          transition: "transform 0.35s ease-out"}}
+          className="sticky top-0 h-[200vh] bg-white">
 
-    <div className="bg-black h-screen">
-
-
-
+            <div className="sticky top-[65vh]">Hello</div>
+    </div>
     </div>
 
     
