@@ -249,7 +249,7 @@ const durationClass = durationMap[speed] || "duration-700";
         </div>
       </div> */}
 
-      <div className="absolute bottom-6 left-1/2 z-30 flex gap-3">
+      <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
         {images.map((_, index) => (
           <div key={index} className="p-1 cursor-pointer group" onClick={() => goTo(index)}>
           <div
