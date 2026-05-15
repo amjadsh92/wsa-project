@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import { motion } from "framer-motion";
 import { suisse } from "@/app/fonts";
 
 
-export default function Logo({hide}: {hide: boolean} ) {
+export default function Title({hide}: {hide: boolean} ) {
   
 
   return (

@@ -1,11 +1,10 @@
 
-
 "use client";
 import { useEffect, useState } from "react";
-import { suisse } from "@/app/fonts";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence } from "framer-motion";
-// import Logo from "./home/components/Logo";
+import Title from "./home/components/Title";
+import Subtitle from "./home/components/Subtitle";
 
 const images = [
   "/home/images/project1.jpg",
@@ -23,21 +22,7 @@ export default function Home() {
   // NEW
   const [showOverlay, setShowOverlay] = useState(true);
 
-// useEffect(() => {
-//   const frame = requestAnimationFrame(() => {
-//     setShowOverlay(false);
-//   });
 
-//   return () => cancelAnimationFrame(frame);
-// }, []);
-
-// useEffect(() => {
-//     const timer = setTimeout(() => {
-//       setShowOverlay(false);
-//     }, 700);
-
-//     return () => clearTimeout(timer);
-//   }, []);
 
 useEffect(() => {
   let loadedCount = 0;
@@ -84,7 +69,7 @@ useEffect(() => {
 
   return (
     <>
-      {/* BLACK OVERLAY */}
+      {/* BLACK OVERLAY  */}
       <AnimatePresence>
         {showOverlay && (
           <motion.div
@@ -101,54 +86,11 @@ useEffect(() => {
       </AnimatePresence>
 
       <div className="fixed z-1000 w-full">
-        <div
-          
-          
-          className={`${suisse.className} flex text-[55px] text-white w-fit mx-auto pt-[60px]`}
-        >
-          <span className={`${suisse.className} animate-logo-enter font-extrabold`}>KAAN</span>
+       
 
-          <motion.span
-            className={`${suisse.className} animate-logo-enter font-light ml-2 overflow-hidden`}
-            initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
-            animate={
-              hide
-                ? {
-                    width: 0,
-                    clipPath: "inset(0% 100% 0% 0%)",
-                    opacity: 0,
-                    marginLeft: 0,
-                  }
-                : {}
-            }
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            Architecten
-          </motion.span>
-        </div>
-
-        {/* <Logo hide ={hide} /> */}
-
-        <motion.div
-          initial="hidden"
-          animate={!showOverlay ? "visible" : "hidden"}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                delayChildren: 0.4,
-                staggerChildren: 0.07,
-              },
-            },
-          }}
-          className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light`}
-        >
-          <Word>Architecture</Word>
-          <Separator />
-          <Word>Art</Word>
-          <Separator />
-          <Word>Design</Word>
-        </motion.div>
+        <Title hide ={hide} /> 
+        <Subtitle showOverlay = {showOverlay} />
+       
       </div>
 
       <div className="flex flex-col">
@@ -181,31 +123,3 @@ useEffect(() => {
   );
 }
 
-function Word({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.span
-      variants={{
-        hidden: { y: 10, opacity: 0 },
-        visible: { y: 0, opacity: 1 },
-      }}
-      className="inline-block mx-1"
-    >
-      {children}
-    </motion.span>
-  );
-}
-
-function Separator() {
-  return (
-    <motion.span
-      variants={{
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }}
-      className="inline-block mx-1 align-[2.5px]"
-    >
-      |
-    </motion.span>
-  );
-
-} 
