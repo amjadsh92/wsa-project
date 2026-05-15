@@ -4,6 +4,8 @@ import { Archivo_Black } from 'next/font/google';
 
 import { Montserrat } from 'next/font/google';
 
+import {} from 'next/font/google';
+
 import localFont from 'next/font/local';
 
 export const ttCommons = localFont({
@@ -31,7 +33,7 @@ export const suisse = localFont({
     },
      {
       path: './fonts/SuisseIntlCondTrial-Light.otf',
-       weight: '200'
+       weight: '300'
       
       
     },
@@ -54,6 +56,7 @@ export const suisse = localFont({
   ],
   variable: '--font-suisse-book', // Define a CSS variable for Tailwind integration
   display: 'swap', // Prevents layout shift
+  
 });
 
 export const archivo = Archivo_Black({

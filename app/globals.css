@@ -1,3 +1,19 @@
 @import "tailwindcss";
 
 
+
+@keyframes logoEnter {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-logo-enter {
+  animation: logoEnter 0.8s ease-out forwards;
+}
