@@ -120,7 +120,7 @@ export default function Home() {
               transition: "transform 0.35s ease-out",
               zIndex:2
             }}
-            className="sticky top-0 h-[300vh] bg-white"
+            className="sticky top-[65vh] h-[200vh] bg-white"
           >
             <div className="sticky top-[65vh]">
               Hello

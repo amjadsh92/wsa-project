@@ -5,6 +5,8 @@ import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import 'primeicons/primeicons.css';
 
 const images = [
   "/home/images/project1.jpg",
@@ -93,7 +95,7 @@ useEffect(() => {
        
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex z-[1001] flex-col">
         <div
           style={{ zIndex: 1 }}
           className="sticky top-0 h-screen w-full overflow-hidden"
@@ -116,7 +118,10 @@ useEffect(() => {
           }}
           className="sticky top-0 h-[200vh] bg-white"
         >
-          <div className="sticky top-[65vh]">Hello</div>
+          <div className="sticky top-[67vh] mt-[2vh] flex justify-end mr-[2vh]">
+            <i className="pi pi-search"></i>
+         </div>
+           
         </div>
       </div>
     </>
