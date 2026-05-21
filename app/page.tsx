@@ -88,8 +88,8 @@ useEffect(() => {
       <div className="fixed z-1000 w-full">
        
 
-        <Title hide ={hide} /> 
-        <Subtitle showOverlay = {showOverlay} />
+        <Title hide ={hide} jump={jump} /> 
+        <Subtitle showOverlay = {showOverlay} jump ={jump} />
        
       </div>
 
