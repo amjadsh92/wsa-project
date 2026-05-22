@@ -5,7 +5,6 @@ import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import 'primeicons/primeicons.css';
 
 const images = [
@@ -116,13 +115,22 @@ useEffect(() => {
             zIndex: 2,
             transition: "transform 0.35s ease-out",
           }}
-          className="sticky top-0 h-[200vh] bg-white"
+          className="sticky top-[65vh] h-[200vh] bg-white flex flex-col"
         >
-          <div className="sticky top-[67vh] mt-[2vh] flex justify-end mr-[2vh]">
+          <div className="sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
+         </div>
+         <div className="sticky top-[70vh]">
+          <ul>
+            <li>About</li>
+            <li>Work</li>
+            <li>Repository</li>
+
+          </ul>
          </div>
            
         </div>
+        {/* <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>  */}
       </div>
     </>
   );

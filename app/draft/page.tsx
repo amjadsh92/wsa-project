@@ -122,7 +122,7 @@ export default function Home() {
             }}
             className="sticky top-[65vh] h-[200vh] bg-white"
           >
-            <div className="sticky top-[65vh]">
+            <div className="">
               Hello
             </div>
             
