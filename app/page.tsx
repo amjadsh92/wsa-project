@@ -81,12 +81,12 @@ useEffect(() => {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className="fixed inset-0 bg-neutral-800 z-[999]"
+            className="fixed inset-0 bg-neutral-800"
           />
         )}
       </AnimatePresence>
 
-      <div className="fixed z-1000 w-full">
+      <div className="fixed w-full z-1000">
        
 
         <Title hide ={hide} jump={jump} /> 
@@ -94,9 +94,9 @@ useEffect(() => {
        
       </div>
 
-      <div className="flex z-[1001] flex-col">
+      <div className="flex flex-col">
         <div
-          style={{ zIndex: 1 }}
+          // style={{ zIndex: 1 }}
           className="sticky top-0 h-screen w-full overflow-hidden"
         >
           {!showOverlay &&  <Carousel
@@ -112,10 +112,10 @@ useEffect(() => {
             transform: jump
               ? "translateY(-65vh)"
               : "translateY(0vh)",
-            zIndex: 2,
+            // zIndex: 2,
             transition: "transform 0.35s ease-out",
           }}
-          className="sticky top-[65vh] h-[200vh] bg-white flex flex-col"
+          className="h-[200vh] bg-white flex flex-col"
         >
           <div className="sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
