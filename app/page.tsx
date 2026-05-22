@@ -19,8 +19,6 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
-
-  // NEW
   const [showOverlay, setShowOverlay] = useState(true);
 
 
@@ -81,11 +79,11 @@ useEffect(() => {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className="fixed inset-0 bg-neutral-800"
+            className="fixed inset-0 bg-neutral-800 z-1000"
           />
         )}
       </AnimatePresence>
-
+      {/* Title and subtitle above the Hero section */}
       <div className="fixed w-full z-1000">
        
 
@@ -95,8 +93,9 @@ useEffect(() => {
       </div>
 
       <div className="flex flex-col">
+        {/* Hero section (Carousel) */}
         <div
-          // style={{ zIndex: 1 }}
+          
           className="sticky top-0 h-screen w-full overflow-hidden"
         >
           {!showOverlay &&  <Carousel
@@ -106,21 +105,21 @@ useEffect(() => {
             speed={700}
           />}
         </div>
-
+        {/* home section */}
         <div
           style={{
             transform: jump
               ? "translateY(-65vh)"
               : "translateY(0vh)",
-            // zIndex: 2,
+            
             transition: "transform 0.35s ease-out",
           }}
           className="h-[200vh] bg-white flex flex-col"
         >
-          <div className="sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
+          <div className="search sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
          </div>
-         <div className="sticky top-[70vh]">
+         <div className="nav sticky top-[70vh]">
           <ul>
             <li>About</li>
             <li>Work</li>
@@ -128,6 +127,7 @@ useEffect(() => {
 
           </ul>
          </div>
+         <div className="projects"></div>
            
         </div>
         {/* <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>  */}
