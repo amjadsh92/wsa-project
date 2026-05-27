@@ -1,11 +1,13 @@
 
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
 import 'primeicons/primeicons.css';
+import { usePathname } from "next/navigation";
+
 
 const images = [
   "/home/images/project1.jpg",
@@ -16,12 +18,64 @@ const images = [
 const titles = "";
 const descriptions = "";
 
+
+
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
 
+  
+  
 
+useEffect(() => {
+  const navigation =
+    performance.getEntriesByType(
+      "navigation"
+    )[0] as PerformanceNavigationTiming;
+
+  
+      console.log(navigation)
+}, []);
+    
+    
+// useEffect(() => {
+//   Promise.all(
+//     images.map(
+//       (src) =>
+//         new Promise<void>((resolve) => {
+//           const img = new Image();
+
+//           img.src = src;
+
+//           if (img.complete) {
+//             resolve();
+//           } else {
+//             img.onload = () => resolve();
+//             img.onerror = () => resolve();
+//           }
+//         })
+//     )
+//   ).then(() => {
+//     setShowOverlay(false);
+//   });
+// }, []);
+
+
+// useEffect(() => {
+//   const handlePageShow = (event: PageTransitionEvent) => {
+//     // page restored from back/forward cache
+//     if (event.persisted) {
+//       setShowOverlay(false);
+//     }
+//   };
+
+//   window.addEventListener("pageshow", handlePageShow);
+
+//   return () => {
+//     window.removeEventListener("pageshow", handlePageShow);
+//   };
+// }, []);
 
 useEffect(() => {
   let loadedCount = 0;
@@ -38,6 +92,8 @@ useEffect(() => {
         setShowOverlay(false);
       }
     };
+
+
   });
 }, []);
 
@@ -49,6 +105,8 @@ useEffect(() => {
         setJump(false);
       }
     };
+
+    
 
     window.addEventListener("scroll", handleScroll);
 
@@ -87,8 +145,8 @@ useEffect(() => {
       <div className="fixed w-full z-1000">
        
 
-        <Title hide ={hide} jump={jump} /> 
-        <Subtitle showOverlay = {showOverlay} jump ={jump} />
+        <Title  hide ={hide} jump={jump}  /> 
+        <Subtitle showOverlay = {showOverlay} jump ={jump}  />
        
       </div>
 
@@ -98,6 +156,13 @@ useEffect(() => {
           
           className="sticky top-0 h-screen w-full overflow-hidden"
         >
+       {/* <div className="absolute z-[9999] w-full flex flex-col justify-center">
+       
+
+        <Title hide ={hide} jump={jump} /> 
+        <Subtitle showOverlay = {showOverlay} jump ={jump} />
+       
+      </div> */}
           {!showOverlay &&  <Carousel
             images={images}
             titles={titles}
@@ -114,12 +179,12 @@ useEffect(() => {
             
             transition: "transform 0.35s ease-out",
           }}
-          className="h-[200vh] bg-white flex flex-col"
+          className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[200vh] bg-white"
         >
-          <div className="search sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
+          <div className="search col-span-2 sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
          </div>
-         <div className="nav sticky top-[70vh]">
+         <div className="nav h-fit sticky top-[70vh]">
           <ul>
             <li>About</li>
             <li>Work</li>
@@ -127,7 +192,7 @@ useEffect(() => {
 
           </ul>
          </div>
-         <div className="projects"></div>
+         <div className="projects h-fit"></div>
            
         </div>
         {/* <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>  */}
@@ -135,4 +200,6 @@ useEffect(() => {
     </>
   );
 }
+
+
 

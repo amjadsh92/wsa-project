@@ -20,6 +20,22 @@ export const ttCommons = localFont({
   display: 'swap', // Prevents layout shift
 });
 
+export const suisse = localFont({
+  src: [
+    {
+      path: './fonts/Fonts',
+      
+      style: 'normal',
+    },
+    
+    // Add other styles like Italics or Variable versions if available
+  ],
+  variable: '--font-tt-commons', // Define a CSS variable for Tailwind integration
+  display: 'swap', // Prevents layout shift
+});
+
+
+
 export const archivo = Archivo_Black({
   subsets: ['latin'],
   weight: '400', 

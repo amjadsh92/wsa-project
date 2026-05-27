@@ -1,8 +1,24 @@
-@import "tailwindcss";
+ @import "tailwindcss"; 
+
+.logo-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.35s ease-out;
+}
+
+.logo-hidden {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.35s ease-out;
+}
 
 
 
-@keyframes logoEnter {
+ @keyframes logoEnter {
   from {
     transform: translateY(20px);
     opacity: 0;
@@ -14,6 +30,10 @@
   }
 }
 
+
 .animate-logo-enter {
   animation: logoEnter 0.8s ease-out forwards;
-}
+  
+} 
+
+

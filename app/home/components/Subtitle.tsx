@@ -2,17 +2,24 @@
 
 import { motion } from "framer-motion";
 import { suisse } from "@/app/fonts";
-import { useState } from "react";
+import { useState} from "react";
 
 export default function Subtitle({
   showOverlay,
   jump,
+  
+  
 }: {
   showOverlay: boolean;
   jump: boolean;
+
+  
 }) {
 
+  
   const [introDone, setIntroDone] = useState(false);
+
+
 
   return (
     <motion.div
@@ -50,7 +57,7 @@ export default function Subtitle({
         },
       }}
 
-      onAnimationComplete={(definition) => {
+      onAnimationStart={(definition) => {
     if (definition === "visible") {
       setIntroDone(true);
     }
