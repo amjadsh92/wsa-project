@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { archivo, lato, monteserrat, ttCommons } from "@/app/fonts";
+import { monteserrat, ttCommons } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -198,16 +198,56 @@ const durationClass = durationMap[speed] || "duration-700";
         {/* </div> */}
       </div>
 
-      <FontAwesomeIcon
-        className="absolute right-[50px] bottom-[45vh] text-2xl w-5 h-5 text-white z-40 cursor-pointer active:scale-80"
+      {/* <FontAwesomeIcon
+        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-80"
         icon={faAngleRight}
         onClick={goRight}
-      />
+        widthAuto
+      /> */}
+
+          {/* <button 
+      className="absolute right-[50px] bottom-[45vh] z-40 cursor-pointer bg-transparent border-none flex items-center justify-center group"
+      onClick={goRight}
+      aria-label="Next"
+    >
       <FontAwesomeIcon
+        className="text-2xl text-white active:scale-80 transition-transform"
+        icon={faAngleRight}
+        widthAuto
+      />
+    </button> */}
+
+    <button
+  onClick={goRight}
+  className="absolute right-[50px] bottom-[45vh]
+             flex items-center justify-center
+             z-40 cursor-pointer "
+>
+  <FontAwesomeIcon
+    className="text-2xl text-white active:scale-80 transition-transform"
+    icon={faAngleRight}
+    widthAuto
+  />
+</button>
+      {/* <FontAwesomeIcon
         className="absolute left-[50px] bottom-[45vh] text-2xl w-5 h-5 text-white z-40 cursor-pointer active:scale-80"
         icon={faAngleLeft}
         onClick={goLeft}
-      />
+      /> */}
+
+
+    <button
+  onClick={goLeft}
+  className="absolute left-[50px] bottom-[45vh]
+             flex items-center justify-center
+             z-40 cursor-pointer "
+>
+  <FontAwesomeIcon
+    className="text-2xl text-white active:scale-80 transition-transform"
+    icon={faAngleLeft}
+    widthAuto
+  />
+</button>     
 
       {/* Next Background */}
       <div
@@ -240,14 +280,7 @@ const durationClass = durationMap[speed] || "duration-700";
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/30 z-10" />
 
-      {/* Hero Content */}
-      {/* <div className="relative z-20 h-full w-full">
-        <div
-          className={`${archivo.className} text-[55px] text-white w-fit mx-auto font-extrabold pt-[60px]`}
-        >
-          KAAN <span className={lato.className}>Architecten</span>
-        </div>
-      </div> */}
+  
 
       <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
         {images.map((_, index) => (
