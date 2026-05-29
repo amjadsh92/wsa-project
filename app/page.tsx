@@ -115,7 +115,7 @@ useEffect(() => {
         )}
       </AnimatePresence>
       {/* Title and subtitle above the Hero section */}
-      <div className="fixed w-full z-1000" onClick={bigJumpFunc}>
+      <div className="fixed w-full z-1000 pointer-events-none">
        
 
         <Title  hide ={hide} jump={jump}  /> 

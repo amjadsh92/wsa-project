@@ -218,7 +218,10 @@ const durationClass = durationMap[speed] || "duration-700";
     </button> */}
 
     <button
-  onClick={goRight}
+  onClick={(e) => {
+    e.stopPropagation();
+    goRight();
+  }}
   className="absolute right-[50px] bottom-[45vh]
              flex items-center justify-center
              z-40 cursor-pointer "
@@ -237,7 +240,10 @@ const durationClass = durationMap[speed] || "duration-700";
 
 
     <button
-  onClick={goLeft}
+  onClick={(e) => {
+    e.stopPropagation();
+    goLeft();
+  }}
   className="absolute left-[50px] bottom-[45vh]
              flex items-center justify-center
              z-40 cursor-pointer "
@@ -284,7 +290,10 @@ const durationClass = durationMap[speed] || "duration-700";
 
       <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
         {images.map((_, index) => (
-          <div key={index} className="p-1 cursor-pointer group" onClick={() => goTo(index)}>
+          <div key={index} className="p-1 cursor-pointer group" onClick={(e) => {
+    e.stopPropagation();
+    goTo(index);
+  }}>
           <div
             key={index}
             onClick={() => goTo(index)}
