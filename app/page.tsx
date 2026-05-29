@@ -5,6 +5,8 @@ import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
+import { suisse } from "@/app/fonts";
+
 import 'primeicons/primeicons.css';
 
 
@@ -150,7 +152,7 @@ useEffect(() => {
               damping: 18,
             }}
 
-            className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[200vh] bg-white"
+            className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[100vh] bg-white"
         >
           <div className="search col-span-2 sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
@@ -166,7 +168,14 @@ useEffect(() => {
          <div className="projects h-fit"></div>
            
         </motion.div>
-        {/* <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>  */}
+        <div style={{zIndex:3}} className="flex flex-col h-[65vh] w-full justify-end items-center bg-white">
+           <div className={`${suisse.className} pb-0 w-fit text-black text-[160px] font-[450] tracking-wide leading-none scale-x-125`}>KAAN</div>
+           <div className="border w-full mt-[-15px]"></div>
+          </div>
+          
+         
+
+         
       </div>
     </>
   );
