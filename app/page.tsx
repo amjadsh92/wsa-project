@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
 import 'primeicons/primeicons.css';
-import { usePathname } from "next/navigation";
+
 
 
 const images = [
@@ -23,59 +23,12 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
+  const [bigJump, setBigJump] = useState(false)
   const [showOverlay, setShowOverlay] = useState(true);
 
   
   
 
-useEffect(() => {
-  const navigation =
-    performance.getEntriesByType(
-      "navigation"
-    )[0] as PerformanceNavigationTiming;
-
-  
-      console.log(navigation)
-}, []);
-    
-    
-// useEffect(() => {
-//   Promise.all(
-//     images.map(
-//       (src) =>
-//         new Promise<void>((resolve) => {
-//           const img = new Image();
-
-//           img.src = src;
-
-//           if (img.complete) {
-//             resolve();
-//           } else {
-//             img.onload = () => resolve();
-//             img.onerror = () => resolve();
-//           }
-//         })
-//     )
-//   ).then(() => {
-//     setShowOverlay(false);
-//   });
-// }, []);
-
-
-// useEffect(() => {
-//   const handlePageShow = (event: PageTransitionEvent) => {
-//     // page restored from back/forward cache
-//     if (event.persisted) {
-//       setShowOverlay(false);
-//     }
-//   };
-
-//   window.addEventListener("pageshow", handlePageShow);
-
-//   return () => {
-//     window.removeEventListener("pageshow", handlePageShow);
-//   };
-// }, []);
 
 useEffect(() => {
   let loadedCount = 0;
@@ -100,8 +53,10 @@ useEffect(() => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > window.innerHeight * 0.15) {
+        console.log(scrollY)
         setJump(true);
       } else {
+        console.log(scrollY)
         setJump(false);
       }
     };
@@ -124,6 +79,24 @@ useEffect(() => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+
+  const bigJumpFunc = () => {
+    console.log(window.innerHeight)
+   if(window.scrollY <= window.innerHeight * 0.15){
+   window.scrollTo({
+    top: (window.innerHeight * 0.35) ,
+    behavior: "smooth",
+  });
+  }
+
+  else{
+    window.scrollTo({
+    top: (window.innerHeight * 0.35 ),
+    behavior: "smooth",
+  });
+  }
+};
+
   return (
     <>
       {/* BLACK OVERLAY  */}
@@ -142,7 +115,7 @@ useEffect(() => {
         )}
       </AnimatePresence>
       {/* Title and subtitle above the Hero section */}
-      <div className="fixed w-full z-1000">
+      <div className="fixed w-full z-1000" onClick={bigJumpFunc}>
        
 
         <Title  hide ={hide} jump={jump}  /> 
@@ -155,14 +128,9 @@ useEffect(() => {
         <div
           
           className="sticky top-0 h-screen w-full overflow-hidden"
+          onClick={bigJumpFunc}
         >
-       {/* <div className="absolute z-[9999] w-full flex flex-col justify-center">
        
-
-        <Title hide ={hide} jump={jump} /> 
-        <Subtitle showOverlay = {showOverlay} jump ={jump} />
-       
-      </div> */}
           {!showOverlay &&  <Carousel
             images={images}
             titles={titles}
