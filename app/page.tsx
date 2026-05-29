@@ -139,15 +139,18 @@ useEffect(() => {
           />}
         </div>
         {/* home section */}
-        <div
-          style={{
-            transform: jump
-              ? "translateY(-65vh)"
-              : "translateY(0vh)",
-            
-            transition: "transform 0.35s ease-out",
-          }}
-          className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[200vh] bg-white"
+        <motion.div
+         
+            animate={{
+              y: jump ? "-65vh" : "0vh",
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 90,
+              damping: 18,
+            }}
+
+            className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[200vh] bg-white"
         >
           <div className="search col-span-2 sticky top-[66vh] flex justify-end mr-[2vh] mt-[2vh]">
             <i className="pi pi-search"></i>
@@ -162,7 +165,7 @@ useEffect(() => {
          </div>
          <div className="projects h-fit"></div>
            
-        </div>
+        </motion.div>
         {/* <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>  */}
       </div>
     </>
