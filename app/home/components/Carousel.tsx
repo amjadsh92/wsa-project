@@ -224,7 +224,7 @@ const durationClass = durationMap[speed] || "duration-700";
   }}
   className="absolute right-[50px] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer "
+             z-40 cursor-pointer"
 >
   <FontAwesomeIcon
     className="text-2xl text-white active:scale-80 transition-transform"

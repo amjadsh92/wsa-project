@@ -26,7 +26,7 @@ export const ttCommons = localFont({
 export const suisse = localFont({
   src: [
     {
-      path: './fonts/SuisseIntlCondTrial-Medium.otf',
+      path: './fonts/Suisse-Intl-Book.ttf',
       weight: '400'
       
       

@@ -130,14 +130,14 @@ export default function Home() {
             className="relative h-full bg-black"
           >
             <div  style={{
-            backgroundImage: `url("/home/images/project1.jpg")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            zIndex:2
+            // backgroundImage: `url("/home/images/project1.jpg")`,
+            // backgroundSize: "cover",
+            // backgroundPosition: "center",
+            // zIndex:2
             }} className="sticky top-[65vh] h-screen"></div>
-            {/* <div className="sticky top-[65vh] text-white">
+            <div className="sticky top-[65vh] text-white">
               Hello
-            </div> */}
+            </div>
             <div style={{zIndex:3}}className="absolute top-[435vh] bg-white h-[65vh] w-full"></div>
           </div>
         </div>

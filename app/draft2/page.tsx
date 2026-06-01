@@ -181,9 +181,9 @@ export default function Home() {
           {/* TRANSFORM ONLY THE INNER VISUAL LAYER */}
           <div
             style={{
-              backgroundImage: `url("/home/images/project1.jpg")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              // backgroundImage: `url("/home/images/project1.jpg")`,
+              // backgroundSize: "cover",
+              // backgroundPosition: "center",
               transform: jump
                 ? "translateY(-65vh)"
                 : "translateY(0vh)",
