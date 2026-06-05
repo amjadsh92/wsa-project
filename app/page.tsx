@@ -196,6 +196,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
 import { suisse } from "@/app/fonts";
+import Img from "next/image";
 
 import "primeicons/primeicons.css";
 
@@ -336,8 +337,8 @@ export default function Home() {
             // className="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] sticky top-[65vh] h-[100vh] bg-white"
             className={`relative flex flex-col h-[400vh] bg-white mt-[-65vh]`}
           >
-            <div className={`sticky top-0 flex search justify-end z-20`}>
-              <i className="pi pi-search pr-[2vh] pt-[2vh]"></i>
+            <div className={`sticky top-0 flex search justify-end z-1000 py-[12px] bg-white`}>
+              <i className="pi pi-search pr-[10px]"></i>
             </div>
             {/* nav */}
             {/* <div className="sticky top-0"> */}
@@ -368,9 +369,27 @@ export default function Home() {
 
               {/* projects */}
               <div className={`relative top-[calc(78.3px+10vh)] right-0`}>
-                <div className="sticky top-[43px] z-20 bg-white">
+                <div className="sticky top-[40px] z-20 bg-white">
                   <div className="border w-[45vw]"></div>
                 </div>
+
+                {/* <div className="mt-4">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt=""
+                    className="w-[279.212px] h-[497.212px] object-cover"
+                  />
+               </div> */}
+
+               <div className="relative h-[279.212px] w-[460.212px] mt-4">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt="Project 1"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+              </div>
               </div>
             </div>
 
