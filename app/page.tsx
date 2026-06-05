@@ -369,6 +369,7 @@ export default function Home() {
 
               {/* projects */}
               <div className={`relative top-[calc(78.3px+10vh)] right-0`}>
+               
                 <div className="sticky top-[40px] z-20 bg-white">
                   <div className="flex justify-between border-t w-[45vw]">
                     <h3 className="text-[11.5px]">Building 140 CERN</h3>
@@ -384,7 +385,7 @@ export default function Home() {
                   />
                </div> */}
 
-               <div className="relative h-[279.212px] w-[460.212px] mt-4">
+               <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
                   <Img
                     src="/home/images/project1.jpg"
                     alt="Project 1"
@@ -393,6 +394,60 @@ export default function Home() {
                     priority
                   />
               </div>
+              
+
+               <div className="sticky top-[calc(40px+17.2px)] z-20 bg-white">
+                  <div className="flex justify-between border-t w-[45vw]">
+                    <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                    <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                  </div>
+                </div>
+               
+                {/* <div className="mt-4">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt=""
+                    className="w-[279.212px] h-[497.212px] object-cover"
+                  />
+               </div> */}
+
+               <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt="Project 1"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+              </div>
+
+            <div className="sticky top-[calc(40px+2*17.2px)] z-20 bg-white">
+                  <div className="flex justify-between border-t w-[45vw]">
+                    <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                    <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                  </div>
+                </div>
+               
+                {/* <div className="mt-4">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt=""
+                    className="w-[279.212px] h-[497.212px] object-cover"
+                  />
+               </div> */}
+
+               <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                  <Img
+                    src="/home/images/project1.jpg"
+                    alt="Project 1"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+              </div>
+
+
+
               </div>
             </div>
 
