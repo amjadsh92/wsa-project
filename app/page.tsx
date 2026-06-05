@@ -370,7 +370,10 @@ export default function Home() {
               {/* projects */}
               <div className={`relative top-[calc(78.3px+10vh)] right-0`}>
                 <div className="sticky top-[40px] z-20 bg-white">
-                  <div className="border w-[45vw]"></div>
+                  <div className="flex justify-between border-t w-[45vw]">
+                    <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                    <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                  </div>
                 </div>
 
                 {/* <div className="mt-4">
