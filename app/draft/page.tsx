@@ -114,17 +114,18 @@ export default function Home() {
               backgroundSize: "cover",
               backgroundPosition: "center",
               transform: jump
-                ? "translateY(-65vh)"
+                ? "translateY(0vh)"
                 : "translateY(0vh)",
 
               transition: "transform 0.35s ease-out",
               zIndex:2
             }}
-            className="sticky top-[65vh] h-[200vh] bg-white"
+            className="sticky top-0 h-[200vh] bg-white"
           >
             <div className="">
               Hello
             </div>
+            
             
           </div>
           <div style={{zIndex:3}} className="h-[65vh] bg-red-500"></div>
