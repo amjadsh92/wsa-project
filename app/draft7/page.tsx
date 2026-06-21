@@ -176,7 +176,7 @@ export default function Home() {
                         //     zIndex: 3,
                         //     bottom: "calc(-78.3px - 10vh)",
                         //   }}
-                          className="flex h-fit w-full justify-end items-center"
+                          className="flex h-fit justify-center items-center"
                         >
                           <div
                             className={`pt-6 w-fit text-black text-[160px] font-[450] tracking-wide leading-none scale-x-125 `}

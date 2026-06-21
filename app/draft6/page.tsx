@@ -54,7 +54,7 @@ export default function Home() {
               transition: "transform 0.35s ease-out",
               zIndex:2
             }}
-            className="sticky top-0 flex flex-col h-[200vh] bg-white"
+            className="sticky top-0 flex flex-col bg-white"
           >
             
               <div
@@ -89,7 +89,56 @@ export default function Home() {
 
                <div className={`mt-[calc(78.3px+10vh)] `}>
 
-                <div className="sticky top-[calc(40px+65vh)] z-20 bg-white">
+                <div className="z-20 bg-white h-[200vh]">
+                    <div className="sticky top-[calc(40px+65vh)] flex justify-between border-t w-[45vw]">
+                      <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                      <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                    </div>
+                </div>
+
+                <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                        <Img
+                            src="/home/images/project1.jpg"
+                            alt="Project 1"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+             </div> 
+
+              <div className="sticky top-[calc(40px+65vh)] z-20 bg-white">
+                    <div className="flex justify-between border-t w-[45vw]">
+                      <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                      <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                    </div>
+                </div>
+
+                <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                        <Img
+                            src="/home/images/project1.jpg"
+                            alt="Project 1"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+             </div> 
+              <div className="sticky top-[calc(40px+65vh)] z-20 bg-white">
+                    <div className="flex justify-between border-t w-[45vw]">
+                      <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                      <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                    </div>
+                </div>
+
+                <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                        <Img
+                            src="/home/images/project1.jpg"
+                            alt="Project 1"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+             </div> 
+              <div className="sticky top-[calc(40px+65vh)] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>

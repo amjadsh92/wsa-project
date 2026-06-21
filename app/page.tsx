@@ -422,17 +422,17 @@ export default function Home() {
               damping: 18,
             }}
             
-            className={`z-2 flex flex-col bg-white mt-[-65vh]`}
+            className={`z-2 home flex flex-col bg-white mt-[-65vh]`}
           >
             <div
-              className={`sticky top-0 flex search justify-end z-1000 py-[12px] bg-white`}
+              className={`sticky top-0 flex justify-end z-1000 py-[12px] bg-white`}
             >
               <i className="pi pi-search pr-[10px]"></i>
             </div>
            
 
-            <div className={`flex z-10 gap-[20px] h-full`}>
-              <div className="relative">
+            <div className={`flex z-10 gap-[20px] flex-1`}>
+              
                 <div className={`sticky top-[38px] self-start`}>
                   <ul className=" pt-[10vh]">
                     <li
@@ -455,11 +455,12 @@ export default function Home() {
                     <div className="border w-[50vw]"></div>
                   </ul>
                 </div>
-              </div>
+            
 
               {/* projects */}
-              <div className={`relative top-[calc(78.3px+10vh)] right-0`}>
-                <div className="sticky top-[40px] ">
+              <div className={`mt-[calc(78.3px+10vh)]`}>
+                 <div>
+                  
                   <div className="sticky top-[40px] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
@@ -469,12 +470,12 @@ export default function Home() {
 
                  
 
-                  <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                  <div className="relative h-[22.5vw] w-[45vw]">
                     <Img
                       src="/home/images/project1.jpg"
                       alt="Project 1"
                       fill
-                      className="object-cover"
+                      className="object-cover pt-4 pb-[40px]"
                       priority
                     />
                   </div>
@@ -488,45 +489,67 @@ export default function Home() {
 
                   
 
-                  <div className="relative h-[22.5vw] w-[45vw] mt-4 mb-[40px]">
+                  <div className="relative h-[22.5vw] w-[45vw]">
                     <Img
                       src="/home/images/project1.jpg"
                       alt="Project 1"
                       fill
-                      className="object-cover"
+                      className="object-cover pt-4 pb-[40px]"
                       priority
                     />
                   </div>
 
-                  <div className="sticky top-[40px] z-30 bg-white">
+
+
+                   <div className="sticky top-[calc(40px+2*17.2px)] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>
                     </div>
                   </div>
 
-                 
+                  
 
-                  <div className="relative h-[22.5vw] w-[45vw] z-20 bg-white ">
+                  <div className="relative h-[22.5vw] w-[45vw]">
                     <Img
                       src="/home/images/project1.jpg"
                       alt="Project 1"
                       fill
-                      className="object-cover pt-4 pb-4 z-20"
+                      className="object-cover pt-4 pb-[40px]"
                       priority
                     />
+                  </div>
+
+
+                   <div className="sticky top-[calc(40px+3*17.2px)] z-20 bg-white">
+                    <div className="flex justify-between border-t w-[45vw]">
+                      <h3 className="text-[11.5px]">Building 140 CERN</h3>
+                      <h3 className="text-[11.5px]">GENEVA, CH</h3>
+                    </div>
+                  </div>
+
+                  
+
+                  <div className="relative h-[22.5vw] w-[45vw]">
+                    <Img
+                      src="/home/images/project1.jpg"
+                      alt="Project 1"
+                      fill
+                      className="object-cover pt-4 pb-[40px]"
+                      priority
+                    />
+                  </div>
+
+                  
                   </div>
                   <div className="sticky top-[40px] z-40 bg-white">
                   <div className="sticky top-[40px] flex justify-between border-t w-[45vw] z-40 bg-white">
                   <h3 className="text-[11.5px]">Building 140 CERN</h3>
                   <h3 className="text-[11.5px]">GENEVA, CH</h3>
                 </div>
-                 <div className="w-[400px] bg-white z-30">
+                 <div className="h-[90vh] w-[400px] bg-white z-30">
                   
                  
-                  <div className="h-[90vh] bg-white z-30">
-                    
-                  </div>
                  
                  </div>
                 </div>
@@ -537,28 +560,25 @@ export default function Home() {
                 </div>
                  
                 
-              </div>
+              
                
              
             </div>
 
          
-            {/* </div> */}
-
+            
             <div
-              style={{
-                zIndex: 3,
-                bottom: "calc(-78.3px - 10vh)",
-              }}
-              className="relative flex flex-col h-fit w-full justify-end items-center bg-white"
+        
+            className="flex h-fit justify-center items-center"
+          >
+            <div
+              className={`${suisse.className} pt-6 w-fit text-black text-[160px] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
             >
-              <div
-                className={`${suisse.className} pb-0 w-fit text-black text-[160px] font-[450] tracking-wide leading-none scale-x-125 `}
-              >
-                KAAN
-              </div>
-              <div className="border w-full mt-[-30px]"></div>
+              KAAN
             </div>
+          </div>
+          <div className="border-t w-full h-[30px]"></div>
+        
           </motion.div>
         
 
