@@ -433,8 +433,8 @@ export default function Home() {
 
             <div className={`flex z-10 gap-[20px] flex-1`}>
               
-                <div className={`sticky top-[38px] self-start`}>
-                  <ul className=" pt-[10vh]">
+                <div className={`sticky top-[calc(var(--search-bar-height)-2px)] self-start`}>
+                  <ul className="pt-[var(--nav-padding-top)]">
                     <li
                       className={`${suisse.className}  text-[52.2px] font-[400] pl-2 `}
                     >
@@ -458,10 +458,10 @@ export default function Home() {
             
 
               {/* projects */}
-              <div className={`mt-[calc(78.3px+10vh)]`}>
+              <div className={`mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}>
                  <div>
                   
-                  <div className="sticky top-[40px] z-20 bg-white">
+                  <div className="sticky top-[var(--search-bar-height)] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>
@@ -480,7 +480,7 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="sticky top-[calc(40px+17.2px)] z-20 bg-white">
+                  <div className="sticky top-[calc(var(--search-bar-height)+var(--project-header-block))] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>
@@ -501,7 +501,7 @@ export default function Home() {
 
 
 
-                   <div className="sticky top-[calc(40px+2*17.2px)] z-20 bg-white">
+                   <div className="sticky top-[calc(var(--search-bar-height)+2*var(--project-header-block))] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>
@@ -521,7 +521,7 @@ export default function Home() {
                   </div>
 
 
-                   <div className="sticky top-[calc(40px+3*17.2px)] z-20 bg-white">
+                   <div className="sticky top-[calc(var(--search-bar-height)+3*var(--project-header-block))] z-20 bg-white">
                     <div className="flex justify-between border-t w-[45vw]">
                       <h3 className="text-[11.5px]">Building 140 CERN</h3>
                       <h3 className="text-[11.5px]">GENEVA, CH</h3>
@@ -542,8 +542,8 @@ export default function Home() {
 
                   
                   </div>
-                  <div className="sticky top-[40px] z-40 bg-white">
-                  <div className="sticky top-[40px] flex justify-between border-t w-[45vw] z-40 bg-white">
+                  <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
+                  <div className="sticky top-[var(--search-bar-height)] flex justify-between border-t w-[45vw] z-40 bg-white">
                   <h3 className="text-[11.5px]">Building 140 CERN</h3>
                   <h3 className="text-[11.5px]">GENEVA, CH</h3>
                 </div>

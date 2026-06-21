@@ -1,5 +1,14 @@
  @import "tailwindcss"; 
 
+ .home{
+  
+   --search-bar-height:40px;
+   --nav-padding-top:10vh;
+   --nav-height-block:78.3px;
+   --project-header-block:17.2px;
+
+}
+
 .logo-visible {
   opacity: 1;
   transform: translateY(0);
