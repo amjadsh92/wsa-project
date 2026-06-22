@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <>
-      <div className=" flex flex-col">
+      <div className="flex flex-col">
         {/* FIRST IMAGE */}
         <div
           style={{
@@ -87,7 +87,7 @@ export default function Home() {
                     </ul>
                </div>
 
-               <div className={`mt-[calc(78.3px+10vh)] `}>
+               <div className={`relative top-[calc(78.3px+10vh)] `}>
 
                 <div className="z-20 bg-white h-[200vh]">
                     <div className="sticky top-[calc(40px+65vh)] flex justify-between border-t w-[45vw]">
