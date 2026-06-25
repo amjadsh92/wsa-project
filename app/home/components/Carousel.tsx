@@ -227,7 +227,7 @@ const durationClass = durationMap[speed] || "duration-700";
              z-40 cursor-pointer"
 >
   <FontAwesomeIcon
-    className="text-2xl text-white active:scale-80 transition-transform"
+    className="text-2xl text-white active:scale-80 transition-transform !outline-none"
     icon={faAngleRight}
     widthAuto
   />
@@ -246,10 +246,10 @@ const durationClass = durationMap[speed] || "duration-700";
   }}
   className="absolute left-[50px] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer "
+             z-40 cursor-pointer"
 >
   <FontAwesomeIcon
-    className="text-2xl text-white active:scale-80 transition-transform"
+    className="text-2xl text-white active:scale-80 transition-transform !outline-none"
     icon={faAngleLeft}
     widthAuto
   />
