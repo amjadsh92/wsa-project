@@ -9,10 +9,8 @@ import Subtitle from "./home/components/Subtitle";
 import Nav from "./home/components/Nav";
 import Projects from "./home/components/Projects";
 import Footer from "./home/components/Footer";
-import { suisse } from "@/app/fonts";
-
-
 import "primeicons/primeicons.css";
+
 
 const images = [
   "/home/images/project1.jpg",
@@ -142,7 +140,7 @@ export default function Home() {
           <div
             className={`sticky top-0 flex justify-end z-1000 py-[12px] bg-white`}
           >
-            <i className="pi pi-search pr-[10px]"></i>
+            <i className="pi pi-search pr-[10px] text-[18px]"></i>
           </div>
           {/* Navbar and Projects */}
           <div className={`flex z-10 gap-[20px] flex-1`}>

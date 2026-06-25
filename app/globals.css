@@ -2,10 +2,10 @@
 
  .home{
   
-   --search-bar-height:40px;
+   --search-bar-height:42px;
    --nav-padding-top:10vh;
    --nav-height-block:78.3px;
-   --project-header-block:17.2px;
+   --project-header-block:25px;
 
 }
 

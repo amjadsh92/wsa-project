@@ -1,5 +1,6 @@
 import Img from "next/image";
 import React from "react";
+import { suisse } from "@/app/fonts";
 
 type Project = {
   title: string;
@@ -64,9 +65,10 @@ function Architecture({ projects }: ArchitectureProps) {
               }}
               className={`sticky z-20 bg-white`}
             >
-              <div className="flex justify-between border-t w-[45vw]">
-                <h3 className="text-[11.5px]">{project.title}</h3>
-                <h3 className="text-[11.5px]">{project.location}</h3>
+              <div className="border-t w-[45vw] font-[300]"></div>
+              <div className="flex justify-between items-end w-[45vw] h-[25px]">
+                <h3 className={`${suisse.className} text-[13px] `}>{project.title}</h3>
+                <h3 className={`${suisse.className} text-[13px] `}>{project.location}</h3>
               </div>
             </div>
 
@@ -96,9 +98,10 @@ function Art(){
     return(
 
         <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
-        <div className="sticky top-[var(--search-bar-height)] flex justify-between border-t w-[45vw] z-40 bg-white">
-          <h3 className="text-[11.5px]">Building 140 CERN</h3>
-          <h3 className="text-[11.5px]">GENEVA, CH</h3>
+        <div className="sticky top-[var(--search-bar-height)]  border-t w-[45vw] z-40 bg-white"></div>
+        <div className="sticky top-[var(--search-bar-height)] flex justify-start items-end h-[30px]">
+          <h3 className={`${suisse.className} text-[16px]`}>Art Work</h3>
+         
         </div>
         <div className="h-[90vh] w-[400px] bg-white z-30"></div>
       </div>
