@@ -1,9 +1,8 @@
-
-
 "use client";
 import { useEffect, useState } from "react";
 import Carousel from "@/app/home/components/Carousel";
-import { motion, AnimatePresence } from "framer-motion";
+// import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
 import Nav from "./home/components/Nav";
@@ -25,6 +24,11 @@ export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
+  const [scope, animate] = useAnimate();
+  
+  
+
+ 
 
   useEffect(() => {
     let loadedCount = 0;
@@ -48,10 +52,16 @@ export default function Home() {
     const handleScroll = () => {
       if (window.scrollY > window.innerHeight * 0.15) {
         setJump(true);
+      
+        
       } else {
         setJump(false);
+       
       }
     };
+
+    handleScroll()
+    
 
     window.addEventListener("scroll", handleScroll);
 
@@ -68,20 +78,25 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const bigJumpFunc = () => {
-    console.log(window.innerHeight);
-    if (window.scrollY <= window.innerHeight * 0.15) {
-      window.scrollTo({
-        top: window.innerHeight * 0.35,
-        behavior: "smooth",
-      });
-    } else {
-      window.scrollTo({
-        top: window.innerHeight * 0.35,
-        behavior: "smooth",
-      });
-    }
-  };
+ 
+  const bigJumpFunc = async () => {
+  if (jump) {
+    await animate(
+      window.scrollY,
+      window.innerHeight * 0.35,
+      {
+        duration: 0.5,
+        ease: "easeInOut",
+        onUpdate: (latest) => window.scrollTo(0, latest),
+      }
+    );
+  } else {
+    window.scrollTo({
+      top: window.innerHeight * 0.35,
+      behavior: "smooth",
+    });
+  }
+};
 
   return (
     <>
@@ -125,7 +140,8 @@ export default function Home() {
         {/* home section */}
 
         <motion.div
-          initial={{ y: "65vh" }}
+          ref={scope}
+          initial={false}
           animate={{
             y: jump ? "0vh" : "65vh",
           }}
