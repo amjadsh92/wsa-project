@@ -2,6 +2,7 @@ import Img from "next/image";
 import React from "react";
 import { suisse } from "@/app/fonts";
 
+
 type Project = {
   title: string;
   location: string;
@@ -39,6 +40,7 @@ export default function Projects() {
       location: "GENEVA, CH",
       image: "/home/images/project1.jpg",
     },
+   
   ];
 
   return (
@@ -50,9 +52,19 @@ export default function Projects() {
 }
 
 function Architecture({ projects }: ArchitectureProps) {
+
+    
+   
+
+   
+
+ 
+
   return (
     <div>
       {projects.map((project, index) => {
+
+        
         return (
           <React.Fragment key={index}>
             <div
@@ -73,9 +85,18 @@ function Architecture({ projects }: ArchitectureProps) {
             </div>
 
             <div
-              style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
-              className="relative h-[22.5vw] w-[45vw] bg-white"
+             
+          style={{
+  zIndex: index >= 5 ? (index - 2) * 10 : 10,
+
+
+}}
+
+              
+              className={`relative h-[22.5vw] w-[45vw] bg-white 
+  }`}
             >
+               
               <Img
                 style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
                 src={project.image}

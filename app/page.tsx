@@ -23,6 +23,7 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
+  
   const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
   
@@ -52,11 +53,12 @@ export default function Home() {
     const handleScroll = () => {
       if (window.scrollY > window.innerHeight * 0.15) {
         setJump(true);
+        
       
         
       } else {
         setJump(false);
-       
+   
       }
     };
 
@@ -142,13 +144,14 @@ export default function Home() {
         <motion.div
           ref={scope}
           initial={false}
-          animate={{
+          animate={ {
             y: jump ? "0vh" : "65vh",
           }}
           transition={{
             type: "spring",
             stiffness: 90,
             damping: 18,
+            
           }}
           className={`z-2 home flex flex-col bg-white mt-[-65vh]`}
         >

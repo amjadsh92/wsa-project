@@ -5,19 +5,21 @@ import { monteserrat, ttCommons } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-
-
+import { useHotkeys } from "react-hotkeys-hook";
 
 type CarouselProps = {
   images: string[];
   titles: string[] | "";
   descriptions: string[] | "";
-  speed:  300 | 500 | 700 | 1000;
+  speed: 300 | 500 | 700 | 1000;
 };
 
-
-
-export default function Carousel({images, titles, descriptions, speed}: CarouselProps) {
+export default function Carousel({
+  images,
+  titles,
+  descriptions,
+  speed,
+}: CarouselProps) {
   // Current project photo
   const [current, setCurrent] = useState(0);
   // The button that is currently highlighted
@@ -39,6 +41,8 @@ export default function Carousel({images, titles, descriptions, speed}: Carousel
   const [clickable, setClickable] = useState(true);
   // Keep photo
   const [keepPhoto, setKeepPhoto] = useState(false);
+  const [rightPressed, setRightPressed] = useState(false);
+  const [leftPressed, setLeftPressed] = useState(false);
 
   useEffect(() => {
     if (!right || !clickable) {
@@ -132,21 +136,6 @@ export default function Carousel({images, titles, descriptions, speed}: Carousel
       return;
     }
 
-    // const stepsToReachIndexFromRightToLeft =
-    //   (images.length % (index + 1)) + current + 1;
-    // const stepsToReachIndexFromLeftToRight =
-    //   (images.length % (current + 1)) + index + 1;
-    // if (index > current && index - current > stepsToReachIndexFromRightToLeft) {
-    //   setRight(false);
-    // }
-
-    // if (
-    //   index < current &&
-    //   current - index <= stepsToReachIndexFromLeftToRight
-    // ) {
-    //   setRight(false);
-    // }
-
     if (index < current) {
       setRight(false);
     }
@@ -164,15 +153,44 @@ export default function Carousel({images, titles, descriptions, speed}: Carousel
     setGoToFunc(true);
   };
 
-
   const durationMap: Record<number, string> = {
-  300: "duration-300",
-  500: "duration-500",
-  700: "duration-700",
-  1000: "duration-1000",
+    300: "duration-300",
+    500: "duration-500",
+    700: "duration-700",
+    1000: "duration-1000",
+  };
+
+  const durationClass = durationMap[speed] || "duration-700";
+
+  const animateRight = () => {
+  setRightPressed(true);
+
+  goRight();
+
+  setTimeout(() => {
+    setRightPressed(false);
+  }, 120);
 };
 
-const durationClass = durationMap[speed] || "duration-700";
+ const animateLeft = () => {
+  setLeftPressed(true);
+
+  goLeft();
+
+  setTimeout(() => {
+    setLeftPressed(false);
+  }, 120);
+};
+
+  useHotkeys("right", (e) => {
+    e.preventDefault();
+    animateRight();
+  });
+
+  useHotkeys("left", (e) => {
+    e.preventDefault();
+    animateLeft();
+  });
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -185,79 +203,58 @@ const durationClass = durationMap[speed] || "duration-700";
         onTransitionEnd={handleTransitionEnd}
       >
         {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
-          <div
-            className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
-          >
-            {titles[current] ? titles[current] : "" }
-          </div>
-          <div
-            className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
-          >
-            {descriptions[current] ? descriptions[current] : ""}
-          </div>
+        <div
+          className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
+        >
+          {titles[current] ? titles[current] : ""}
+        </div>
+        <div
+          className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+        >
+          {descriptions[current] ? descriptions[current] : ""}
+        </div>
         {/* </div> */}
       </div>
 
-      {/* <FontAwesomeIcon
-        className="absolute right-[50px] bottom-[45vh] text-2xl text-white z-40 cursor-pointer active:scale-80"
-        icon={faAngleRight}
-        onClick={goRight}
-        widthAuto
-      /> */}
-
-          {/* <button 
-      className="absolute right-[50px] bottom-[45vh] z-40 cursor-pointer bg-transparent border-none flex items-center justify-center group"
-      onClick={goRight}
-      aria-label="Next"
-    >
-      <FontAwesomeIcon
-        className="text-2xl text-white active:scale-80 transition-transform"
-        icon={faAngleRight}
-        widthAuto
-      />
-    </button> */}
-
-    <button
-  onClick={(e) => {
-    e.stopPropagation();
-    goRight();
-  }}
-  className="absolute right-[50px] bottom-[45vh]
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+           animateRight();
+        }}
+        
+        className="absolute right-[50px] bottom-[45vh]
              flex items-center justify-center
              z-40 cursor-pointer"
->
-  <FontAwesomeIcon
-    className="text-2xl text-white active:scale-80 transition-transform !outline-none"
-    icon={faAngleRight}
-    widthAuto
-  />
-</button>
-      {/* <FontAwesomeIcon
-        className="absolute left-[50px] bottom-[45vh] text-2xl w-5 h-5 text-white z-40 cursor-pointer active:scale-80"
-        icon={faAngleLeft}
-        onClick={goLeft}
-      /> */}
+      >
+        <FontAwesomeIcon
+          className={`${
+      rightPressed ? "scale-80" : "scale-100"
+    } text-2xl text-white transition-transform !outline-none`}
+          icon={faAngleRight}
+          widthAuto
+        />
+      </button>
 
-
-    <button
-  onClick={(e) => {
-    e.stopPropagation();
-    goLeft();
-  }}
-  className="absolute left-[50px] bottom-[45vh]
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          animateLeft();
+        }}
+        className="absolute left-[50px] bottom-[45vh]
              flex items-center justify-center
              z-40 cursor-pointer"
->
-  <FontAwesomeIcon
-    className="text-2xl text-white active:scale-80 transition-transform !outline-none"
-    icon={faAngleLeft}
-    widthAuto
-  />
-</button>     
+      >
+        <FontAwesomeIcon
+          className={`${
+      leftPressed ? "scale-80" : "scale-100"
+    } text-2xl text-white active:scale-80 transition-transform !outline-none`}
+          icon={faAngleLeft}
+          widthAuto
+        />
+      </button>
 
       {/* Next Background */}
       <div
-        
         className={`absolute inset-0 bg-cover bg-center ${
           animate
             ? `transition-transform ${durationClass} translate-x-0`
@@ -270,39 +267,41 @@ const durationClass = durationMap[speed] || "duration-700";
         }}
       >
         {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
-          <div
-            className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
-          >
-            {titles[next] ? titles[next] : ""}
-          </div>
-          <div
-            className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
-          >
-            {descriptions[next] ? descriptions[next] : "" }
-          </div>
+        <div
+          className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
+        >
+          {titles[next] ? titles[next] : ""}
+        </div>
+        <div
+          className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+        >
+          {descriptions[next] ? descriptions[next] : ""}
+        </div>
         {/* </div> */}
       </div>
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/30 z-10" />
 
-  
-
       <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
         {images.map((_, index) => (
-          <div key={index} className="p-1 cursor-pointer group" onClick={(e) => {
-    e.stopPropagation();
-    goTo(index);
-  }}>
           <div
             key={index}
-            onClick={() => goTo(index)}
-            className={`h-3 w-3  rounded-full cursor-pointer  ${
-              index === currentButton
-                ? "bg-white"
-                : "bg-white/50 group-hover:bg-white"
-            }`}
-          />
+            className="p-1 cursor-pointer group"
+            onClick={(e) => {
+              e.stopPropagation();
+              goTo(index);
+            }}
+          >
+            <div
+              key={index}
+              onClick={() => goTo(index)}
+              className={`h-3 w-3  rounded-full cursor-pointer  ${
+                index === currentButton
+                  ? "bg-white"
+                  : "bg-white/50 group-hover:bg-white"
+              }`}
+            />
           </div>
         ))}
       </div>
