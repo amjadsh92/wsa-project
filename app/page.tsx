@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Carousel from "@/app/home/components/Carousel";
 // import { motion, AnimatePresence } from "framer-motion";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
@@ -23,9 +23,11 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
+  // const [animationDone, setAnimationDone] = useState(!jump);
   
   const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
+  const [ready, setReady] = useState(false)
   
   
 
@@ -51,6 +53,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
+      
       if (window.scrollY > window.innerHeight * 0.15) {
         setJump(true);
         
@@ -61,6 +64,7 @@ export default function Home() {
    
       }
     };
+
 
     handleScroll()
     
@@ -153,13 +157,23 @@ export default function Home() {
             damping: 18,
             
           }}
-          className={`z-2 home flex flex-col bg-white mt-[-65vh]`}
+          className={`z-2 home flex flex-col bg-white mt-[-65vh] `}
+            onAnimationStart={() => {
+    // document.body.style.overflow = "clip";
+    setReady(false)
+   
+  }}
+           onAnimationComplete={() => {
+    // document.body.style.overflow = "";
+    setReady(true)
+    
+  }}
         >
           {/* Search bar */}
           <div
             className={`sticky top-0 flex justify-end z-1000 py-[12px] bg-white`}
           >
-            <i className="pi pi-search pr-[10px] text-[18px]"></i>
+            <i className=" pi pi-search pr-[10px] text-[18px]"></i>
           </div>
           {/* Navbar and Projects */}
           <div className={`flex z-10 gap-[20px] flex-1`}>
@@ -174,7 +188,7 @@ export default function Home() {
             <div
               className={`mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
-              <Projects />
+              <Projects ready={ready}/>
             </div>
           </div>
             {/* Footer */}

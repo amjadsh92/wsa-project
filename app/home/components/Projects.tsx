@@ -11,9 +11,10 @@ type Project = {
 
 type ArchitectureProps = {
   projects: Project[];
+  ready:boolean;
 };
 
-export default function Projects() {
+export default function Projects({ready}:{ready:boolean}) {
   const projects = [
     {
       title: "Building 140 CERN",
@@ -45,13 +46,13 @@ export default function Projects() {
 
   return (
     <>
-      <Architecture projects={projects} />
+      <Architecture projects={projects} ready={ready} />
       <Art />
     </>
   );
 }
 
-function Architecture({ projects }: ArchitectureProps) {
+function Architecture({ projects,ready}:ArchitectureProps) {
 
     
    
@@ -74,8 +75,9 @@ function Architecture({ projects }: ArchitectureProps) {
                   index >= 5
                     ? "var(--search-bar-height)"
                     : `calc(var(--search-bar-height) + ${index} * var(--project-header-block))`,
+                // top: `calc(var(--nav-padding-top))`
               }}
-              className={`sticky z-20 bg-white`}
+              className={`sticky z-20 bg-white `}
             >
               <div className="border-t w-[45vw] font-[300]"></div>
               <div className="flex justify-between items-end w-[45vw] h-[25px]">
@@ -88,12 +90,13 @@ function Architecture({ projects }: ArchitectureProps) {
              
           style={{
   zIndex: index >= 5 ? (index - 2) * 10 : 10,
-
+  top:`${!ready ? `calc(var(--search-bar-height) + ${index} * var(--project-header-block))` : ""}`,
+  position: ready ? "relative" : "sticky"
 
 }}
 
               
-              className={`relative h-[22.5vw] w-[45vw] bg-white 
+              className={`h-[22.5vw] w-[45vw] bg-white 
   }`}
             >
                
