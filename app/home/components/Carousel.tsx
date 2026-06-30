@@ -281,7 +281,7 @@ export default function Carousel({
       </div>
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/30 z-10" />
+      <div className="absolute inset-0 bg-black/20 z-10" />
 
       <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
         {images.map((_, index) => (

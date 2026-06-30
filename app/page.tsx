@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import Carousel from "@/app/home/components/Carousel";
-// import { motion, AnimatePresence } from "framer-motion";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import Title from "./home/components/Title";
 import Subtitle from "./home/components/Subtitle";
@@ -9,7 +8,6 @@ import Nav from "./home/components/Nav";
 import Projects from "./home/components/Projects";
 import Footer from "./home/components/Footer";
 import "primeicons/primeicons.css";
-
 
 const images = [
   "/home/images/project1.jpg",
@@ -23,15 +21,9 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
-  // const [animationDone, setAnimationDone] = useState(!jump);
-  
   const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
-  const [ready, setReady] = useState(false)
-  
-  
-
- 
+  const [stickyToRelative, setStickyToRelative] = useState(false);
 
   useEffect(() => {
     let loadedCount = 0;
@@ -53,21 +45,14 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      
       if (window.scrollY > window.innerHeight * 0.15) {
         setJump(true);
-        
-      
-        
       } else {
         setJump(false);
-   
       }
     };
 
-
-    handleScroll()
-    
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll);
 
@@ -84,25 +69,20 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
- 
   const bigJumpFunc = async () => {
-  if (jump) {
-    await animate(
-      window.scrollY,
-      window.innerHeight * 0.35,
-      {
+    if (jump) {
+      await animate(window.scrollY, window.innerHeight * 0.35, {
         duration: 0.5,
         ease: "easeInOut",
         onUpdate: (latest) => window.scrollTo(0, latest),
-      }
-    );
-  } else {
-    window.scrollTo({
-      top: window.innerHeight * 0.35,
-      behavior: "smooth",
-    });
-  }
-};
+      });
+    } else {
+      window.scrollTo({
+        top: window.innerHeight * 0.35,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
@@ -114,7 +94,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.3,
+              duration: 0.6,
               ease: "easeInOut",
             }}
             className="fixed inset-0 bg-neutral-800 z-1000"
@@ -148,26 +128,21 @@ export default function Home() {
         <motion.div
           ref={scope}
           initial={false}
-          animate={ {
+          animate={{
             y: jump ? "0vh" : "65vh",
           }}
           transition={{
             type: "spring",
             stiffness: 90,
             damping: 18,
-            
           }}
           className={`z-2 home flex flex-col bg-white mt-[-65vh] `}
-            onAnimationStart={() => {
-    // document.body.style.overflow = "clip";
-    setReady(false)
-   
-  }}
-           onAnimationComplete={() => {
-    // document.body.style.overflow = "";
-    setReady(true)
-    
-  }}
+          onAnimationStart={() => {
+            setStickyToRelative(false);
+          }}
+          onAnimationComplete={() => {
+            setStickyToRelative(true);
+          }}
         >
           {/* Search bar */}
           <div
@@ -188,10 +163,10 @@ export default function Home() {
             <div
               className={`mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
-              <Projects ready={ready}/>
+              <Projects stickyToRelative={stickyToRelative} />
             </div>
           </div>
-            {/* Footer */}
+          {/* Footer */}
           <Footer />
         </motion.div>
       </div>

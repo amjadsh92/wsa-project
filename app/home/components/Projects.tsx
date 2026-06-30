@@ -2,7 +2,6 @@ import Img from "next/image";
 import React from "react";
 import { suisse } from "@/app/fonts";
 
-
 type Project = {
   title: string;
   location: string;
@@ -11,10 +10,10 @@ type Project = {
 
 type ArchitectureProps = {
   projects: Project[];
-  ready:boolean;
+  stickyToRelative: boolean;
 };
 
-export default function Projects({ready}:{ready:boolean}) {
+export default function Projects({ stickyToRelative }: { stickyToRelative: boolean }) {
   const projects = [
     {
       title: "Building 140 CERN",
@@ -41,31 +40,20 @@ export default function Projects({ready}:{ready:boolean}) {
       location: "GENEVA, CH",
       image: "/home/images/project1.jpg",
     },
-   
   ];
 
   return (
     <>
-      <Architecture projects={projects} ready={ready} />
+      <Architecture projects={projects} stickyToRelative={stickyToRelative} />
       <Art />
     </>
   );
 }
 
-function Architecture({ projects,ready}:ArchitectureProps) {
-
-    
-   
-
-   
-
- 
-
+function Architecture({ projects, stickyToRelative }: ArchitectureProps) {
   return (
     <div>
       {projects.map((project, index) => {
-
-        
         return (
           <React.Fragment key={index}>
             <div
@@ -75,31 +63,29 @@ function Architecture({ projects,ready}:ArchitectureProps) {
                   index >= 5
                     ? "var(--search-bar-height)"
                     : `calc(var(--search-bar-height) + ${index} * var(--project-header-block))`,
-                // top: `calc(var(--nav-padding-top))`
               }}
               className={`sticky z-20 bg-white `}
             >
               <div className="border-t w-[45vw] font-[300]"></div>
               <div className="flex justify-between items-end w-[45vw] h-[25px]">
-                <h3 className={`${suisse.className} text-[13px] `}>{project.title}</h3>
-                <h3 className={`${suisse.className} text-[13px] `}>{project.location}</h3>
+                <h3 className={`${suisse.className} text-[13px] `}>
+                  {project.title}
+                </h3>
+                <h3 className={`${suisse.className} text-[13px] `}>
+                  {project.location}
+                </h3>
               </div>
             </div>
 
             <div
-             
-          style={{
-  zIndex: index >= 5 ? (index - 2) * 10 : 10,
-  top:`${!ready ? `calc(var(--search-bar-height) + ${index} * var(--project-header-block))` : ""}`,
-  position: ready ? "relative" : "sticky"
-
-}}
-
-              
+              style={{
+                zIndex: index >= 5 ? (index - 2) * 10 : 10,
+                top: `${stickyToRelative ? "" : `calc(var(--search-bar-height) + ${index} * var(--project-header-block))`}`,
+                position: stickyToRelative ? "relative" : "sticky",
+              }}
               className={`h-[22.5vw] w-[45vw] bg-white 
   }`}
             >
-               
               <Img
                 style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
                 src={project.image}
@@ -116,18 +102,14 @@ function Architecture({ projects,ready}:ArchitectureProps) {
   );
 }
 
-
-function Art(){
-
-    return(
-
-        <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
-        <div className="sticky top-[var(--search-bar-height)]  border-t w-[45vw] z-40 bg-white"></div>
-        <div className="sticky top-[var(--search-bar-height)] flex justify-start items-end h-[30px]">
-          <h3 className={`${suisse.className} text-[16px]`}>Art Work</h3>
-         
-        </div>
-        <div className="h-[90vh] w-[400px] bg-white z-30"></div>
+function Art() {
+  return (
+    <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
+      <div className="sticky top-[var(--search-bar-height)]  border-t w-[45vw] z-40 bg-white"></div>
+      <div className="sticky top-[var(--search-bar-height)] flex justify-start items-end h-[30px]">
+        <h3 className={`${suisse.className} text-[16px]`}>Art Work</h3>
       </div>
-    )
+      <div className="h-[90vh] w-[400px] bg-white z-30"></div>
+    </div>
+  );
 }
