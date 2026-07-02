@@ -23,7 +23,7 @@ export default function Home() {
   const [jump, setJump] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
-  const [stickyToRelative, setStickyToRelative] = useState(false);
+  
 
   useEffect(() => {
     let loadedCount = 0;
@@ -133,15 +133,20 @@ export default function Home() {
           }}
           transition={{
             type: "spring",
-            stiffness: 90,
-            damping: 18,
+            stiffness: 225,
+            damping: 25,
           }}
+          //  transition={{
+          //   type: "spring",
+          //   stiffness: 90,
+          //   damping: 18,
+          // }}
           className={`z-2 home flex flex-col bg-white mt-[-65vh] `}
           onAnimationStart={() => {
-            setStickyToRelative(false);
+            // setStickyToRelative(false);
           }}
           onAnimationComplete={() => {
-            setStickyToRelative(true);
+            // setStickyToRelative(true);
           }}
         >
           {/* Search bar */}
@@ -163,7 +168,7 @@ export default function Home() {
             <div
               className={`mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
-              <Projects stickyToRelative={stickyToRelative} />
+              <Projects />
             </div>
           </div>
           {/* Footer */}

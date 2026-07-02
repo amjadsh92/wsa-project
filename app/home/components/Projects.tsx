@@ -10,10 +10,10 @@ type Project = {
 
 type ArchitectureProps = {
   projects: Project[];
-  stickyToRelative: boolean;
+  
 };
 
-export default function Projects({ stickyToRelative }: { stickyToRelative: boolean }) {
+export default function Projects() {
   const projects = [
     {
       title: "Building 140 CERN",
@@ -44,13 +44,13 @@ export default function Projects({ stickyToRelative }: { stickyToRelative: boole
 
   return (
     <>
-      <Architecture projects={projects} stickyToRelative={stickyToRelative} />
+      <Architecture projects={projects}  />
       <Art />
     </>
   );
 }
 
-function Architecture({ projects, stickyToRelative }: ArchitectureProps) {
+function Architecture({ projects}: ArchitectureProps) {
   return (
     <div>
       {projects.map((project, index) => {
@@ -80,8 +80,8 @@ function Architecture({ projects, stickyToRelative }: ArchitectureProps) {
             <div
               style={{
                 zIndex: index >= 5 ? (index - 2) * 10 : 10,
-                top: `${stickyToRelative ? "" : `calc(var(--search-bar-height) + ${index} * var(--project-header-block))`}`,
-                position: stickyToRelative ? "relative" : "sticky",
+                // top: `${stickyToRelative ? `calc(var(--search-bar-height) + ${index} * var(--project-header-block))` : `calc(var(--search-bar-height) + ${index} * var(--project-header-block))`}`,
+                position: "relative" 
               }}
               className={`h-[22.5vw] w-[45vw] bg-white 
   }`}
