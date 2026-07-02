@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import Title from "./home/components/Title";
@@ -23,7 +23,6 @@ export default function Home() {
   const [jump, setJump] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
-  
 
   useEffect(() => {
     let loadedCount = 0;
@@ -142,12 +141,6 @@ export default function Home() {
           //   damping: 18,
           // }}
           className={`z-2 home flex flex-col bg-white mt-[-65vh] `}
-          onAnimationStart={() => {
-            // setStickyToRelative(false);
-          }}
-          onAnimationComplete={() => {
-            // setStickyToRelative(true);
-          }}
         >
           {/* Search bar */}
           <div
