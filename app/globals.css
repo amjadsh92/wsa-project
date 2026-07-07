@@ -4,13 +4,27 @@
 }
 
  .home{
-  
+
    --search-bar-height:42px;
    --nav-padding-top:10vh;
    --nav-height-block:78.3px;
    --project-header-block:25px;
+   --header-width:calc(45vw - 15px);
+   --nav-header-width:calc(50vw - 15px)
 
 }
+
+@media (max-width: 960px) {
+  .home {
+    --nav-padding-top: 10px;
+    --search-bar-height:63.3px;
+    --nav-height-block:63.3px;
+    --header-width:calc(100vw - 20px);
+    --nav-header-width:calc(100vw - 20px)
+  }
+
+}
+
 
 .logo-visible {
   opacity: 1;

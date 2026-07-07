@@ -224,12 +224,12 @@ export default function Carousel({
         
         className="absolute right-[50px] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer"
+             z-40 cursor-pointer max-[500px]:right-[30px] "
       >
         <FontAwesomeIcon
           className={`${
       rightPressed ? "scale-80" : "scale-100"
-    } text-2xl text-white transition-transform !outline-none`}
+    } text-2xl text-white transition-transform !outline-none max-[500px]:text-xl`}
           icon={faAngleRight}
           widthAuto
         />
@@ -242,12 +242,12 @@ export default function Carousel({
         }}
         className="absolute left-[50px] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer"
+             z-40 cursor-pointer max-[500px]:left-[30px] "
       >
         <FontAwesomeIcon
           className={`${
       leftPressed ? "scale-80" : "scale-100"
-    } text-2xl text-white active:scale-80 transition-transform !outline-none`}
+    } text-2xl text-white active:scale-80 transition-transform !outline-none max-[500px]:text-xl`}
           icon={faAngleLeft}
           widthAuto
         />
@@ -300,7 +300,7 @@ export default function Carousel({
                 index === currentButton
                   ? "bg-white"
                   : "bg-white/50 group-hover:bg-white"
-              }`}
+              } max-[500px]:h-2 max-[500px]:w-2 `}
             />
           </div>
         ))}

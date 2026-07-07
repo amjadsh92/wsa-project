@@ -49,7 +49,7 @@ export default function Subtitle({
             setIntroDone(true);
           }
         }}
-        className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light`}
+        className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light max-[500px]:text-[18px]`}
       >
         <Word>Architecture</Word>
         <Separator />

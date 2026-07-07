@@ -17,7 +17,7 @@ export default function Title({
     
     flex text-[55px] text-white w-fit mx-auto
     font-extrabold pt-[60px] animate-logo-enter 
-    opacity-0
+    opacity-0 max-[500px]:text-[45px] max-[400px]:text-[35px]
   `}
     >
       <span
