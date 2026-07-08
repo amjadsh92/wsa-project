@@ -93,8 +93,8 @@ function Architecture({ projects }: ArchitectureProps) {
               }}
               className={`sticky z-20 bg-white max-[960px]:relative max-[960px]:top-0! `}
             >
-              <div className="border-t w-[var(--header-width)] font-[300] max-[960px]:w-[var(--header-width)]"></div>
-              <div className="flex justify-between items-end w-[var(--header-width)] h-[25px] max-[960px]:h-[40px] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[10px] max-[960px]:pt-[10px]">
+              <div className="border-t w-full max-[960px]:w-[var(--header-width)] font-[300] "></div>
+              <div className="flex justify-between items-end w-full max-[960px]:w-[var(--header-width)] h-[25px] max-[960px]:h-[40px] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[10px] max-[960px]:pt-[10px]">
                 <h3 className={`${suisse.className} text-[13px] max-[500px]:text-[11px]`}>
                   {project.title}
                 </h3>
@@ -110,7 +110,7 @@ function Architecture({ projects }: ArchitectureProps) {
 
                 position: "relative",
               }}
-              className={`bg-white max-[960px]:bg-transparent h-[25vw] w-[var(--header-width)] max-[960px]:w-[var(--header-width)] max-[960px]:h-[55vw] max-[500px]:h-[100vw] `}
+              className={`bg-white max-[960px]:bg-transparent h-[27vw] w-full max-[1200px]:h-[35vw] max-[960px]:w-[var(--header-width)] max-[960px]:h-[55vw] max-[650px]:h-[75vw] max-[500px]:h-[100vw] `}
             >
               <Img
                 style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
@@ -119,7 +119,7 @@ function Architecture({ projects }: ArchitectureProps) {
                 fill
                 sizes="(max-width: 960px) var(--header-width), var(--header-width)"
                 className="object-cover pt-4 pb-[40px] bg-white"
-                priority
+                // priority
               />
             </div>
           </React.Fragment>
@@ -149,7 +149,7 @@ function Art({ drawings }: DrawingsProps) {
 
   return (
     <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
-      <div className="sticky top-[var(--search-bar-height)]  border-t w-[var(--header-width)] z-50 bg-white max-[960px]:w-[var(--header-width)]"></div>
+      <div className="sticky top-[var(--search-bar-height)]  border-t w-full max-[960px]:w-[var(--header-width)] z-50 bg-white"></div>
       <div className="sticky top-[var(--search-bar-height)] flex justify-start z-40 bg-white items-center h-[50px] max-[960px]:relative  max-[960px]:top-0! ">
         <h3 className={`${suisse.className} text-[18px] max-[960px]:text-[22px] max-[500px]:text-[18px] max-[500px]:text-[18px] max-[400px]:text-[16px]  max-[960px]:pl-[10px]`}>Art Work</h3>
       </div>
@@ -162,7 +162,7 @@ function Art({ drawings }: DrawingsProps) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="relative w-[30vw] h-[30vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
+            className="relative w-[30vw] h-[30vw] max-[1200px]:w-[35vw] max-[1200px]:h-[35vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
           >
             <Img
               src={drawing.image}
@@ -170,7 +170,7 @@ function Art({ drawings }: DrawingsProps) {
               fill
               sizes="(max-width: 960px) 60vw, 30vw"
               className="object-cover pt-4 pb-[40px] bg-white"
-              priority
+            //   priority
             />
           </motion.div>
         ))}

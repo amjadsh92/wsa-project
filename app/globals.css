@@ -9,8 +9,8 @@
    --nav-padding-top:10vh;
    --nav-height-block:78.3px;
    --project-header-block:25px;
-   --header-width:calc(45vw - 15px);
-   --nav-header-width:calc(50vw - 15px)
+   --header-width:calc(45vw);
+   --nav-header-width:calc(50vw)
 
 }
 

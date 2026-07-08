@@ -149,7 +149,7 @@ export default function Home() {
             <i className=" pi pi-search pr-[10px] text-[18px]"></i>
           </div>
           {/* Navbar and Projects */}
-          <div className={`flex max-[960px]:flex-col max-[960px]:z-[1001] gap-[20px] flex-1`}>
+          <div className={`flex max-[960px]:flex-col max-[960px]:z-[1001] gap-[50px] flex-1`}>
             {/* Navbar */}
             <div
               className={`sticky top-[calc(var(--search-bar-height)-2px)] max-[960px]:top-0 self-start z-[1001]`}
@@ -159,7 +159,7 @@ export default function Home() {
 
             {/* projects */}
             <div
-              className={`mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
+              className={`min-[960px]:flex-1 mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
               <Projects />
             </div>
