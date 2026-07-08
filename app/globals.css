@@ -6,21 +6,57 @@
 }
 
 
+@media screen and (min-width: 1650px) {
+   html{
+    font-size: 20px !important;
+  }
+   
+}
+
+@media screen and (min-width: 2000px) {
+  html{
+    font-size: 24px !important;
+  }
+   
+}
+
+@media screen and (min-width: 2500px) {
+  html{
+    font-size: 28px !important;
+  }
+   
+}
+
+@media screen and (min-width: 3000px) {
+  html{
+    font-size: 40px !important;
+  }
+   
+}
+
+
+@media screen and (min-width: 3500px) {
+  html{
+    font-size: 50px !important;
+  }
+   
+}
+
  .home{
 
-   --search-bar-height:42px;
+   --search-bar-height:2.625rem;
    --nav-padding-top:10vh;
-   --nav-height-block:78.3px;
-   --project-header-block:25px;
+   --nav-height-block:4.89375rem;
+   --project-header-block:1.5625rem;
    --nav-header-width:calc(50vw)
 
 }
 
 @media (max-width: 960px) {
   .home {
-    --nav-padding-top: 10px;
-    --search-bar-height:63.3px;
-    --nav-height-block:63.3px;
+    --nav-padding-top: 0.625rem;
+    --search-bar-height:3.95625rem;
+    --nav-height-block:3.95625rem;
   }
 
 }
@@ -36,7 +72,7 @@
 
 .logo-hidden {
   opacity: 0;
-  transform: translateY(-30px);
+  transform: translateY(-1.875rem);
   transition:
     opacity 0.35s ease-out,
     transform 0.35s ease-out;
@@ -46,7 +82,7 @@
 
  @keyframes logoEnter {
   from {
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
     opacity: 0;
   }
 

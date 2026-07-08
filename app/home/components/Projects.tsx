@@ -94,11 +94,11 @@ function Architecture({ projects }: ArchitectureProps) {
               className={`sticky z-20 bg-white max-[960px]:relative max-[960px]:top-0! `}
             >
               <div className="border-t w-full font-[300] "></div>
-              <div className="flex justify-between items-end w-full h-[25px] max-[960px]:h-[40px] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[10px] max-[960px]:pt-[10px]">
-                <h3 className={`${suisse.className} text-[13px] max-[500px]:text-[11px] pr-[10px]`}>
+              <div className="flex justify-between items-end w-full h-[1.5625rem] max-[960px]:h-[2.5rem] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[0.625rem] max-[960px]:pt-[0.625rem]">
+                <h3 className={`${suisse.className} text-[0.8125rem] max-[500px]:text-[0.6875rem] pr-[0.625rem]`}>
                   {project.title}
                 </h3>
-                <h3 className={`${suisse.className} text-[13px] max-[500px]:text-[11px] pr-[10px]`}>
+                <h3 className={`${suisse.className} text-[0.8125rem] max-[500px]:text-[0.6875rem] pr-[0.625rem]`}>
                   {project.location}
                 </h3>
               </div>
@@ -118,7 +118,7 @@ function Architecture({ projects }: ArchitectureProps) {
                 alt={project.title}
                 fill
                 sizes="(max-width: 960px) 100vw, 50vw"
-                className="object-cover pt-4 pb-[40px] bg-white"
+                className="object-cover pt-4 pb-[2.5rem] bg-white"
                 priority
               />
             </div>
@@ -150,11 +150,11 @@ function Art({ drawings }: DrawingsProps) {
   return (
     <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
       <div className="sticky top-[var(--search-bar-height)]  border-t w-full z-50 bg-white"></div>
-      <div className="sticky top-[var(--search-bar-height)] flex justify-start z-40 bg-white items-center h-[50px] max-[960px]:relative  max-[960px]:top-0! ">
-        <h3 className={`${suisse.className} text-[18px] max-[960px]:text-[22px] max-[500px]:text-[18px] max-[500px]:text-[18px] max-[400px]:text-[16px]  max-[960px]:pl-[10px]`}>Art Work</h3>
+      <div className="sticky top-[var(--search-bar-height)] flex justify-start z-40 bg-white items-center h-[3.125rem] max-[960px]:relative  max-[960px]:top-0! ">
+        <h3 className={`${suisse.className} text-[1.125rem] max-[960px]:text-[1.375rem] max-[500px]:text-[1.125rem] max-[500px]:text-[1.125rem] max-[400px]:text-[1rem]  max-[960px]:pl-[0.625rem]`}>Art Work</h3>
       </div>
 
-      <div className="relative z-30 mt-[40px] flex flex-wrap justify-center items-center gap-[50px] max-[500px]:gap-[30px] max-[500px]:mt-[20px] max-[400px]:mt-[10px]">
+      <div className="relative z-30 mt-[2.5rem] flex flex-wrap justify-center items-center gap-[3.125rem] max-[500px]:gap-[1.875rem] max-[500px]:mt-[1.25rem] max-[400px]:mt-[0.625rem]">
         {drawings.map((drawing, index) => (
           <motion.div
             key={index}
@@ -169,7 +169,7 @@ function Art({ drawings }: DrawingsProps) {
               alt="photo"
               fill
               sizes="(max-width: 960px) 60vw, 30vw"
-              className="object-cover pt-4 pb-[40px] bg-white"
+              className="object-cover pt-4 pb-[2.5rem] bg-white"
               priority
             />
           </motion.div>

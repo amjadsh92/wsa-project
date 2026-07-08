@@ -204,12 +204,12 @@ export default function Carousel({
       >
         {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
         <div
-          className={`${ttCommons.className} mt-[400px] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
+          className={`${ttCommons.className} mt-[25rem] w-fit mx-auto text-white text-5xl z-50 font-extrabold select-none`}
         >
           {titles[current] ? titles[current] : ""}
         </div>
         <div
-          className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+          className={`${monteserrat.className} mt-[1.875rem] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
         >
           {descriptions[current] ? descriptions[current] : ""}
         </div>
@@ -221,9 +221,9 @@ export default function Carousel({
           e.stopPropagation();
           animateRight();
         }}
-        className="absolute right-[50px] bottom-[45vh]
+        className="absolute right-[3.125rem] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer max-[500px]:right-[30px] "
+             z-40 cursor-pointer max-[500px]:right-[1.875rem] "
       >
         <FontAwesomeIcon
           className={`${
@@ -239,9 +239,9 @@ export default function Carousel({
           e.stopPropagation();
           animateLeft();
         }}
-        className="absolute left-[50px] bottom-[45vh]
+        className="absolute left-[3.125rem] bottom-[45vh]
              flex items-center justify-center
-             z-40 cursor-pointer max-[500px]:left-[30px] "
+             z-40 cursor-pointer max-[500px]:left-[1.875rem] "
       >
         <FontAwesomeIcon
           className={`${
@@ -267,12 +267,12 @@ export default function Carousel({
       >
         {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
         <div
-          className={` ${ttCommons.className} mt-[400px] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
+          className={` ${ttCommons.className} mt-[25rem] mx-auto w-fit text-white text-5xl font-extrabold select-none `}
         >
           {titles[next] ? titles[next] : ""}
         </div>
         <div
-          className={`${monteserrat.className} mt-[30px] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
+          className={`${monteserrat.className} mt-[1.875rem] w-fit mx-auto text-white text-3xl z-50 font-extrabold select-none`}
         >
           {descriptions[next] ? descriptions[next] : ""}
         </div>

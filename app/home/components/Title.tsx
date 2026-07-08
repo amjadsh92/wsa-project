@@ -15,9 +15,9 @@ export default function Title({
     <div
       className={`
     
-    flex text-[55px] text-white w-fit mx-auto
-    font-extrabold pt-[60px] animate-logo-enter 
-    opacity-0 max-[500px]:text-[45px] max-[400px]:text-[35px]
+    flex text-[3.4375rem] text-white w-fit mx-auto
+    font-extrabold pt-[3.75rem] animate-logo-enter
+    opacity-0 max-[500px]:text-[2.8125rem] max-[400px]:text-[2.1875rem]
   `}
     >
       <span

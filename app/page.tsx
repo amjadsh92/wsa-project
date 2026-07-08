@@ -144,15 +144,15 @@ export default function Home() {
         >
           {/* Search bar */}
           <div
-            className={`sticky top-0 flex justify-end z-1000 py-[12px] bg-white max-[960px]:hidden`}
+            className={`sticky top-0 flex justify-end z-1000 py-[0.75rem] bg-white max-[960px]:hidden`}
           >
-            <i className=" pi pi-search pr-[10px] text-[18px]"></i>
+            <i className=" pi pi-search pr-[0.625rem] text-[1.125rem]"></i>
           </div>
           {/* Navbar and Projects */}
-          <div className={`flex max-[960px]:flex-col max-[960px]:z-[1001] gap-[50px] flex-1`}>
+          <div className={`flex max-[960px]:flex-col max-[960px]:z-[1001] gap-[3.125rem] flex-1`}>
             {/* Navbar */}
             <div
-              className={`sticky top-[calc(var(--search-bar-height)-2px)] max-[960px]:top-0 min-[960px]:self-start z-[1001]`}
+              className={`sticky top-[calc(var(--search-bar-height)-2rem)] max-[960px]:top-0 min-[960px]:self-start z-[1001]`}
             >
               <Nav paddingTop={"--nav-padding-top"} />
             </div>

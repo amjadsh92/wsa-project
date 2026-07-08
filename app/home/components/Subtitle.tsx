@@ -49,7 +49,7 @@ export default function Subtitle({
             setIntroDone(true);
           }
         }}
-        className={`${suisse.className} text-[20px] mx-auto w-fit text-white font-light max-[500px]:text-[18px]`}
+        className={`${suisse.className} text-[1.25rem] mx-auto w-fit text-white font-light max-[500px]:text-[1.125rem]`}
       >
         <Word>Architecture</Word>
         <Separator />
@@ -98,7 +98,7 @@ function Separator() {
           },
         },
       }}
-      className="inline-block mx-1 align-[2.5px]"
+      className="inline-block mx-1 align-[0.15625rem]"
     >
       |
     </motion.span>
