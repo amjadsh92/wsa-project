@@ -152,7 +152,7 @@ export default function Home() {
           <div className={`flex max-[960px]:flex-col max-[960px]:z-[1001] gap-[50px] flex-1`}>
             {/* Navbar */}
             <div
-              className={`sticky top-[calc(var(--search-bar-height)-2px)] max-[960px]:top-0 self-start z-[1001]`}
+              className={`sticky top-[calc(var(--search-bar-height)-2px)] max-[960px]:top-0 min-[960px]:self-start z-[1001]`}
             >
               <Nav paddingTop={"--nav-padding-top"} />
             </div>

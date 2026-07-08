@@ -50,7 +50,7 @@ export default function Footer(){
 
           <div className="flex h-fit justify-center items-center min-[960px]:hidden">
             <div
-              className={`${suisse.className} pt-6 w-fit text-black text-[120px] max-[500px]:text-[60px] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
+              className={`${suisse.className} pt-6 w-fit text-black text-[120px] max-[650px]:text-[90px] max-[500px]:text-[60px] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
             >
               KAAN
             </div>

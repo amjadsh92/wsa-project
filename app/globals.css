@@ -1,7 +1,10 @@
  @import "tailwindcss"; 
  html {
   scrollbar-gutter: stable;
+
+
 }
+
 
  .home{
 
@@ -9,7 +12,6 @@
    --nav-padding-top:10vh;
    --nav-height-block:78.3px;
    --project-header-block:25px;
-   --header-width:calc(45vw);
    --nav-header-width:calc(50vw)
 
 }
@@ -19,8 +21,6 @@
     --nav-padding-top: 10px;
     --search-bar-height:63.3px;
     --nav-height-block:63.3px;
-    --header-width:calc(100vw - 20px);
-    --nav-header-width:calc(100vw - 20px)
   }
 
 }

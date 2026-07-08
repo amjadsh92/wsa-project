@@ -163,24 +163,24 @@ export default function Carousel({
   const durationClass = durationMap[speed] || "duration-700";
 
   const animateRight = () => {
-  setRightPressed(true);
+    setRightPressed(true);
 
-  goRight();
+    goRight();
 
-  setTimeout(() => {
-    setRightPressed(false);
-  }, 120);
-};
+    setTimeout(() => {
+      setRightPressed(false);
+    }, 120);
+  };
 
- const animateLeft = () => {
-  setLeftPressed(true);
+  const animateLeft = () => {
+    setLeftPressed(true);
 
-  goLeft();
+    goLeft();
 
-  setTimeout(() => {
-    setLeftPressed(false);
-  }, 120);
-};
+    setTimeout(() => {
+      setLeftPressed(false);
+    }, 120);
+  };
 
   useHotkeys("right", (e) => {
     e.preventDefault();
@@ -219,17 +219,16 @@ export default function Carousel({
       <button
         onClick={(e) => {
           e.stopPropagation();
-           animateRight();
+          animateRight();
         }}
-        
         className="absolute right-[50px] bottom-[45vh]
              flex items-center justify-center
              z-40 cursor-pointer max-[500px]:right-[30px] "
       >
         <FontAwesomeIcon
           className={`${
-      rightPressed ? "scale-80" : "scale-100"
-    } text-2xl text-white transition-transform !outline-none max-[500px]:text-xl`}
+            rightPressed ? "scale-80" : "scale-100"
+          } text-2xl text-white transition-transform !outline-none max-[500px]:text-xl`}
           icon={faAngleRight}
           widthAuto
         />
@@ -246,8 +245,8 @@ export default function Carousel({
       >
         <FontAwesomeIcon
           className={`${
-      leftPressed ? "scale-80" : "scale-100"
-    } text-2xl text-white active:scale-80 transition-transform !outline-none max-[500px]:text-xl`}
+            leftPressed ? "scale-80" : "scale-100"
+          } text-2xl text-white active:scale-80 transition-transform !outline-none max-[500px]:text-xl`}
           icon={faAngleLeft}
           widthAuto
         />
