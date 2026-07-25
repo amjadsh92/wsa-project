@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import BodyBackground from "./ui/components/BodyBackground";
 
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
      
 
       <body className="p-0 m-0">
+        <BodyBackground />
         {children}
       </body>
     </html>
