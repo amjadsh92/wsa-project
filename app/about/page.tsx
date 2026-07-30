@@ -44,19 +44,19 @@ export default function About() {
     <div className="flex flex-col">
       <div
         className={`
-          fixed
+          sticky
           top-0
           left-0
           w-full
           
           z-50
-          border-b
+          
           transition-transform
           duration-300
-          ${showNav ? "translate-y-0" : "-translate-y-full"}
+          ${showNav ? "translate-y-0" : "-translate-y-[50%]"}
         `}
       >
-    <div className={`${suisse.className} flex h-fit justify-between items-center border-b p-3 pb-2 pt-2`}>
+    <div className={`${suisse.className} flex h-fit justify-between items-center border-b bg-[#E1E3E3] p-3 pb-2 pt-2`}>
       <div className="flex justify-between items-center text-[14px] ml-[10px]">
 
         <div className={` ${suisse.className} mr-3`}>About</div>
@@ -66,9 +66,23 @@ export default function About() {
       <div className="font-[450] text-[23px] tracking-wide mt-[2px]">KAAN</div>
       <div className="text-[16px]"> <i className="pi pi-search text-[16px]"></i></div>
     </div>
+    
+      
+    <div className="sticky top-0 z-10 pt-[5px] ">
+      <div
+        className="absolute inset-0 bg-[#E1E3E3]/60 backdrop-blur-sm"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
+        }}
+      />
+      <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
+        Projects
       </div>
-    <div className={`${suisse.className} font-[400] tracking-wide text-[40px] mt-[5px] ml-[20px]`}>Projects</div>
-
+    </div>
+   </div>
   
     <div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem]`}>
       
@@ -80,6 +94,7 @@ export default function About() {
     <p>Among the most prominent completed projects are large-scale, complex structures such as the Netherlands Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the Loenen Pavilion.</p>
     <p>Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a large-scale, versatile building in Aubervilliers, Paris.
     Currently, the office is engaged in several high-profile projects across Europe. Among them are the new terminal at Amsterdam Airport Schiphol, the refurbishment of the National Bank of Belgium in Brussels, a 155m tower in the city center of Rotterdam, a laboratory and office building at CERN in Geneva, and the renovation of the Paul-Henri Spaak building at the European Parliament in Brussels.</p>
+    
     
     </div>
     </div>
