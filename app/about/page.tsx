@@ -99,14 +99,14 @@ export default function About() {
     </div>
     
       
-    <div ref={projectsRef} className="sticky top-0 z-10 pt-[5px] ">
+    <div ref={projectsRef} className="sticky top-0 z-10 pt-[5px]">
       <div
-        className="absolute inset-0 bg-[#E1E3E3]/60 backdrop-blur-sm"
+        className={`absolute  ${servicesAttached ? "bg-[#E1E3E3] inset-0" : "inset-0 bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]"}`}
         style={{
           WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
+            `${servicesAttached ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"}`,
           maskImage:
-            "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
+            `${servicesAttached ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"}`,
         }}
       />
       <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
@@ -132,18 +132,18 @@ export default function About() {
 
     {/* </div> */}
       
-      <div  ref={servicesRef} className={`${servicesAttached ? "top-[53px]" : "bottom-0"} sticky z-20 pt-[5px] `}>
+      <div  ref={servicesRef} className={`${servicesAttached ? "top-[59px]" : "bottom-0"} sticky z-20 pt-[5px] `}>
        
       <div
-        // className="absolute border-t inset-0 bg-[#E1E3E3]/60 backdrop-blur-sm"
-        // style={{
-        //   WebkitMaskImage:
-        //     "linear-gradvient(to bottom, black 0%, black 35%, transparent 100%)",
-        //   maskImage:
-        //     "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
-        // }}
+        className={`absolute border-t inset-0 ${servicesAttached ? "bg-[#E1E3E3]/60 backdrop-blur-sm" : "bg-[#E1E3E3]"}`}
+        style={{
+          WebkitMaskImage:
+            `${servicesAttached ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" : ""}`,
+          maskImage:
+            `${servicesAttached ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" : ""}`,
+        }}
       />
-      <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
+      <div className={`${suisse.className}  pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
         Services
       </div>
     </div>
