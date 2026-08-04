@@ -59,7 +59,7 @@ export default function About() {
       {/* NAVBAR */}
       <div
         className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-0" : "top-[-52.5px]"
+          showNav ? "top-0" : "top-[-53px]"
         }`}
       >
         <div className={`${suisse.className} flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
@@ -79,7 +79,7 @@ export default function About() {
       <div
         ref={projectsRef}
         className={`fixed left-0 w-full z-30 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[52.5px]" : "top-0"
+          showNav ? "top-[53px]" : "top-0"
         } pt-[5px]`}
       >
         {/* Masked Backdrop & Blur Effect */}
