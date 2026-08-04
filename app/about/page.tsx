@@ -59,7 +59,7 @@ export default function About() {
       {/* NAVBAR */}
       <div
         className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-0" : "top-[-53px]"
+          showNav ? "top-0" : "top-[-52.5px]"
         }`}
       >
         <div className={`${suisse.className} flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
