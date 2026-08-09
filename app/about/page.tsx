@@ -1,8 +1,15 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { suisse } from "@/app/fonts";
 import "primeicons/primeicons.css";
+import Navbar from "./components/Navbar";
+import AboutHeader from "./components/AboutHeader";
+import AboutContent from "./components/AboutContent";
+import ServicesHeader from "./components/ServicesHeader";
+import ServicesContent from "./components/ServicesContent";
+import ContactHeader from "./components/ContactHeader";
+import ContactContent from "./components/ContactContent";
+import Footer from "./components/Footer";
 
 export default function About() {
   const [showNav, setShowNav] = useState(true);
@@ -10,7 +17,7 @@ export default function About() {
   const [contactAttachedTop, setContactAttachedTop] = useState(false);
 
   const prevScrollY = useRef(0);
-  const projectsRef = useRef<HTMLDivElement>(null);
+  const AboutMeRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
@@ -18,7 +25,6 @@ export default function About() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // 1. Navbar hide/show logic on scroll
       if (currentScrollY === 0) {
         setShowNav(true);
       } else if (currentScrollY > prevScrollY.current) {
@@ -27,13 +33,11 @@ export default function About() {
         setShowNav(true); // Scrolling up
       }
 
-      // 2. Detect when Services header touches/locks under Projects header
-      if (projectsRef.current && servicesRef.current && contactRef.current) {
-        const projectsRect = projectsRef.current.getBoundingClientRect();
+      if (AboutMeRef.current && servicesRef.current && contactRef.current) {
+        const projectsRect = AboutMeRef.current.getBoundingClientRect();
         const servicesRect = servicesRef.current.getBoundingClientRect();
         const contactRect = contactRef.current.getBoundingClientRect();
 
-        // When the top of Services reaches the bottom of Projects
         if (servicesRect.top <= projectsRect.bottom + 2) {
           setServicesAttachedTop(true);
         } else {
@@ -56,153 +60,34 @@ export default function About() {
 
   return (
     <div className="flex flex-col relative bg-[#E1E3E3] min-h-screen">
-      {/* NAVBAR */}
-      <div
-        className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-0" : "top-[-53px]"
-        }`}
-      >
-        <div className={`${suisse.className} flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
-          <div className="flex justify-between items-center text-[14px] ml-[10px]">
-            <div className={`${suisse.className} mr-3`}>About</div>
-            <div className={`${suisse.className} mr-3`}>Services</div>
-            <div>Work</div>
-          </div>
-          <div className="font-[450] text-[23px] tracking-wide mt-[2px]">KAAN</div>
-          <div className="text-[16px]">
-            <i className="pi pi-search text-[16px]"></i>
-          </div>
-        </div>
-      </div>
+      <Navbar showNav={showNav} />
 
       {/* FIXED PROJECTS HEADER */}
       <div
-        ref={projectsRef}
+        ref={AboutMeRef}
         className={`fixed left-0 w-full z-30 transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[53px]" : "top-0"
         } pt-[5px]`}
       >
-        {/* Masked Backdrop & Blur Effect */}
-        <div
-          className={`absolute ${
-            servicesAttachedTop
-              ? "bg-[#E1E3E3] inset-0"
-              : "inset-0 bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]"
-          }`}
-          style={{
-            WebkitMaskImage: servicesAttachedTop
-              ? ""
-              : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
-            maskImage: servicesAttachedTop
-              ? ""
-              : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)",
-          }}
-        />
-        <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
-          Projects
-        </div>
+        <AboutHeader servicesAttachedTop={servicesAttachedTop} />
       </div>
 
-      {/* PROJECTS CONTENT */}
-      <div className="relative pt-[120px] pb-[40px]">
-        <div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem]`}>
-          <p>
-            KAAN Architecten is an international architectural practice engaged in context-specific, timeless designs
-            spanning a broad range of scales and typologies in both the private and public sectors.
-          </p>
-          <p className="mt-4">
-            Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-            together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-            satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-            shapes a dynamic, culturally rich work environment.
-          </p>
-          <p className="mt-4">
-            The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-            to the surrounding world, fostering meaningful connections within its growing complexity.
-          </p>
-        </div>
-        <div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem] pb-[100px]`}>
-          <p>
-            Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-            Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the
-            Royal Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or
-            the Loenen Pavilion.
-          </p>
-          <p className="mt-4">
-            Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-            large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-            high-profile projects across Europe.
-          </p>
-        </div>
-      </div>
+      <AboutContent />
 
-      {/* STICKY SERVICES HEADER */}
       <div
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[113.5px]" : "top-[61px]"
         } bottom-[70px] mt-[-59px]`}
       >
-        {/* Masked Backdrop & Blur Effect */}
-        <div
-          className={`absolute border-t inset-0 ${
-            (servicesAttachedTop && !contactAttachedTop) ? "bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "bg-[#E1E3E3]"
-          }`}
-          style={{
-            WebkitMaskImage: (servicesAttachedTop && !contactAttachedTop)
-              ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"
-              : "",
-            maskImage: (servicesAttachedTop && !contactAttachedTop)
-              ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"
-              : "",
-          }}
+        <ServicesHeader
+          servicesAttachedTop={servicesAttachedTop}
+          contactAttachedTop={contactAttachedTop}
         />
-        <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px]`}>
-          Services
-        </div>
       </div>
 
-      {/* SERVICES CONTENT */}
-      <div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem] pb-[40px] relative z-10`}>
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
+      <ServicesContent />
 
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
-        {/* <div className="h-[500px]" /> */}
-      </div>
-
-
-        {/* STICKY CONTACT HEADER */}
       <div
         ref={contactRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
@@ -210,112 +95,15 @@ export default function About() {
         } bottom-0`}
       >
         {/* Masked Backdrop & Blur Effect */}
-        <div
-          className={`absolute border-t inset-0 ${
-            (contactAttachedTop && servicesAttachedTop) ? "bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "bg-[#E1E3E3]"
-          }`}
-          style={{
-            WebkitMaskImage: (contactAttachedTop && servicesAttachedTop)
-              ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"
-              : "",
-            maskImage: (contactAttachedTop && servicesAttachedTop)
-              ? "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)"
-              : "",
-          }}
+        <ContactHeader
+          contactAttachedTop={contactAttachedTop}
+          servicesAttachedTop={servicesAttachedTop}
         />
-        <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px]`}>
-          Contact
-        </div>
       </div>
 
-      {/* SERVICES CONTENT */}
-      <div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem] relative z-10`}>
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
+      <ContactContent />
 
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
-        <p>
-          Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-          Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal
-          Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or the
-          Loenen Pavilion.
-        </p>
-        <p className="mt-4">
-          Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-          large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-          high-profile projects across Europe.
-        </p>
-        <div className="h-[300px]" />
-      </div>
-
-      <div className="flex h-fit justify-center items-center max-[960px]:hidden">
-            <div
-              className={`${suisse.className} pt-6 w-fit text-black text-[10rem] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
-            >
-              KAAN
-            </div>
-          </div>
-          <div className={`${suisse.className} flex justify-between items-center border-t w-full h-[2.5rem] p-[0.625rem] text-[0.75rem] max-[960px]:hidden`}>
-           
-            <div>CONTACT</div>
-            <div>NEWS ARCHIVE</div>
-            <div>INSTAGRAM</div>
-            <div>LINKEDIN</div>
-            <div>IMPRINT AND PRIVACY POLICY</div>
-            <div>@KAAN ARCHITECTEN</div>
-            
-
-          </div>
-
-
-
-
-           <div className={`${suisse.className} flex flex-col mt-[1.25rem] items-start justify-center border-t gap-[0.625rem] w-full p-[0.625rem] text-[0.75rem] max-[500px]:text-[0.6875rem] min-[960px]:hidden`}>
-           <div className="flex justify-between w-full">
-               <div>CONTACT</div>
-              <div>@KAAN ARCHITECTEN</div>
-
-           </div>
-        
-          
-            <div>NEWS ARCHIVE</div>
-            <div>INSTAGRAM</div>
-            <div>LINKEDIN</div>
-            <div>IMPRINT AND PRIVACY POLICY</div>
-             
-          
-            
-            
-            
-
-          </div>
-
-          <div className="flex h-fit justify-center items-center min-[960px]:hidden">
-            <div
-              className={`${suisse.className} pt-6 w-fit text-black text-[7.5rem] max-[650px]:text-[5.625rem] max-[500px]:text-[3.75rem] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
-            >
-              KAAN
-            </div>
-          </div>
+      <Footer />
     </div>
   );
 }
