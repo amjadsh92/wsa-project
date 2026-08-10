@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import BodyBackground from "./ui/components/BodyBackground";
+import ScrollRestoration from "./ui/components/ScrollRestoration";
 
 
 export const metadata: Metadata = {
@@ -14,12 +15,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+              }
+            `,
+          }}
+        />
+      </head>
 
       <body className="p-0 m-0">
         <BodyBackground />
+        <ScrollRestoration />
         {children}
+        {/* Runs after all content above has been parsed, so the page
+            actually has scroll height to restore into — a script in
+            <head> would run before <body> exists at all. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                var navEntry = performance.getEntriesByType('navigation')[0];
+                var navType = navEntry && navEntry.type;
+                var isReloadOrBackForward = navType === 'reload' || navType === 'back_forward';
+
+                if (!isReloadOrBackForward) return;
+
+                var saved = sessionStorage.getItem('scrollY:' + location.pathname);
+                if (saved) {
+                  window.scrollTo(0, parseInt(saved, 10));
+                }
+              })();
+            `,
+          }}
+        />
       </body>
     </html>
   );

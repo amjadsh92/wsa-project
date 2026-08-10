@@ -88,7 +88,7 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[113.5px]" : "top-[61px]"
-        } bottom-[70px]`}
+        } bottom-[70px] mt-[-59px]`}
       >
         <ServicesHeader
           servicesAttachedTop={servicesAttachedTop}
