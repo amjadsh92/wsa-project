@@ -56,7 +56,7 @@ export const suisse = localFont({
   ],
   variable: '--font-suisse-book', // Define a CSS variable for Tailwind integration
   display: 'swap', // Prevents layout shift
-  
+
 });
 
 export const archivo = Archivo_Black({

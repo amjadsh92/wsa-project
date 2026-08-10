@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import "primeicons/primeicons.css";
 import Navbar from "./components/Navbar";
 import AboutHeader from "./components/AboutHeader";
@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 
 export default function About() {
   const [showNav, setShowNav] = useState(true);
+  const [isOpaque, setIsOpaque] = useState(true)
   const [servicesAttachedTop, setServicesAttachedTop] = useState(false);
   const [contactAttachedTop, setContactAttachedTop] = useState(false);
 
@@ -20,6 +21,33 @@ export default function About() {
   const AboutMeRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+
+  console.log(isOpaque)
+
+  // Runs before paint, and immediately on mount (not just on 'scroll'
+  // events), so a refresh that restores a scrolled-down position computes
+  // the correct attached state right away instead of flashing the
+  // not-attached (blurred) look until the first scroll event fires.
+  useLayoutEffect(() => {
+    const updateAttachedStates = () => {
+      if (!AboutMeRef.current || !servicesRef.current || !contactRef.current) {
+        return;
+      }
+
+      setTimeout(() => setIsOpaque(false),0)
+
+      const projectsRect = AboutMeRef.current.getBoundingClientRect();
+      const servicesRect = servicesRef.current.getBoundingClientRect();
+      const contactRect = contactRef.current.getBoundingClientRect();
+
+      setServicesAttachedTop(servicesRect.top <= projectsRect.bottom + 2);
+      setContactAttachedTop(contactRect.top <= servicesRect.bottom + 2);
+    };
+
+    updateAttachedStates();
+    window.addEventListener("scroll", updateAttachedStates, { passive: true });
+    return () => window.removeEventListener("scroll", updateAttachedStates);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,24 +59,6 @@ export default function About() {
         setShowNav(false); // Scrolling down
       } else {
         setShowNav(true); // Scrolling up
-      }
-
-      if (AboutMeRef.current && servicesRef.current && contactRef.current) {
-        const projectsRect = AboutMeRef.current.getBoundingClientRect();
-        const servicesRect = servicesRef.current.getBoundingClientRect();
-        const contactRect = contactRef.current.getBoundingClientRect();
-
-        if (servicesRect.top <= projectsRect.bottom + 2) {
-          setServicesAttachedTop(true);
-        } else {
-          setServicesAttachedTop(false);
-        }
-
-        if (contactRect.top <= servicesRect.bottom + 2) {
-          setContactAttachedTop(true);
-        } else {
-          setContactAttachedTop(false);
-        }
       }
 
       prevScrollY.current = currentScrollY;
@@ -69,7 +79,7 @@ export default function About() {
           showNav ? "top-[53px]" : "top-0"
         } pt-[5px]`}
       >
-        <AboutHeader servicesAttachedTop={servicesAttachedTop} />
+        <AboutHeader servicesAttachedTop={servicesAttachedTop} isOpaque={isOpaque} />
       </div>
 
       <AboutContent />
@@ -78,11 +88,12 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[113.5px]" : "top-[61px]"
-        } bottom-[70px] mt-[-59px]`}
+        } bottom-[70px]`}
       >
         <ServicesHeader
           servicesAttachedTop={servicesAttachedTop}
           contactAttachedTop={contactAttachedTop}
+          isOpaque={isOpaque}
         />
       </div>
 
@@ -98,6 +109,7 @@ export default function About() {
         <ContactHeader
           contactAttachedTop={contactAttachedTop}
           servicesAttachedTop={servicesAttachedTop}
+          isOpaque={isOpaque}
         />
       </div>
 
