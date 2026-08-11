@@ -68,6 +68,10 @@ export default function About() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const hideNav = () => {
+    setShowNav(false)
+  }
+
   return (
     <div className="flex flex-col relative bg-[#E1E3E3] min-h-screen">
       <Navbar showNav={showNav} />
@@ -78,6 +82,7 @@ export default function About() {
         className={`fixed left-0 w-full z-30 transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[53px]" : "top-0"
         } pt-[5px]`}
+        onClick={hideNav}
       >
         <AboutHeader servicesAttachedTop={servicesAttachedTop} isOpaque={isOpaque} />
       </div>
