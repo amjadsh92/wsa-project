@@ -6,7 +6,7 @@ export default function ServicesContent(){
 
 return(
 
-<div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem] pb-[40px] relative z-10`}>
+<div className={`${suisse.className} text-[22px] text-justify p-[20px] w-[80%] mb-[1.5rem] pb-[160px] relative z-10`}>
         <p>
           Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
           Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the Royal

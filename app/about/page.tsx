@@ -70,6 +70,10 @@ export default function About() {
 
   const hideNav = () => {
     setShowNav(false)
+    window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+});
   }
 
   return (
@@ -93,7 +97,7 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
           showNav ? "top-[113.5px]" : "top-[61px]"
-        } bottom-[70px] mt-[-59px]`}
+        } bottom-[70px]`}
       >
         <ServicesHeader
           servicesAttachedTop={servicesAttachedTop}
