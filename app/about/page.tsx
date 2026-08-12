@@ -21,7 +21,9 @@ export default function About() {
   const AboutMeRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-
+  const aboutMeContentRef = useRef<HTMLDivElement>(null);
+  const serviceContentRef = useRef<HTMLDivElement>(null);
+  
   console.log(isOpaque)
 
   // Runs before paint, and immediately on mount (not just on 'scroll'
@@ -39,9 +41,9 @@ export default function About() {
       const projectsRect = AboutMeRef.current.getBoundingClientRect();
       const servicesRect = servicesRef.current.getBoundingClientRect();
       const contactRect = contactRef.current.getBoundingClientRect();
-
-      setServicesAttachedTop(servicesRect.top <= projectsRect.bottom + 2);
-      setContactAttachedTop(contactRect.top <= servicesRect.bottom + 2);
+      
+      setServicesAttachedTop(servicesRect.top <= projectsRect.bottom +2);
+      setContactAttachedTop(contactRect.top <= servicesRect.bottom+2);
     };
 
     updateAttachedStates();
@@ -69,12 +71,41 @@ export default function About() {
   }, []);
 
   const hideNav = () => {
+    
     setShowNav(false)
     window.scrollTo({
     top: 0,
     behavior: "smooth",
 });
   }
+
+    const goToService = () => {
+      setShowNav(false)
+    if (!aboutMeContentRef.current || !AboutMeRef.current) return;
+
+    const aboutContentHeight = aboutMeContentRef.current.getBoundingClientRect().height;
+    const projectsRectHeight = AboutMeRef.current.getBoundingClientRect().height;
+    
+    window.scrollTo({
+    top: aboutContentHeight - projectsRectHeight,
+    behavior: "smooth",
+})
+  };
+
+
+  const goToContact = () => {
+      setShowNav(false)
+    if (!aboutMeContentRef.current || !AboutMeRef.current || !servicesRef.current || !serviceContentRef.current ) return;
+
+    const aboutContentHeight = aboutMeContentRef.current.getBoundingClientRect().height;
+    const projectsRectHeight = AboutMeRef.current.getBoundingClientRect().height;
+    const serviceContentHeight = serviceContentRef.current.getBoundingClientRect().height;
+    
+    window.scrollTo({
+    top: aboutContentHeight + serviceContentHeight - projectsRectHeight,
+    behavior: "smooth",
+})
+  };
 
   return (
     <div className="flex flex-col relative bg-[#E1E3E3] min-h-screen">
@@ -84,20 +115,21 @@ export default function About() {
       <div
         ref={AboutMeRef}
         className={`fixed left-0 w-full z-30 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[53px]" : "top-0"
-        } pt-[5px]`}
+          showNav ? "top-[52.2px]" : "top-0"
+        } py-[5px]`}
         onClick={hideNav}
       >
         <AboutHeader servicesAttachedTop={servicesAttachedTop} isOpaque={isOpaque} />
       </div>
-
+      <div ref={aboutMeContentRef}>
       <AboutContent />
-
+      </div>
       <div
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[113.5px]" : "top-[61px]"
-        } bottom-[70px]`}
+          showNav ? "top-[122.2px]" : "top-[70px]"
+        } bottom-[69px]`}
+        onClick={goToService}
       >
         <ServicesHeader
           servicesAttachedTop={servicesAttachedTop}
@@ -105,14 +137,15 @@ export default function About() {
           isOpaque={isOpaque}
         />
       </div>
-
+      <div ref={serviceContentRef} >
       <ServicesContent />
-
+      </div>
       <div
         ref={contactRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[178.5px]" : "top-[126px]"
+          showNav ? "top-[192.2px]" : "top-[140px]"
         } bottom-0`}
+        onClick={goToContact}
       >
         {/* Masked Backdrop & Blur Effect */}
         <ContactHeader
