@@ -7,7 +7,7 @@ export default function ContactContent(){
     return(
 
         <>
-                <div className={`${suisse.className} relative pt-[40px] text-[22px] text-justify p-[20px] w-[80%] pb-[340px] z-10`}>
+                <div className={`${suisse.className} relative pt-[40px] text-[22px] text-justify p-[20px] w-[80%] pb-[340px]`}>
                   <p>
                     KAAN Architecten is an international architectural practice engaged in context-specific, timeless designs
                     spanning a broad range of scales and typologies in both the private and public sectors.
