@@ -52,6 +52,15 @@
 
 }
 
+.about{
+
+  --navbar-height:52.2px;
+  --header-height:70px;
+  
+}
+
+
+
 @media (max-width: 960px) {
   .home {
     --nav-padding-top: 0.625rem;

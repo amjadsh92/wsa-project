@@ -38,12 +38,12 @@ export default function About() {
 
       setTimeout(() => setIsOpaque(false),0)
 
-      const projectsRect = AboutMeRef.current.getBoundingClientRect();
-      const servicesRect = servicesRef.current.getBoundingClientRect();
-      const contactRect = contactRef.current.getBoundingClientRect();
+      const AboutMeHeader = AboutMeRef.current.getBoundingClientRect();
+      const servicesHeader = servicesRef.current.getBoundingClientRect();
+      const contactHeader = contactRef.current.getBoundingClientRect();
       
-      setServicesAttachedTop(servicesRect.top <= projectsRect.bottom +2);
-      setContactAttachedTop(contactRect.top <= servicesRect.bottom+2);
+      setServicesAttachedTop(servicesHeader.top <= AboutMeHeader.bottom+2);
+      setContactAttachedTop(contactHeader.top <= servicesHeader.bottom+2);
     };
 
     updateAttachedStates();
@@ -79,43 +79,53 @@ export default function About() {
 });
   }
 
-    const goToService = () => {
-      setShowNav(false)
-    if (!aboutMeContentRef.current || !AboutMeRef.current) return;
+  const getSectionHeights = () => {
+    if (
+      !aboutMeContentRef.current ||
+      !AboutMeRef.current ||
+      !serviceContentRef.current
+    ) {
+      return null;
+    }
 
-    const aboutContentHeight = aboutMeContentRef.current.getBoundingClientRect().height;
-    const projectsRectHeight = AboutMeRef.current.getBoundingClientRect().height;
-    
-    window.scrollTo({
-    top: aboutContentHeight - projectsRectHeight,
-    behavior: "smooth",
-})
+    return {
+      aboutMeContentHeight: aboutMeContentRef.current.getBoundingClientRect().height,
+      aboutMeHeaderHeight: AboutMeRef.current.getBoundingClientRect().height,
+      serviceContentHeight: serviceContentRef.current.getBoundingClientRect().height,
+    };
   };
 
+  const goToService = () => {
+    setShowNav(false);
+    const heights = getSectionHeights();
+    if (!heights) return;
+
+    window.scrollTo({
+      top: heights.aboutMeContentHeight - heights.aboutMeHeaderHeight,
+      behavior: "smooth",
+    });
+  };
 
   const goToContact = () => {
-      setShowNav(false)
-    if (!aboutMeContentRef.current || !AboutMeRef.current || !servicesRef.current || !serviceContentRef.current ) return;
+    setShowNav(false);
+    const heights = getSectionHeights();
+    if (!heights) return;
 
-    const aboutContentHeight = aboutMeContentRef.current.getBoundingClientRect().height;
-    const projectsRectHeight = AboutMeRef.current.getBoundingClientRect().height;
-    const serviceContentHeight = serviceContentRef.current.getBoundingClientRect().height;
-    
     window.scrollTo({
-    top: aboutContentHeight + serviceContentHeight - projectsRectHeight,
-    behavior: "smooth",
-})
+      top: heights.aboutMeContentHeight + heights.serviceContentHeight - heights.aboutMeHeaderHeight,
+      behavior: "smooth",
+    });
   };
 
   return (
-    <div className="flex flex-col relative bg-[#E1E3E3] min-h-screen">
+    <div className="about flex flex-col relative bg-[#E1E3E3] min-h-screen">
       <Navbar showNav={showNav} />
 
       {/* FIXED PROJECTS HEADER */}
       <div
         ref={AboutMeRef}
         className={`fixed left-0 w-full z-30 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[52.2px]" : "top-0"
+          showNav ? "top-[var(--navbar-height)]" : "top-0"
         } py-[5px]`}
         onClick={hideNav}
       >
@@ -127,8 +137,8 @@ export default function About() {
       <div
         ref={servicesRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[122.2px]" : "top-[70px]"
-        } bottom-[69px]`}
+          showNav ? "top-[calc(var(--header-height)+var(--navbar-height))]" : "top-[calc(var(--header-height))]"
+        } bottom-[calc(var(--header-height)-1px)]`}
         onClick={goToService}
       >
         <ServicesHeader
@@ -143,7 +153,7 @@ export default function About() {
       <div
         ref={contactRef}
         className={`sticky z-40 w-full transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-[192.2px]" : "top-[140px]"
+          showNav ? "top-[calc(2*var(--header-height)+var(--navbar-height))]" : "top-[calc(2*var(--header-height))]"
         } bottom-0`}
         onClick={goToContact}
       >
