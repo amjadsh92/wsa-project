@@ -14,7 +14,13 @@ return(
             <div className={`${suisse.className} mr-3`}>Services</div>
             <div>Work</div>
           </div>
-          <div className="font-[450] text-[23px] tracking-wide mt-[2px]">KAAN</div>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
+          <a
+            href="/"
+            className="font-[450] text-[23px] tracking-wide mt-[2px] cursor-pointer"
+          >
+            KAAN
+          </a>
           <div className="text-[16px]">
             <i className="pi pi-search text-[16px]"></i>
           </div>
