@@ -33,7 +33,7 @@
 
 import { suisse } from "@/app/fonts";
 
-export default function ServicesHeader({servicesAttachedTop, contactAttachedTop, isOpaque}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean}){
+export default function ServicesHeader({servicesAttachedTop, contactAttachedTop, isOpaque, goToService}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean, goToService: () => void}){
 
     return(
         <>
@@ -50,7 +50,7 @@ export default function ServicesHeader({servicesAttachedTop, contactAttachedTop,
                       : "",
                   }}
                 />
-                <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px]`}>
+                <div onClick={goToService}  className={`${suisse.className} cursor-pointer pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px]`}>
                   Services
                 </div>
        </>

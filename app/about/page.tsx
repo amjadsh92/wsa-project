@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useLayoutEffect } from "react";
+import { useRef, useState, useEffect} from "react";
 import "primeicons/primeicons.css";
 import Navbar from "./components/Navbar";
 import AboutHeader from "./components/AboutHeader";
@@ -124,11 +124,12 @@ export default function About() {
         className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[5px] ${
           showNav ? "top-[var(--navbar-height)]" : "top-0"
         } `}
-        onClick={goToAboutMe}
+        // onClick={goToAboutMe}
       >
         <AboutHeader
           servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
+          goToAboutMe={goToAboutMe}
         />
       </div>
       <div ref={aboutMeContentRef}>
@@ -141,12 +142,13 @@ export default function About() {
             ? "top-[calc(var(--header-height)+var(--navbar-height))]"
             : "top-[calc(var(--header-height))]"
         } bottom-[calc(var(--header-height)-1px)]`}
-        onClick={goToService}
+        // onClick={goToService}
       >
         <ServicesHeader
           servicesAttachedTop={servicesAttachedTop}
           contactAttachedTop={contactAttachedTop}
           isOpaque={isOpaque}
+          goToService={goToService}
         />
       </div>
       <div ref={serviceContentRef}>
@@ -159,12 +161,13 @@ export default function About() {
             ? "top-[calc(2*var(--header-height)+var(--navbar-height)-1px)]"
             : "top-[calc(2*var(--header-height)-1px)]"
         } bottom-0`}
-        onClick={goToContact}
+        // onClick={goToContact}
       >
         <ContactHeader
           contactAttachedTop={contactAttachedTop}
           servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
+          goToContact={goToContact}
         />
       </div>
 
