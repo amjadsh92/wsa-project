@@ -8,7 +8,7 @@ return(
           showNav ? "top-0" : "top-[-53px]"
         }`}
       >
-        <div className={`${suisse.className} flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
+        <div className={`${suisse.className} relative flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
           <div className="flex justify-between items-center text-[14px] ml-[10px]">
             <div className={`${suisse.className} mr-3`}>About</div>
             <div className={`${suisse.className} mr-3`}>Services</div>
@@ -17,7 +17,7 @@ return(
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
           <a
             href="/"
-            className="font-[450] text-[23px] tracking-wide mt-[2px] cursor-pointer"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-[450] text-[23px] tracking-wide cursor-pointer"
           >
             KAAN
           </a>
