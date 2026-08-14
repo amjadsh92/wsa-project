@@ -20,15 +20,17 @@ export default function Nav({paddingTop}:{paddingTop:string}){
                     </li>
                     <div className="border-t w-[var(--nav-header-width)] max-[960px]:w-full font-[800]"></div>
                     <li
-                      className={`${suisse.className} text-[3.2625rem] font-[400] pl-2 bg-white max-[960px]:text-[2.2rem] max-[500px]:text-[1.575rem]`}
+                      onClick={() => router.push("/art")}
+                      className={`${suisse.className} cursor-pointer text-[3.2625rem] font-[400] pl-2 bg-white max-[960px]:text-[2.2rem] max-[500px]:text-[1.575rem]`}
                     >
-                      SERVICES
+                      ART
                     </li>
                     <div className="border-t w-[var(--nav-header-width)] max-[960px]:w-full font-[800]"></div>
                     <li
-                      className={`${suisse.className} text-[3.2625rem] font-[400] pl-2 bg-white  max-[960px]:text-[2.2rem] max-[500px]:text-[1.575rem]`}
+                      onClick={() => router.push("/architecture")}
+                      className={`${suisse.className} cursor-pointer text-[3.2625rem] font-[400] pl-2 bg-white  max-[960px]:text-[2.2rem] max-[500px]:text-[1.575rem]`}
                     >
-                      WORK
+                      ARCHITECTURE
                     </li>
                     <div className="border-t w-[var(--nav-header-width)] max-[960px]:w-full  font-[800]"></div>
 </ul>

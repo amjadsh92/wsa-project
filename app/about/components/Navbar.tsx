@@ -1,7 +1,16 @@
 import { suisse } from "@/app/fonts";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+const NAV_ITEMS = [
+  { label: "About", href: "/about" },
+  { label: "Art", href: "/art" },
+  { label: "Architecture", href: "/architecture" },
+];
 
 export default function Navbar({showNav}:{showNav: boolean}){
+  const pathname = usePathname();
+
 return(
 <div
         className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
@@ -10,9 +19,17 @@ return(
       >
         <div className={`${suisse.className} relative flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
           <div className="flex justify-between items-center text-[14px] ml-[10px]">
-            <div className={`${suisse.className} mr-3`}>About</div>
-            <div className={`${suisse.className} mr-3`}>Services</div>
-            <div>Work</div>
+            {NAV_ITEMS.map(({ label, href }, index) => (
+              <Link
+                key={href}
+                href={href}
+                className={`${suisse.className} cursor-pointer ${
+                  index < NAV_ITEMS.length - 1 ? "mr-3" : ""
+                } ${pathname === href ? "italic" : ""}`}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
           <a
