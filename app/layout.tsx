@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import BodyBackground from "./ui/components/BodyBackground";
-import ScrollRestoration from "./ui/components/ScrollRestoration";
+// import ScrollRestoration from "./ui/components/ScrollRestoration";
 
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
               if ('scrollRestoration' in history) {
@@ -25,35 +25,37 @@ export default function RootLayout({
               }
             `,
           }}
-        />
+        /> */}
       </head>
 
       <body className="p-0 m-0">
         <BodyBackground />
-        <ScrollRestoration />
+        {/* <ScrollRestoration /> */}
         {children}
         {/* Runs after all content above has been parsed, so the page
             actually has scroll height to restore into — a script in
             <head> would run before <body> exists at all. */}
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function () {
-                var navEntry = performance.getEntriesByType('navigation')[0];
-                var navType = navEntry && navEntry.type;
-                var isReloadOrBackForward = navType === 'reload' || navType === 'back_forward';
+          // dangerouslySetInnerHTML={{
+          //   __html: `
+          //     (function () {
+          //       var navEntry = performance.getEntriesByType('navigation')[0];
+          //       var navType = navEntry && navEntry.type;
+          //       var isReloadOrBackForward = navType === 'reload' || navType === 'back_forward';
 
-                if (!isReloadOrBackForward) return;
+          //       if (!isReloadOrBackForward) return;
 
-                var saved = sessionStorage.getItem('scrollY:' + location.pathname);
-                if (saved) {
-                  window.scrollTo(0, parseInt(saved, 10));
-                }
-              })();
-            `,
-          }}
+          //       var saved = sessionStorage.getItem('scrollY:' + location.pathname);
+          //       if (saved) {
+          //         window.scrollTo(0, parseInt(saved, 10));
+          //       }
+          //     })();
+          //   `,
+          // }}
         />
       </body>
     </html>
   );
 }
+
+

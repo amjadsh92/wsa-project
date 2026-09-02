@@ -185,8 +185,8 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
-            ? "top-[calc(var(--header-height)+var(--navbar-height)-1px)]"
-            : "top-[calc(var(--header-height)-1px)]"
+            ? "top-[calc(var(--header-height)+var(--navbar-height)-3px)]"
+            : "top-[calc(var(--header-height)-3px)]"
         } bottom-[calc(var(--header-height)-1px)]`}
         // onClick={goToService}
       >
@@ -204,8 +204,8 @@ export default function About() {
         ref={contactRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
-            ? "top-[calc(2*var(--header-height)+var(--navbar-height)-1px)]"
-            : "top-[calc(2*var(--header-height)-1px)]"
+            ? "top-[calc(2*var(--header-height)+var(--navbar-height)-3px)]"
+            : "top-[calc(2*var(--header-height)-3px)]"
         } bottom-0`}
         // onClick={goToContact}
       >
