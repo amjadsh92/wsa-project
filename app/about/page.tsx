@@ -18,6 +18,7 @@ export default function About() {
   const [contactAttachedTop, setContactAttachedTop] = useState(false);
 
   const prevScrollY = useRef(0);
+  const isProgrammaticScroll = useRef(false);
   const AboutMeRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -47,6 +48,12 @@ export default function About() {
 
   useEffect(() => {
     const handleScroll = () => {
+ 
+      if (isProgrammaticScroll.current) {
+      return;
+    }
+
+
       const currentScrollY = window.scrollY;
 
       if (currentScrollY === 0) {
@@ -63,6 +70,30 @@ export default function About() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const smoothScrollTo = (target: number) => {
+  isProgrammaticScroll.current = true;
+
+  window.scrollTo({
+    top: target,
+    behavior: "smooth",
+  });
+
+  const checkScrollFinished = () => {
+    if (Math.abs(window.scrollY - target) <= 1) {
+      setTimeout(()=> isProgrammaticScroll.current = false, 200);
+
+      window.removeEventListener("scroll", checkScrollFinished);
+
+      // Make sure prevScrollY starts from the new position
+      prevScrollY.current = window.scrollY;
+    }
+  };
+
+  window.addEventListener("scroll", checkScrollFinished, {
+    passive: true,
+  });
+};
 
   const goToAboutMe = () => {
     setShowNav(false);
@@ -95,10 +126,17 @@ export default function About() {
     const heights = getSectionHeights();
     if (!heights) return;
 
-    window.scrollTo({
-      top: heights.aboutMeContentHeight - heights.aboutMeHeaderHeight,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: heights.aboutMeContentHeight - heights.aboutMeHeaderHeight + 20,
+    //   behavior: "smooth",
+    // });
+
+    const target =
+    heights.aboutMeContentHeight -
+    heights.aboutMeHeaderHeight +
+    20;
+
+    smoothScrollTo(target);
   };
 
   const goToContact = () => {
@@ -106,13 +144,21 @@ export default function About() {
     const heights = getSectionHeights();
     if (!heights) return;
 
-    window.scrollTo({
-      top:
-        heights.aboutMeContentHeight +
-        heights.serviceContentHeight -
-        heights.aboutMeHeaderHeight,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top:
+    //     heights.aboutMeContentHeight +
+    //     heights.serviceContentHeight -
+    //     heights.aboutMeHeaderHeight + 25,
+    //   behavior: "smooth",
+    // });
+
+    const target =
+    heights.aboutMeContentHeight +
+    heights.serviceContentHeight -
+    heights.aboutMeHeaderHeight +
+    25;
+
+    smoothScrollTo(target);
   };
 
   return (
@@ -139,8 +185,8 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
-            ? "top-[calc(var(--header-height)+var(--navbar-height))]"
-            : "top-[calc(var(--header-height))]"
+            ? "top-[calc(var(--header-height)+var(--navbar-height)-1px)]"
+            : "top-[calc(var(--header-height)-1px)]"
         } bottom-[calc(var(--header-height)-1px)]`}
         // onClick={goToService}
       >
