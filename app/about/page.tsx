@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
+import { animate, useReducedMotion } from "framer-motion";
 import "primeicons/primeicons.css";
 import Navbar from "./components/Navbar";
 import AboutHeader from "./components/AboutHeader";
@@ -12,6 +13,7 @@ import ContactContent from "./components/ContactContent";
 import Footer from "./components/Footer";
 
 export default function About() {
+  const prefersReducedMotion = useReducedMotion();
   const [showNav, setShowNav] = useState(true);
   const [isOpaque, setIsOpaque] = useState(true);
   const [servicesAttachedTop, setServicesAttachedTop] = useState(false);
@@ -19,6 +21,9 @@ export default function About() {
 
   const prevScrollY = useRef(0);
   const isProgrammaticScroll = useRef(false);
+  const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
+  const scrollCompletionCleanup = useRef<(() => void) | null>(null);
+  const scrollCompletionTimeout = useRef<number | null>(null);
   const AboutMeRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -71,36 +76,66 @@ export default function About() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      scrollAnimation.current?.stop();
+      scrollCompletionCleanup.current?.();
+
+      if (scrollCompletionTimeout.current !== null) {
+        window.clearTimeout(scrollCompletionTimeout.current);
+      }
+    };
+  }, []);
+
   const smoothScrollTo = (target: number) => {
-  isProgrammaticScroll.current = true;
+    scrollAnimation.current?.stop();
+    scrollCompletionCleanup.current?.();
 
-  window.scrollTo({
-    top: target,
-    behavior: "smooth",
-  });
-
-  const checkScrollFinished = () => {
-    if (Math.abs(window.scrollY - target) <= 1) {
-      setTimeout(()=> isProgrammaticScroll.current = false, 200);
-
-      window.removeEventListener("scroll", checkScrollFinished);
-
-      // Make sure prevScrollY starts from the new position
-      prevScrollY.current = window.scrollY;
+    if (scrollCompletionTimeout.current !== null) {
+      window.clearTimeout(scrollCompletionTimeout.current);
+      scrollCompletionTimeout.current = null;
     }
-  };
 
-  window.addEventListener("scroll", checkScrollFinished, {
-    passive: true,
-  });
-};
+    isProgrammaticScroll.current = true;
+
+    const start = window.scrollY;
+    const distance = Math.abs(target - start);
+    const duration = Math.min(1.4, Math.max(0.65, distance / 1400));
+
+    const checkScrollFinished = () => {
+      if (Math.abs(window.scrollY - target) <= 1) {
+        scrollCompletionCleanup.current?.();
+        scrollAnimation.current = null;
+        prevScrollY.current = window.scrollY;
+
+        scrollCompletionTimeout.current = window.setTimeout(() => {
+          isProgrammaticScroll.current = false;
+          scrollCompletionTimeout.current = null;
+        }, 200);
+      }
+    };
+
+    const removeCompletionListener = () => {
+      window.removeEventListener("scroll", checkScrollFinished);
+      scrollCompletionCleanup.current = null;
+    };
+
+    scrollCompletionCleanup.current = removeCompletionListener;
+    window.addEventListener("scroll", checkScrollFinished, { passive: true });
+
+    scrollAnimation.current = animate(start, target, {
+      duration: prefersReducedMotion ? 0 : duration,
+      // ease: [0.65, 0, 0.35, 1],
+      ease: [0.65, 0.35, 0.65, 1],
+      onUpdate: (value) => window.scrollTo(0, value),
+    });
+
+    checkScrollFinished();
+  };
 
   const goToAboutMe = () => {
     setShowNav(false);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    smoothScrollTo(0);
   };
 
   const getSectionHeights = () => {
