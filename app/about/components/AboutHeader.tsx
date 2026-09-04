@@ -24,8 +24,9 @@ return(
                   : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
               }}
             />
-            <div onClick={goToAboutMe} className={`${suisse.className} cursor-pointer pl-[20px] relative font-[400] tracking-wide text-[40px]`}>
-              Projects
+            <div onClick={goToAboutMe} className={`${suisse.className} cursor-pointer pl-[20px] relative font-[400] tracking-wide text-[40px] max-[960px]:text-[35px] max-[750px]:text-[32.5px] 
+              max-[650px]:text-[30px] max-[500px]:text-[27.5px]`}>
+              About Me
             </div>
 
 

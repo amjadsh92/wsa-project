@@ -59,7 +59,52 @@
   
 }
 
+@media (max-width: 960px) {
 
+  .about{
+
+  
+  --header-height:62.2px;
+  
+}
+
+
+
+}
+
+
+@media (max-width: 750px) {
+
+  .about{
+
+  
+  --header-height:58.75px;
+  
+}
+
+}
+
+@media (max-width: 650px) {
+
+  .about{
+
+  
+  --header-height:55px;
+  
+}
+
+}
+
+@media (max-width: 500px) {
+
+  .about{
+
+  
+  --header-height:51.25px;
+  
+}
+
+}
 
 @media (max-width: 960px) {
   .home {

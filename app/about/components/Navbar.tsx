@@ -19,13 +19,20 @@ return(
       >
         <div className={`${suisse.className} relative flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
           <div className="flex justify-between items-center text-[14px] ml-[10px]">
+             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
+            <a
+            href="/"
+            className="mr-4 font-[450] text-[23px] cursor-pointer max-[400px]:text-[20px] min-[650px]:hidden"
+          >
+            KAAN
+          </a>
             {NAV_ITEMS.map(({ label, href }, index) => (
               <Link
                 key={href}
                 href={href}
-                className={`${suisse.className} cursor-pointer ${
+                className={`${suisse.className} cursor-pointer  ${
                   index < NAV_ITEMS.length - 1 ? "mr-3" : ""
-                } ${pathname === href ? "italic" : ""}`}
+                } ${pathname === href ? "italic" : ""} max-[400px]:text-[13px]`}
               >
                 {label}
               </Link>
@@ -34,7 +41,7 @@ return(
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
           <a
             href="/"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-[450] text-[23px] tracking-wide cursor-pointer"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-[450] text-[23px] tracking-wide cursor-pointer max-[650px]:hidden"
           >
             KAAN
           </a>
