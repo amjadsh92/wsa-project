@@ -134,7 +134,7 @@ export default function About() {
   };
 
   const goToAboutMe = () => {
-    setShowNav(false);
+    setShowNav(true);
     smoothScrollTo(0);
   };
 
