@@ -8,28 +8,28 @@
 
 @media screen and (min-width: 1650px) {
    html{
-    font-size: 20px !important;
+    font-size: 1.25rem !important;
   }
    
 }
 
 @media screen and (min-width: 2000px) {
   html{
-    font-size: 24px !important;
+    font-size: 1.5rem !important;
   }
    
 }
 
 @media screen and (min-width: 2500px) {
   html{
-    font-size: 28px !important;
+    font-size: 1.75rem !important;
   }
    
 }
 
 @media screen and (min-width: 3000px) {
   html{
-    font-size: 40px !important;
+    font-size: 2.5rem !important;
   }
    
 }
@@ -37,7 +37,7 @@
 
 @media screen and (min-width: 3500px) {
   html{
-    font-size: 50px !important;
+    font-size: 3.125rem !important;
   }
    
 }
@@ -54,8 +54,8 @@
 
 .about{
 
-  --navbar-height:52.2px;
-  --header-height:70px;
+  --navbar-height:3.2625rem;
+  --header-height:4.375rem;
   
 }
 
@@ -64,7 +64,7 @@
   .about{
 
   
-  --header-height:62.2px;
+  --header-height:3.8875rem;
   
 }
 
@@ -78,7 +78,7 @@
   .about{
 
   
-  --header-height:58.75px;
+  --header-height:3.671875rem;
   
 }
 
@@ -89,7 +89,7 @@
   .about{
 
   
-  --header-height:55px;
+  --header-height:3.4375rem;
   
 }
 
@@ -100,7 +100,7 @@
   .about{
 
   
-  --header-height:51.25px;
+  --header-height:3.203125rem;
   
 }
 
@@ -156,5 +156,4 @@
   animation: logoEnter 0.8s ease-out forwards;
   
 } 
-
 

@@ -202,7 +202,7 @@ export default function About() {
 
       <div
         ref={AboutMeRef}
-        className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[5px] ${
+        className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[0.3125rem] ${
           showNav ? "top-[var(--navbar-height)]" : "top-0"
         } `}
         // onClick={goToAboutMe}
@@ -220,9 +220,9 @@ export default function About() {
         ref={servicesRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
-            ? "top-[calc(var(--header-height)+var(--navbar-height)-3px)]"
-            : "top-[calc(var(--header-height)-3px)]"
-        } bottom-[calc(var(--header-height)-1px)]`}
+            ? "top-[calc(var(--header-height)+var(--navbar-height)-0.1875rem)]"
+            : "top-[calc(var(--header-height)-0.1875rem)]"
+        } bottom-[calc(var(--header-height)-0.0625rem)]`}
         // onClick={goToService}
       >
         <ServicesHeader
@@ -239,8 +239,8 @@ export default function About() {
         ref={contactRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
-            ? "top-[calc(2*var(--header-height)+var(--navbar-height)-3px)]"
-            : "top-[calc(2*var(--header-height)-3px)]"
+            ? "top-[calc(2*var(--header-height)+var(--navbar-height)-0.1875rem)]"
+            : "top-[calc(2*var(--header-height)-0.1875rem)]"
         } bottom-0`}
         // onClick={goToContact}
       >

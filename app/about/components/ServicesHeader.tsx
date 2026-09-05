@@ -17,7 +17,7 @@
 //                       : "",
 //                   }}
 //                 />
-//                 <div className={`${suisse.className} pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px]`}>
+//                 <div className={`${suisse.className} pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] py-[0.3125rem]`}>
 //                   Services
 //                 </div>
 //        </>
@@ -39,7 +39,7 @@ export default function ServicesHeader({servicesAttachedTop, contactAttachedTop,
         <>
         <div
                   className={`absolute border-t inset-0 transition-[backdrop-filter] duration-1000  ease-in-out ${
-                    (servicesAttachedTop && !contactAttachedTop && !isOpaque) ? "backdrop-blur-[8px] bg-[#E1E3E3]/60 top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[16px] bg-[#E1E3E3]/100"
+                    (servicesAttachedTop && !contactAttachedTop && !isOpaque) ? "backdrop-blur-[0.5rem] bg-[#E1E3E3]/60 top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-[#E1E3E3]/100"
                   }`}
                   style={{
                     WebkitMaskImage: (servicesAttachedTop && !contactAttachedTop && !isOpaque)
@@ -50,7 +50,7 @@ export default function ServicesHeader({servicesAttachedTop, contactAttachedTop,
                       : "",
                   }}
                 />
-                <div onClick={goToService}  className={`${suisse.className} cursor-pointer pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px] max-[960px]:text-[35px] max-[750px]:text-[32.5px]  max-[650px]:text-[30px] max-[500px]:text-[27.5px]`}>
+                <div onClick={goToService}  className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] py-[0.3125rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]  max-[650px]:text-[1.875rem] max-[500px]:text-[1.71875rem]`}>
                   Services
                 </div>
        </>

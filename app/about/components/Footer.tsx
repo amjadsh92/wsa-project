@@ -65,7 +65,7 @@ export default function Footer(){
                       KAAN
                     </div>
                   </div>
-                  <div className={`${suisse.className} flex flex-col gap-[10px] justify-between items-center border-t w-full h-[2.5rem] p-[0.625rem] text-[0.6rem] [@media(min-height:550px)]:hidden`}>
+                  <div className={`${suisse.className} flex flex-col gap-[0.625rem] justify-between items-center border-t w-full h-[2.5rem] p-[0.625rem] text-[0.6rem] [@media(min-height:550px)]:hidden`}>
                     <div className="flex justify-between items-center w-full">
 
                       <div>CONTACT</div>

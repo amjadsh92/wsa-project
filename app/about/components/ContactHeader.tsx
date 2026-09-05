@@ -6,7 +6,7 @@ export default function ContactHeader({servicesAttachedTop, contactAttachedTop, 
          <>
          <div
                   className={`absolute border-t inset-0 transition-[backdrop-filter,background-color] duration-1000  ease-in-out ${
-                    (contactAttachedTop && servicesAttachedTop && !isOpaque) ? "bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[16px] bg-[#E1E3E3]"
+                    (contactAttachedTop && servicesAttachedTop && !isOpaque) ? "bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-[#E1E3E3]"
                   }`}
                   style={{
                     WebkitMaskImage: (contactAttachedTop && servicesAttachedTop && !isOpaque)
@@ -17,8 +17,8 @@ export default function ContactHeader({servicesAttachedTop, contactAttachedTop, 
                       : "",
                   }}
                 />
-                <div onClick={goToContact} className={`${suisse.className} cursor-pointer pl-[20px] relative font-[400] tracking-wide text-[40px] py-[5px] max-[960px]:text-[35px] max-[750px]:text-[32.5px]
-                max-[650px]:text-[30px] max-[500px]:text-[27.5px]`}>
+                <div onClick={goToContact} className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] py-[0.3125rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]
+                max-[650px]:text-[1.875rem] max-[500px]:text-[1.71875rem]`}>
                   Contact
                 </div>
 
@@ -26,4 +26,3 @@ export default function ContactHeader({servicesAttachedTop, contactAttachedTop, 
 
 
     )}
-

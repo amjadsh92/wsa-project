@@ -14,15 +14,15 @@ export default function Navbar({showNav}:{showNav: boolean}){
 return(
 <div
         className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
-          showNav ? "top-0" : "top-[-53px]"
+          showNav ? "top-0" : "top-[-3.3125rem]"
         }`}
       >
-        <div className={`${suisse.className} relative flex h-[53px] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
-          <div className="flex justify-between items-center text-[14px] ml-[10px]">
+        <div className={`${suisse.className} relative flex h-[3.3125rem] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
+          <div className="flex justify-between items-center text-[0.875rem] ml-[0.625rem]">
              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
             <a
             href="/"
-            className="mr-4 font-[450] text-[23px] cursor-pointer max-[400px]:text-[20px] min-[650px]:hidden"
+            className="mr-4 font-[450] text-[1.4375rem] cursor-pointer max-[400px]:text-[1.25rem] min-[650px]:hidden"
           >
             KAAN
           </a>
@@ -32,7 +32,7 @@ return(
                 href={href}
                 className={`${suisse.className} cursor-pointer  ${
                   index < NAV_ITEMS.length - 1 ? "mr-3" : ""
-                } ${pathname === href ? "italic" : ""} max-[400px]:text-[13px]`}
+                } ${pathname === href ? "italic" : ""} max-[400px]:text-[0.8125rem]`}
               >
                 {label}
               </Link>
@@ -41,14 +41,14 @@ return(
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
           <a
             href="/"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-[450] text-[23px] tracking-wide cursor-pointer max-[650px]:hidden"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-[450] text-[1.4375rem] tracking-wide cursor-pointer max-[650px]:hidden"
           >
             KAAN
           </a>
-          <div className="text-[16px]">
-            <i className="pi pi-search text-[16px]"></i>
+          <div className="text-[1rem]">
+            <i className="pi pi-search text-[1rem]"></i>
           </div>
         </div>
       </div>
 )
-    }     
+    }
