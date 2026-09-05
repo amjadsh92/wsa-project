@@ -254,7 +254,7 @@ export default function About() {
 
       <ContactContent />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
