@@ -33,7 +33,7 @@
 
 import { suisse } from "@/app/fonts";
 
-export default function ServicesHeader({servicesAttachedTop, contactAttachedTop, isOpaque, goToService}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean, goToService: () => void}){
+export default function Header2({servicesAttachedTop, contactAttachedTop, isOpaque, goToService}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean, goToService: () => void}){
 
     return(
         <>

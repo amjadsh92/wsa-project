@@ -2,7 +2,7 @@
 import { suisse } from "@/app/fonts";
 
 
-export default function  AboutHeader({servicesAttachedTop, isOpaque, goToAboutMe}:{servicesAttachedTop:boolean, isOpaque:boolean, goToAboutMe: () => void}){
+export default function  Header1({servicesAttachedTop, isOpaque, goToAboutMe}:{servicesAttachedTop:boolean, isOpaque:boolean, goToAboutMe: () => void}){
 
 
 return(

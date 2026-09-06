@@ -4,16 +4,19 @@ import { useRef, useState, useEffect } from "react";
 import { animate, useReducedMotion } from "framer-motion";
 import "primeicons/primeicons.css";
 import Navbar from "./components/Navbar";
-import AboutHeader from "./components/AboutHeader";
-import AboutContent from "./components/AboutContent";
-import ServicesHeader from "./components/ServicesHeader";
-import ServicesContent from "./components/ServicesContent";
-import ContactHeader from "./components/ContactHeader";
-import ContactContent from "./components/ContactContent";
-import Footer from "./components/Footer";
+import Header1 from "./components/Header1";
+import Header1Content from "./components/Header1Content";
+import Header2 from "./components/Header2";
+import Header2Content from "./components/Header2Content";
+import Header3 from "./components/Header3";
+import Header3Content from "./components/Header3Content";
 
-export default function About() {
-  const prefersReducedMotion = useReducedMotion();
+
+
+
+export default function About(){
+
+    const prefersReducedMotion = useReducedMotion();
   const [showNav, setShowNav] = useState(true);
   const [isOpaque, setIsOpaque] = useState(true);
   const [servicesAttachedTop, setServicesAttachedTop] = useState(false);
@@ -207,14 +210,14 @@ export default function About() {
         } `}
         // onClick={goToAboutMe}
       >
-        <AboutHeader
+        <Header1
           servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
           goToAboutMe={goToAboutMe}
         />
       </div>
       <div ref={aboutMeContentRef}>
-        <AboutContent />
+        <Header1Content />
       </div>
       <div
         ref={servicesRef}
@@ -225,7 +228,7 @@ export default function About() {
         } bottom-[calc(var(--header-height)-0.0625rem)]`}
         // onClick={goToService}
       >
-        <ServicesHeader
+        <Header2
           servicesAttachedTop={servicesAttachedTop}
           contactAttachedTop={contactAttachedTop}
           isOpaque={isOpaque}
@@ -233,7 +236,7 @@ export default function About() {
         />
       </div>
       <div ref={serviceContentRef}>
-        <ServicesContent />
+        <Header2Content />
       </div>
       <div
         ref={contactRef}
@@ -244,7 +247,7 @@ export default function About() {
         } bottom-0`}
         // onClick={goToContact}
       >
-        <ContactHeader
+        <Header3
           contactAttachedTop={contactAttachedTop}
           servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
@@ -252,9 +255,12 @@ export default function About() {
         />
       </div>
 
-      <ContactContent />
+      <Header3Content />
 
       {/* <Footer /> */}
     </div>
   );
 }
+
+
+

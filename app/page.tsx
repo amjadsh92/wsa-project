@@ -29,33 +29,7 @@ export default function Home() {
   const [jump, setJump] = useState(false);
    const [showOverlay, setShowOverlay] = useState(true);
   const [scope, animate] = useAnimate();
-  const [isInitialJump, setIsInitialJump] = useState(true);
-//   const [showOverlay,setShowOverlay] = useState(() => {
-//   if (typeof window === "undefined") return false;
-
-//   const hasVisited = sessionStorage.getItem("home-visited");
-
-//   if (!hasVisited) {
-//     sessionStorage.setItem("home-visited", "true");
-//     return true;
-//   }
-
-//   return false;
-// });
-
-// useEffect(() => {
-//   const syncOverlayVisibility = () => {
-//     const hasVisited = sessionStorage.getItem("home-visited");
-
-//     if (hasVisited) {
-//       setShowOverlay(false);
-//     } else {
-//       sessionStorage.setItem("home-visited", "true");
-//     }
-//   };
-
-//   syncOverlayVisibility();
-// }, []);
+  
 
 
 
@@ -81,9 +55,7 @@ export default function Home() {
   useEffect(() => {
 
     const handleScroll = () => {
-      // if(isInitialJump){
-      //   setShowOverlay(false)
-      // }
+      
       if (window.scrollY > window.innerHeight * 0.15) {
         setJump(true);
       } else {
@@ -98,26 +70,7 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // useEffect(() => {
-  //   // Scroll-position restoration (e.g. landing here via the browser back
-  //   // button) fires its own async 'scroll' event on mount, so we can't tell
-  //   // it apart from a real one by timing alone. Only a genuine input gesture
-  //   // should turn the jump into an animated spring.
-  //   const enableAnimation = () => setIsInitialJump(false);
-  //   const events = ["wheel", "touchstart", "keydown", "pointerdown"];
-
-  //   events.forEach((event) =>
-  //     window.addEventListener(event, enableAnimation, {
-  //       once: true,
-  //       passive: true,
-  //     })
-  //   );
-
-  //   return () =>
-  //     events.forEach((event) =>
-  //       window.removeEventListener(event, enableAnimation)
-  //     );
-  // }, []);
+  
 
   useEffect(() => {
     const handleScroll = () => {

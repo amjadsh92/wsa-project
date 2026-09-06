@@ -1,6 +1,6 @@
 import { suisse } from "@/app/fonts";
 
-export default function ContactHeader({servicesAttachedTop, contactAttachedTop, isOpaque, goToContact}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean, goToContact: () => void}){
+export default function Header3({servicesAttachedTop, contactAttachedTop, isOpaque, goToContact}:{servicesAttachedTop:boolean, contactAttachedTop:boolean, isOpaque:boolean, goToContact: () => void}){
 
     return(
          <>
