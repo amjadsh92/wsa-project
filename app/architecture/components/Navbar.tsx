@@ -17,7 +17,7 @@ return(
           showNav ? "top-0" : "top-[-3.3125rem]"
         }`}
       >
-        <div className={`${suisse.className} relative flex h-[3.3125rem] justify-between items-center border-b bg-[#E1E3E3] p-3`}>
+        <div className={`${suisse.className} relative flex h-[3.3125rem] justify-between items-center border-b bg-white p-3`}>
           <div className="flex justify-between items-center text-[0.875rem] ml-[0.625rem]">
              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
             <a

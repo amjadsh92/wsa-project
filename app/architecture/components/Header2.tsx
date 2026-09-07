@@ -39,7 +39,7 @@ export default function Header2({servicesAttachedTop, contactAttachedTop, isOpaq
         <>
         <div
                   className={`absolute border-t inset-0 transition-[backdrop-filter] duration-1000  ease-in-out ${
-                    (servicesAttachedTop && !contactAttachedTop && !isOpaque) ? "backdrop-blur-[0.5rem] bg-[#E1E3E3]/60 top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-[#E1E3E3]/100"
+                    (servicesAttachedTop && !contactAttachedTop && !isOpaque) ? "backdrop-blur-[0.5rem] bg-white/60 top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-white/100"
                   }`}
                   style={{
                     WebkitMaskImage: (servicesAttachedTop && !contactAttachedTop && !isOpaque)

@@ -6,7 +6,7 @@ export default function Header3({servicesAttachedTop, contactAttachedTop, isOpaq
          <>
          <div
                   className={`absolute border-t inset-0 transition-[backdrop-filter,background-color] duration-1000  ease-in-out ${
-                    (contactAttachedTop && servicesAttachedTop && !isOpaque) ? "bg-[#E1E3E3]/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-[#E1E3E3]"
+                    (contactAttachedTop && servicesAttachedTop && !isOpaque) ? "bg-white/60 backdrop-blur-sm top-0 left-0 right-0 h-[160%]" : "backdrop-blur-[1rem] bg-white"
                   }`}
                   style={{
                     WebkitMaskImage: (contactAttachedTop && servicesAttachedTop && !isOpaque)

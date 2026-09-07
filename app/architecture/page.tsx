@@ -200,7 +200,7 @@ export default function Architecture(){
   };
 
   return (
-    <div className="about flex flex-col relative bg-[#E1E3E3] min-h-screen">
+    <div className="about flex flex-col relative min-h-screen">
       <Navbar showNav={showNav} />
 
       <div

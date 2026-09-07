@@ -1,90 +1,172 @@
-import { suisse } from "@/app/fonts";
+// import { suisse } from "@/app/fonts";
+// import Img from "next/image";
+// import project1 from "@/public/architecture/images/project1.jpg";
+
+// export default function Header1Content() {
+//   const images = [
+//     {
+//       title: "Building 140 CERN",
+//       location: "GENEVA, CH",
+//       image: "/architecture/images/project1.jpg",
+//     },
+//     {
+//       title: "Building 140 CERN",
+//       location: "GENEVA, CH",
+//       image: "/architecture/images/project1.jpg",
+//     },
+//     {
+//       title: "Building 140 CERN",
+//       location: "GENEVA, CH",
+//       image: "/architecture/images/project1.jpg",
+//     },
+//     {
+//       title: "Building 140 CERN",
+//       location: "GENEVA, CH",
+//       image: "/architecture/images/project1.jpg",
+//     },
+//     {
+//       title: "Building 140 CERN",
+//       location: "GENEVA, CH",
+//       image: "/architecture/images/project1.jpg",
+//     },
+//   ];
+
+//   return (
+//     <>
+//       <div className="flex flex-wrap pt-[10rem] p-[1.5rem] pb-[2.5rem] gap-[80px]">
+//         {images.map((image, index) => {
+//           return (
+//             <div
+//               key={index}
+//               className="w-[400px] h-[200px] overflow-hidden"
+//             >
+//               <Img
+//                 src={image.image}
+//                 alt={image.title}
+               
+//                 fill
+//                 className="object-contain"
+//               />
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </>
+//   );
+// }
 
 
 
 
-export default function Header1Content (){
+import Img from "next/image";
 
+export default function Header1Content() {
+  const images = [
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+      {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+      {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+      {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+    {
+      title: "Building 140 CERN",
+      location: "GENEVA, CH",
+      image: "/architecture/images/project1.jpg",
+    },
+  ];
 
-    return(
-         <>
-                <div className={`${suisse.className} relative pt-[10rem] text-[1.375rem] text-justify p-[1.25rem] w-[80%] pb-[11.75rem] max-[960px]:text-[1.25rem] max-[750px]:text-[1.125rem] max-[600px]:text-[1rem]
-                  max-[600px]:pb-[6.25rem] max-[500px]:w-[90%] max-[400px]:text-[0.875rem]`}>
-                  <p>
-                    KAAN Architecten is an international architectural practice engaged in context-specific, timeless designs
-                    spanning a broad range of scales and typologies in both the private and public sectors.
-                  </p>
-                  <p className="mt-4">
-                    Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-                    together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-                    satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-                    shapes a dynamic, culturally rich work environment.
-                  </p>
-                  <p className="mt-4">
-                    The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-                    to the surrounding world, fostering meaningful connections within its growing complexity.
-                  </p>
-
-                  <p>
-                    KAAN Architecten is an international architectural practice engaged in context-specific, timeless designs
-                    spanning a broad range of scales and typologies in both the private and public sectors.
-                  </p>
-                  <p className="mt-4">
-                    Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-                    together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-                    satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-                    shapes a dynamic, culturally rich work environment.
-                  </p>
-                  <p className="mt-4">
-                    The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-                    to the surrounding world, fostering meaningful connections within its growing complexity.
-                  </p>
-
-                  <p className="mt-4">
-                    Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-                    together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-                    satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-                    shapes a dynamic, culturally rich work environment.
-                  </p>
-                  <p className="mt-4">
-                    The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-                    to the surrounding world, fostering meaningful connections within its growing complexity.
-                  </p>
-                  <p className="mt-4">
-                    Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-                    together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-                    satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-                    shapes a dynamic, culturally rich work environment.
-                  </p>
-                  <p className="mt-4">
-                    The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-                    to the surrounding world, fostering meaningful connections within its growing complexity.
-                  </p>
-                  <p className="mt-4">
-                    Based in Rotterdam, the office is led by founding partners Kees Kaan, Vincent Panhuysen, and Dikkie Scipio,
-                    together with associate partners Renata Gilio, Marco Lanna, Antony Laurijsen, and Hrvoje Smidihen. With
-                    satellite offices in Paris and São Paulo, and nearly forty years of experience, a diverse international team
-                    shapes a dynamic, culturally rich work environment.
-                  </p>
-                  <p className="mt-4">
-                    The firm’s approach centers on an architecture of dialogue, embracing an inclusive, relational understanding
-                    to the surrounding world, fostering meaningful connections within its growing complexity.
-                  </p>
-                  
-                
-                
-                  <p  className="mt-4">
-                    Among the most prominent completed projects are large-scale, complex structures such as the Netherlands
-                    Forensic Institute and the Amsterdam Courthouse; cultural landmarks, including the transformation of the
-                    Royal Museum of Fine Arts in Antwerp (KMSKA); and smaller, intimate buildings like Crematorium Siesegem or
-                    the Loenen Pavilion.
-                  </p>
-                  <p className="mt-4">
-                    Recently, KAAN Architecten completed the Education Centre for the University of Groningen and JUMP, a
-                    large-scale, versatile building in Aubervilliers, Paris. Currently, the office is engaged in several
-                    high-profile projects across Europe.
-                  </p>
-              </div>               
-              </>
-    )
+  return (
+    <div className="grid grid-cols-3 gap-x-[clamp(1.5rem,12.5vw,11.25rem)] gap-y-[clamp(2rem,7vw,6.25rem)] pt-[10rem] p-[1.5rem] pb-[2.5rem]">
+      {images.map((image, index) => {
+        return (
+          <div
+            key={index}
+            className="relative w-full aspect-[340/300] overflow-hidden"
+          >
+            <Img
+              src={image.image}
+              alt={image.title}
+              fill
+              sizes="33vw"
+              className="object-cover"
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
 }

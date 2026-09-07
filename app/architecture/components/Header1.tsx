@@ -12,8 +12,8 @@ return(
             <div
               className={`absolute transition-[backdrop-filter] duration-1000  ease-in-out ${
                 servicesAttachedTop
-                  ? "bg-[#E1E3E3] inset-0"
-                  : `${isOpaque  ? "inset-0 backdrop-blur-[1rem] bg-[#E1E3E3]" : "inset-0 bg-[#E1E3E3]/60 backdrop-blur-[0.5rem] bg-[#E1E3E3]/60 top-0 left-0 right-0 h-[160%]"}`
+                  ? "bg-white inset-0"
+                  : `${isOpaque  ? "inset-0 backdrop-blur-[1rem] bg-white" : "inset-0 bg-white/60 backdrop-blur-[0.5rem] bg-white/60 top-0 left-0 right-0 h-[160%]"}`
               }`}
               style={{
                 WebkitMaskImage: servicesAttachedTop
