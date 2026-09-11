@@ -16,7 +16,7 @@ export default async function ProjectPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#f3f1ec]">
+    <main className="min-h-screen bg-white">
       <ProjectContent project={project} />
     </main>
   );

@@ -57,7 +57,7 @@ export default function ProjectModal({
         }}
       />
 
-      <div className="relative min-h-screen bg-[#f3f1ec]">
+      <div className="relative min-h-screen bg-white">
         <div className="sticky top-6 z-20 flex h-0 justify-end pr-6">
           <button
             onClick={() => router.back()}
@@ -68,17 +68,12 @@ export default function ProjectModal({
               w-12
               items-center
               justify-center
-              rounded-full
-              border
-              border-black/20
-              bg-[#f3f1ec]
-              text-[2rem]
+              text-[oklch(0.45_0.01_0)]
+              text-[2.25rem]
+              font-light
               leading-none
               cursor-pointer
-              transition-colors
-              duration-300
-              hover:bg-black
-              hover:text-white
+            
             "
           >
             ×
