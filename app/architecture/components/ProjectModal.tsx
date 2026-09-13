@@ -49,11 +49,17 @@ export default function ProjectModal({
       {/* Space outside the modal panel, at the start of its document. */}
       <div
         aria-hidden="true"
-        className="h-[10vh] bg-gray-300/25 backdrop-blur-[2.5px]"
+        className="h-[10vh] bg-gray-200/70 backdrop-blur-[4px]"
         style={{
-          WebkitMaskImage:
+          // WebkitMaskImage:
+          //   "linear-gradient(-30deg, transparent 1rem, black 95%)",
+          // maskImage:
+          //   "linear-gradient(-30deg, transparent 1rem, black 95%)",
+
+            WebkitMaskImage:
             "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%)",
           maskImage: "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%)",
+
         }}
       />
 
@@ -72,9 +78,7 @@ export default function ProjectModal({
               text-[2.25rem]
               font-light
               leading-none
-              cursor-pointer
-            
-            "
+              cursor-pointer"
           >
             ×
           </button>
@@ -86,12 +90,16 @@ export default function ProjectModal({
       {/* Space outside the modal panel, at the end of its document. */}
       <div
         aria-hidden="true"
-        className="h-[10vh] bg-gray-300/25 backdrop-blur-[2.5px]"
+        className="h-[10vh]  bg-gray-200/70 backdrop-blur-[4px]"
         style={{
-             WebkitMaskImage:
-            "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, black 100%)",
-          maskImage: "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, black 100%)",
-          
+          // WebkitMaskImage:
+          //   "linear-gradient(-30deg, transparent 2rem, black 95%)",
+          // maskImage:
+          //   "linear-gradient(-30deg, transparent 2rem, black 95%)",
+
+           WebkitMaskImage:
+            "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%)",
+          maskImage: "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%)",
         }}
       />
     </div>
