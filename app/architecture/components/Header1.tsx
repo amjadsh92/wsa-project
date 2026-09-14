@@ -2,7 +2,7 @@
 import { suisse } from "@/app/fonts";
 
 
-export default function  Header1({servicesAttachedTop, isOpaque, goToHeader1}:{servicesAttachedTop:boolean, isOpaque:boolean, goToHeader1: () => void}){
+export default function  Header1({header2AttachedTop, isOpaque, goToHeader1}:{header2AttachedTop:boolean, isOpaque:boolean, goToHeader1: () => void}){
 
 
 return(
@@ -11,15 +11,15 @@ return(
             {/* Masked Backdrop & Blur Effect */}
             <div
               className={`absolute transition-[backdrop-filter] duration-1000  ease-in-out ${
-                servicesAttachedTop
+                header2AttachedTop
                   ? "bg-white inset-0"
                   : `${isOpaque  ? "inset-0 backdrop-blur-[1rem] bg-white" : "inset-0 bg-white/60 backdrop-blur-[0.5rem] bg-white/60 top-0 left-0 right-0 h-[160%]"}`
               }`}
               style={{
-                WebkitMaskImage: servicesAttachedTop
+                WebkitMaskImage: header2AttachedTop
                   ? ""
                   : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
-                maskImage: servicesAttachedTop
+                maskImage: header2AttachedTop
                   ? ""
                   : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
               }}
