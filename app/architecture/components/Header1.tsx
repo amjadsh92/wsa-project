@@ -2,7 +2,7 @@
 import { suisse } from "@/app/fonts";
 
 
-export default function  Header1({servicesAttachedTop, isOpaque, goToAboutMe}:{servicesAttachedTop:boolean, isOpaque:boolean, goToAboutMe: () => void}){
+export default function  Header1({servicesAttachedTop, isOpaque, goToHeader1}:{servicesAttachedTop:boolean, isOpaque:boolean, goToHeader1: () => void}){
 
 
 return(
@@ -24,7 +24,7 @@ return(
                   : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
               }}
             />
-            <div onClick={goToAboutMe} className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]
+            <div onClick={goToHeader1} className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]
               max-[650px]:text-[1.875rem] max-[500px]:text-[1.71875rem]`}>
               About me
             </div>

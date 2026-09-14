@@ -74,7 +74,7 @@ export default function ProjectModal({
               w-12
               items-center
               justify-center
-              text-[oklch(0.45_0.01_0)]
+              text-black
               text-[2.25rem]
               font-light
               leading-none

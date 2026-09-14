@@ -27,25 +27,25 @@ export default function Architecture(){
   const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
   const scrollCompletionCleanup = useRef<(() => void) | null>(null);
   const scrollCompletionTimeout = useRef<number | null>(null);
-  const AboutMeRef = useRef<HTMLDivElement>(null);
+  const header1Ref = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
-  const aboutMeContentRef = useRef<HTMLDivElement>(null);
+  const header1ContentRef = useRef<HTMLDivElement>(null);
   const serviceContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateAttachedStates = () => {
-      if (!AboutMeRef.current || !servicesRef.current || !contactRef.current) {
+      if (!header1Ref.current || !servicesRef.current || !contactRef.current) {
         return;
       }
 
       setTimeout(() => setIsOpaque(false), 0);
 
-      const AboutMeHeader = AboutMeRef.current.getBoundingClientRect();
+      const header1Header = header1Ref.current.getBoundingClientRect();
       const servicesHeader = servicesRef.current.getBoundingClientRect();
       const contactHeader = contactRef.current.getBoundingClientRect();
 
-      setServicesAttachedTop(servicesHeader.top <= AboutMeHeader.bottom + 2);
+      setServicesAttachedTop(servicesHeader.top <= header1Header.bottom + 2);
       setContactAttachedTop(contactHeader.top <= servicesHeader.bottom + 2);
     };
 
@@ -136,24 +136,24 @@ export default function Architecture(){
     checkScrollFinished();
   };
 
-  const goToAboutMe = () => {
+  const goToHeader1 = () => {
     setShowNav(true);
     smoothScrollTo(0);
   };
 
   const getSectionHeights = () => {
     if (
-      !aboutMeContentRef.current ||
-      !AboutMeRef.current ||
+      !header1ContentRef.current ||
+      !header1Ref.current ||
       !serviceContentRef.current
     ) {
       return null;
     }
 
     return {
-      aboutMeContentHeight:
-        aboutMeContentRef.current.getBoundingClientRect().height,
-      aboutMeHeaderHeight: AboutMeRef.current.getBoundingClientRect().height,
+      header1ContentHeight:
+        header1ContentRef.current.getBoundingClientRect().height,
+      header1HeaderHeight: header1Ref.current.getBoundingClientRect().height,
       serviceContentHeight:
         serviceContentRef.current.getBoundingClientRect().height,
     };
@@ -170,8 +170,8 @@ export default function Architecture(){
     // });
 
     const target =
-    heights.aboutMeContentHeight -
-    heights.aboutMeHeaderHeight +
+    heights.header1ContentHeight -
+    heights.header1HeaderHeight +
     20;
 
     smoothScrollTo(target);
@@ -191,9 +191,9 @@ export default function Architecture(){
     // });
 
     const target =
-    heights.aboutMeContentHeight +
+    heights.header1ContentHeight +
     heights.serviceContentHeight -
-    heights.aboutMeHeaderHeight +
+    heights.header1HeaderHeight +
     25;
 
     smoothScrollTo(target);
@@ -204,19 +204,19 @@ export default function Architecture(){
       <Navbar showNav={showNav} />
 
       <div
-        ref={AboutMeRef}
+        ref={header1Ref}
         className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[0.3125rem] ${
           showNav ? "top-[var(--navbar-height)]" : "top-0"
         } `}
-        // onClick={goToAboutMe}
+        // onClick={goToHeader1}
       >
         <Header1
           servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
-          goToAboutMe={goToAboutMe}
+          goToHeader1={goToHeader1}
         />
       </div>
-      <div ref={aboutMeContentRef}>
+      <div ref={header1ContentRef}>
         <Header1Content />
       </div>
       <div
