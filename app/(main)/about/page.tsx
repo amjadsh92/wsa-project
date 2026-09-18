@@ -2,8 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { animate, useReducedMotion } from "framer-motion";
-import "primeicons/primeicons.css";
-import Navbar from "./components/Navbar";
+import { useNavbar } from "../NavbarProvider";
 import Header1 from "./components/Header1";
 import Header1Content from "./components/Header1Content";
 import Header2 from "./components/Header2";
@@ -14,39 +13,37 @@ import Header3Content from "./components/Header3Content";
 
 
 
-export default function Architecture(){
+export default function About(){
 
     const prefersReducedMotion = useReducedMotion();
-  const [showNav, setShowNav] = useState(true);
+  const { showNav, setShowNav, prevScrollYRef, isProgrammaticScrollRef } = useNavbar();
   const [isOpaque, setIsOpaque] = useState(true);
-  const [header2AttachedTop, setHeader2AttachedTop] = useState(false);
-  const [header3AttachedTop, setHeader3AttachedTop] = useState(false);
+  const [servicesAttachedTop, setServicesAttachedTop] = useState(false);
+  const [contactAttachedTop, setContactAttachedTop] = useState(false);
 
-  const prevScrollY = useRef(0);
-  const isProgrammaticScroll = useRef(false);
   const scrollAnimation = useRef<ReturnType<typeof animate> | null>(null);
   const scrollCompletionCleanup = useRef<(() => void) | null>(null);
   const scrollCompletionTimeout = useRef<number | null>(null);
-  const header1Ref = useRef<HTMLDivElement>(null);
-  const header2Ref = useRef<HTMLDivElement>(null);
-  const header3Ref = useRef<HTMLDivElement>(null);
-  const header1ContentRef = useRef<HTMLDivElement>(null);
-  const header2ContentRef = useRef<HTMLDivElement>(null);
+  const AboutMeRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const aboutMeContentRef = useRef<HTMLDivElement>(null);
+  const serviceContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateAttachedStates = () => {
-      if (!header1Ref.current || !header2Ref.current || !header3Ref.current) {
+      if (!AboutMeRef.current || !servicesRef.current || !contactRef.current) {
         return;
       }
 
       setTimeout(() => setIsOpaque(false), 0);
 
-      const header1Header = header1Ref.current.getBoundingClientRect();
-      const header2Header = header2Ref.current.getBoundingClientRect();
-      const header3Header = header3Ref.current.getBoundingClientRect();
+      const AboutMeHeader = AboutMeRef.current.getBoundingClientRect();
+      const servicesHeader = servicesRef.current.getBoundingClientRect();
+      const contactHeader = contactRef.current.getBoundingClientRect();
 
-      setHeader2AttachedTop(header2Header.top <= header1Header.bottom + 2);
-      setHeader3AttachedTop(header3Header.top <= header2Header.bottom + 2);
+      setServicesAttachedTop(servicesHeader.top <= AboutMeHeader.bottom + 2);
+      setContactAttachedTop(contactHeader.top <= servicesHeader.bottom + 2);
     };
 
     updateAttachedStates();
@@ -55,32 +52,8 @@ export default function Architecture(){
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
- 
-      if (isProgrammaticScroll.current) {
-      return;
-    }
-
-
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY === 0) {
-        setShowNav(true);
-      } else if (currentScrollY > prevScrollY.current) {
-        setShowNav(false); // Scrolling down
-      } else {
-        setShowNav(true); // Scrolling up
-      }
-
-      prevScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     return () => {
+      isProgrammaticScrollRef.current = false;
       scrollAnimation.current?.stop();
       scrollCompletionCleanup.current?.();
 
@@ -88,7 +61,7 @@ export default function Architecture(){
         window.clearTimeout(scrollCompletionTimeout.current);
       }
     };
-  }, []);
+  }, [isProgrammaticScrollRef]);
 
   const smoothScrollTo = (target: number) => {
     scrollAnimation.current?.stop();
@@ -99,7 +72,7 @@ export default function Architecture(){
       scrollCompletionTimeout.current = null;
     }
 
-    isProgrammaticScroll.current = true;
+    isProgrammaticScrollRef.current = true;
 
     const start = window.scrollY;
     const distance = Math.abs(target - start);
@@ -109,10 +82,10 @@ export default function Architecture(){
       if (Math.abs(window.scrollY - target) <= 1) {
         scrollCompletionCleanup.current?.();
         scrollAnimation.current = null;
-        prevScrollY.current = window.scrollY;
+        prevScrollYRef.current = window.scrollY;
 
         scrollCompletionTimeout.current = window.setTimeout(() => {
-          isProgrammaticScroll.current = false;
+          isProgrammaticScrollRef.current = false;
           scrollCompletionTimeout.current = null;
         }, 200);
       }
@@ -136,30 +109,30 @@ export default function Architecture(){
     checkScrollFinished();
   };
 
-  const goToHeader1 = () => {
+  const goToAboutMe = () => {
     setShowNav(true);
     smoothScrollTo(0);
   };
 
   const getSectionHeights = () => {
     if (
-      !header1ContentRef.current ||
-      !header1Ref.current ||
-      !header2ContentRef.current
+      !aboutMeContentRef.current ||
+      !AboutMeRef.current ||
+      !serviceContentRef.current
     ) {
       return null;
     }
 
     return {
-      header1ContentHeight:
-        header1ContentRef.current.getBoundingClientRect().height,
-      header1HeaderHeight: header1Ref.current.getBoundingClientRect().height,
-      header2ContentHeight:
-        header2ContentRef.current.getBoundingClientRect().height,
+      aboutMeContentHeight:
+        aboutMeContentRef.current.getBoundingClientRect().height,
+      aboutMeHeaderHeight: AboutMeRef.current.getBoundingClientRect().height,
+      serviceContentHeight:
+        serviceContentRef.current.getBoundingClientRect().height,
     };
   };
 
-  const goToHeader2 = () => {
+  const goToService = () => {
     setShowNav(false);
     const heights = getSectionHeights();
     if (!heights) return;
@@ -170,14 +143,14 @@ export default function Architecture(){
     // });
 
     const target =
-    heights.header1ContentHeight -
-    heights.header1HeaderHeight +
+    heights.aboutMeContentHeight -
+    heights.aboutMeHeaderHeight +
     20;
 
     smoothScrollTo(target);
   };
 
-  const goToHeader3 = () => {
+  const goToContact = () => {
     setShowNav(false);
     const heights = getSectionHeights();
     if (!heights) return;
@@ -185,73 +158,72 @@ export default function Architecture(){
     // window.scrollTo({
     //   top:
     //     heights.aboutMeContentHeight +
-    //     heights.header2ContentHeight -
+    //     heights.serviceContentHeight -
     //     heights.aboutMeHeaderHeight + 25,
     //   behavior: "smooth",
     // });
 
     const target =
-    heights.header1ContentHeight +
-    heights.header2ContentHeight -
-    heights.header1HeaderHeight +
+    heights.aboutMeContentHeight +
+    heights.serviceContentHeight -
+    heights.aboutMeHeaderHeight +
     25;
 
     smoothScrollTo(target);
   };
 
   return (
-    <div className="about flex flex-col relative min-h-screen">
-      <Navbar showNav={showNav} />
+    <div className="about flex flex-col relative bg-[#E1E3E3] min-h-screen">
 
       <div
-        ref={header1Ref}
+        ref={AboutMeRef}
         className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[0.3125rem] ${
           showNav ? "top-[var(--navbar-height)]" : "top-0"
         } `}
-        // onClick={goToHeader1}
+        // onClick={goToAboutMe}
       >
         <Header1
-          header2AttachedTop={header2AttachedTop}
+          servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
-          goToHeader1={goToHeader1}
+          goToAboutMe={goToAboutMe}
         />
       </div>
-      <div ref={header1ContentRef}>
+      <div ref={aboutMeContentRef}>
         <Header1Content />
       </div>
       <div
-        ref={header2Ref}
+        ref={servicesRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
             ? "top-[calc(var(--header-height)+var(--navbar-height)-0.1875rem)]"
             : "top-[calc(var(--header-height)-0.1875rem)]"
         } bottom-[calc(var(--header-height)-0.0625rem)]`}
-        // onClick={goToheader2}
+        // onClick={goToService}
       >
         <Header2
-          header2AttachedTop={header2AttachedTop}
-          header3AttachedTop={header3AttachedTop}
+          servicesAttachedTop={servicesAttachedTop}
+          contactAttachedTop={contactAttachedTop}
           isOpaque={isOpaque}
-          goToHeader2={goToHeader2}
+          goToService={goToService}
         />
       </div>
-      <div ref={header2ContentRef}>
+      <div ref={serviceContentRef}>
         <Header2Content />
       </div>
       <div
-        ref={header3Ref}
+        ref={contactRef}
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
             ? "top-[calc(2*var(--header-height)+var(--navbar-height)-0.1875rem)]"
             : "top-[calc(2*var(--header-height)-0.1875rem)]"
         } bottom-0`}
-        // onClick={goToheader3}
+        // onClick={goToContact}
       >
         <Header3
-          header3AttachedTop={header3AttachedTop}
-          header2AttachedTop={header2AttachedTop}
+          contactAttachedTop={contactAttachedTop}
+          servicesAttachedTop={servicesAttachedTop}
           isOpaque={isOpaque}
-          goToHeader3={goToHeader3}
+          goToContact={goToContact}
         />
       </div>
 
