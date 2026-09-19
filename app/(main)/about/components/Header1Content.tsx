@@ -8,7 +8,7 @@ export default function Header1Content (){
 
     return(
          <>
-                <div className={`${suisse.className} relative pt-[10rem] text-[1.375rem] text-justify p-[1.25rem] w-[80%] pb-[11.75rem] max-[960px]:text-[1.25rem] max-[750px]:text-[1.125rem] max-[600px]:text-[1rem]
+                <div className={`${suisse.className} relative bg-[#E1E3E3] pt-[10rem] text-[1.375rem] text-justify p-[1.25rem] w-[80%] pb-[11.75rem] max-[960px]:text-[1.25rem] max-[750px]:text-[1.125rem] max-[600px]:text-[1rem]
                   max-[600px]:pb-[6.25rem] max-[500px]:w-[90%] max-[400px]:text-[0.875rem]`}>
                   <p>
                     KAAN Architecten is an international architectural practice engaged in context-specific, timeless designs
