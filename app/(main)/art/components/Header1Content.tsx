@@ -557,7 +557,7 @@ export default function Header1Content() {
           <div key={project.slug}>
           <Link
             key={project.slug}
-            href={`/architecture/${project.slug}`}
+            href={`/art/${project.slug}`}
             scroll={false}
             className="
               group

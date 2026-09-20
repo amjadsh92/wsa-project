@@ -155,7 +155,7 @@ export default function ProjectContent({
 </div>
 
 {relatedProjects.length > 0 && (
-  <section className="mb-[80px] px-[20px]" aria-labelledby="related-heading">
+  <section className="pb-[80px] px-[20px]" aria-labelledby="related-heading">
     <h2
       id="related-heading"
       className={`${suisse.className} mb-[40px] text-[1.6rem]`}
@@ -167,7 +167,7 @@ export default function ProjectContent({
       {relatedProjects.map((relatedProject) => (
         <Link
           key={relatedProject.slug}
-          href={`/architecture/${relatedProject.slug}`}
+          href={`/art/${relatedProject.slug}`}
           scroll={false}
           className="group"
         >

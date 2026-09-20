@@ -23,7 +23,7 @@ export default function Header2Content() {
           <div key={project.slug}>
           <Link
             key={project.slug}
-            href={`/architecture/${project.slug}`}
+            href={`/art/${project.slug}`}
             scroll={false}
             className="
               group

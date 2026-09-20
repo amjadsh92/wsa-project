@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function ProjectModal({
   children,
@@ -9,6 +10,10 @@ export default function ProjectModal({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const prefersReducedMotion = useReducedMotion();
+  const [hasArrived, setHasArrived] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const isReady = hasArrived || Boolean(prefersReducedMotion);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -37,18 +42,29 @@ export default function ProjectModal({
   }, []);
 
   return (
-    <div
-      className="
-        fixed
-        inset-0
-        z-50
-        overflow-y-scroll
-        overscroll-contain
-      "
+    <motion.div
+      initial={false}
+      animate={{ opacity: isClosing ? 0 : 1 }}
+      transition={{
+        duration: prefersReducedMotion ? 0.15 : 0.5,
+        ease: "easeInOut",
+      }}
+      onAnimationComplete={() => {
+        if (isClosing) router.back();
+      }}
+      inert={isClosing}
+      className="fixed inset-0 z-50 overflow-x-hidden overscroll-contain"
+      style={{
+        overflowY: isReady && !isClosing ? "scroll" : "hidden",
+        scrollbarGutter: "stable",
+      }}
     >
       {/* Space outside the modal panel, at the start of its document. */}
-      <div
+      <motion.div
         aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isReady ? 1 : 0 }}
+        transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
         className="h-[10vh] bg-gray-200/70 backdrop-blur-[4px]"
         style={{
           // WebkitMaskImage:
@@ -63,10 +79,21 @@ export default function ProjectModal({
         }}
       />
 
-      <div className="relative min-h-screen bg-white">
+      <motion.div
+        className="relative min-h-screen bg-white"
+        initial={{ y: prefersReducedMotion ? 0 : "100vh" }}
+        animate={{ y: 0 }}
+        transition={{
+          type: "tween",
+          duration: prefersReducedMotion ? 0 : 1,
+          ease: [0.22, 0, 0.18, 1],
+        }}
+        onAnimationComplete={() => setHasArrived(true)}
+      >
         <div className="sticky top-6 z-20 flex h-0 justify-end pr-6">
           <button
-            onClick={() => router.back()}
+            onClick={() => setIsClosing(true)}
+            disabled={isClosing}
             aria-label="Close project"
             className="
               flex
@@ -84,12 +111,24 @@ export default function ProjectModal({
           </button>
         </div>
 
-        {children}
-      </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isReady ? 1 : 0 }}
+          transition={{
+            duration: prefersReducedMotion ? 0.15 : 1,
+            ease: "easeInOut",
+          }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
 
       {/* Space outside the modal panel, at the end of its document. */}
-      <div
+      <motion.div
         aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isReady ? 1 : 0 }}
+        transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
         className="h-[10vh]  bg-gray-200/70 backdrop-blur-[4px]"
         style={{
           // WebkitMaskImage:
@@ -102,6 +141,6 @@ export default function ProjectModal({
           maskImage: "linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%)",
         }}
       />
-    </div>
+    </motion.div>
   );
 }
