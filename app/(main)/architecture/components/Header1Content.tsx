@@ -568,10 +568,10 @@ export default function Header1Content() {
               transition-transform
               duration-300
               ease-out
-              hover:-translate-y-[6px]
+              
             "
           >
-            <div className="relative aspect-[340/300] w-full overflow-hidden">
+            <div className="relative aspect-[340/300] w-full transition-transform duration-300 ease-out group-hover:-translate-y-[6px] overflow-hidden">
               <Img
                 src={project.image}
                 alt={project.title}
@@ -583,6 +583,7 @@ export default function Header1Content() {
                   duration-700
                   ease-out
                   group-hover:scale-105
+                  
                 "
               />
 
