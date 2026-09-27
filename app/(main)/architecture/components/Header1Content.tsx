@@ -1,3 +1,5 @@
+"use client";
+
 // "use client";
 
 // import Img from "next/image";
@@ -536,6 +538,7 @@
 
 import Img from "next/image";
 import Link from "next/link";
+import ProjectEntrance from "./ProjectEntrance";
 import { projects } from "../projects";
 import { suisse } from "@/app/fonts";
 
@@ -554,20 +557,18 @@ export default function Header1Content() {
     >
       {projects.map((project) => {
         return (
-          <div key={project.slug}>
+          <ProjectEntrance key={project.slug}>
           <Link
             key={project.slug}
             href={`/architecture/${project.slug}`}
             scroll={false}
             className="
               group
+              block
               relative
               w-full
               min-w-0
               cursor-pointer
-              transition-transform
-              duration-300
-              ease-out
               
             "
           >
@@ -614,7 +615,7 @@ export default function Header1Content() {
               <h2 className="text-[0.9rem]">{project.title}</h2>
              
             </div>
-            </div>
+            </ProjectEntrance>
         );
       })}
     </div>

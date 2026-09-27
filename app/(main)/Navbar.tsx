@@ -17,6 +17,7 @@ export default function Navbar(){
 
 return(
 <div
+        data-gallery-occluder
         className={`fixed top-0 left-0 w-full z-50 transition-[top] duration-300 ease-in-out ${
           showNav ? "top-0" : "top-[-3.3125rem]"
         }`}
