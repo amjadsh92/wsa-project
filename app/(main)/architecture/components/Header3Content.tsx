@@ -6,7 +6,7 @@ import ProjectEntrance from "./ProjectEntrance";
 import { projects } from "../projects";
 import { suisse } from "@/app/fonts";
 
-export default function Header2Content() {
+export default function Header3Content() {
   return (
     <div
       className="
@@ -35,10 +35,10 @@ export default function Header2Content() {
               transition-transform
               duration-300
               ease-out
-              hover:-translate-y-[6px]
+            
             "
           >
-            <div className="relative aspect-[340/300] w-full overflow-hidden">
+            <div className="relative aspect-[340/300] w-full transition-transform duration-300 ease-out group-hover:-translate-y-[6px] overflow-hidden">
               <Img
                 src={project.image}
                 alt={project.title}

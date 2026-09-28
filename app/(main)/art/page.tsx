@@ -177,6 +177,7 @@ export default function Art(){
 
       <div
         ref={header1Ref}
+        data-gallery-occluder
         className={`fixed z-10 left-0 w-full transition-[top] duration-300 ease-in-out py-[0.3125rem] ${
           showNav ? "top-[var(--navbar-height)]" : "top-0"
         } `}
@@ -193,6 +194,7 @@ export default function Art(){
       </div>
       <div
         ref={header2Ref}
+        data-gallery-occluder
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
             ? "top-[calc(var(--header-height)+var(--navbar-height)-0.1875rem)]"
@@ -212,6 +214,7 @@ export default function Art(){
       </div>
       <div
         ref={header3Ref}
+        data-gallery-occluder
         className={`sticky z-10 w-full transition-[top] duration-300 ease-in-out ${
           showNav
             ? "top-[calc(2*var(--header-height)+var(--navbar-height)-0.1875rem)]"

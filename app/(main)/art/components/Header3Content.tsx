@@ -3,8 +3,9 @@ import Img from "next/image";
 import Link from "next/link";
 import { projects } from "../projects";
 import { suisse } from "@/app/fonts";
+import ProjectEntrance from "./ProjectEntrance";
 
-export default function Header2Content() {
+export default function Header3Content() {
   return (
     <div
       className="
@@ -19,7 +20,7 @@ export default function Header2Content() {
     >
       {projects.map((project) => {
         return (
-         <div key={project.slug}>
+         <ProjectEntrance key={project.slug}> 
           <Link
             key={project.slug}
             href={`/art/${project.slug}`}
@@ -33,10 +34,10 @@ export default function Header2Content() {
               transition-transform
               duration-300
               ease-out
-              hover:-translate-y-[6px]
+            
             "
           >
-            <div className="relative aspect-[340/300] w-full overflow-hidden">
+            <div className="relative aspect-[340/300] transition-transform duration-300 ease-out w-full group-hover:-translate-y-[6px] overflow-hidden">
               <Img
                 src={project.image}
                 alt={project.title}
@@ -78,7 +79,7 @@ export default function Header2Content() {
               <h2 className="text-[0.9rem]">{project.title}</h2>
              
             </div>
-            </div>
+            </ProjectEntrance>
         )
       })}
     </div>
