@@ -1,40 +1,23 @@
+import GalleryHeader from "../../components/GalleryHeader";
 
-import { suisse } from "@/app/fonts";
+type Header1Props = {
+  header2AttachedTop: boolean;
+  isOpaque: boolean;
+  goToHeader1: () => void;
+};
 
-
-export default function  Header1({header2AttachedTop, isOpaque, goToHeader1}:{header2AttachedTop:boolean, isOpaque:boolean, goToHeader1: () => void}){
-
-
-return(
-
-   <>
-            {/* Masked Backdrop & Blur Effect */}
-            <div
-              className={`absolute transition-[backdrop-filter] duration-1000  ease-in-out ${
-                header2AttachedTop
-                  ? "bg-white inset-0"
-                  : `${isOpaque  ? "inset-0 backdrop-blur-[1rem] bg-white" : "inset-0 bg-white/60 backdrop-blur-[0.5rem] bg-white/60 top-0 left-0 right-0 h-[160%]"}`
-              }`}
-              style={{
-                WebkitMaskImage: header2AttachedTop
-                  ? ""
-                  : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
-                maskImage: header2AttachedTop
-                  ? ""
-                  : `${isOpaque ? "" : "linear-gradient(to bottom, black 0%, black 35%, transparent 100%)" }`,
-              }}
-            />
-            <div onClick={goToHeader1} className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]
-              max-[650px]:text-[1.875rem] max-[500px]:text-[1.71875rem]`}>
-              Header 1
-            </div>
-
-
-      </>
-
-
-
-)
-
-
+export default function Header1({
+  header2AttachedTop,
+  isOpaque,
+  goToHeader1,
+}: Header1Props) {
+  return (
+    <GalleryHeader
+      title="Header 1"
+      position={1}
+      header2AttachedTop={header2AttachedTop}
+      isOpaque={isOpaque}
+      onClick={goToHeader1}
+    />
+  );
 }
