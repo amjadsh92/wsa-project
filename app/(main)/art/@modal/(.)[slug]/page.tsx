@@ -17,7 +17,7 @@ export default async function ProjectModalPage({
   }
 
   return (
-    <ProjectModal>
+    <ProjectModal key={slug}>
       <ProjectContent project={project} />
     </ProjectModal>
   );

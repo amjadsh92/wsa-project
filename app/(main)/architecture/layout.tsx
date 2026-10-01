@@ -1,3 +1,5 @@
+import { ProjectModalNavigation } from "../components/ProjectModalNavigation";
+
 export default function ArchitectureLayout({
   children,
   modal,
@@ -6,9 +8,9 @@ export default function ArchitectureLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <>
+    <ProjectModalNavigation>
       {children}
       {modal}
-    </>
+    </ProjectModalNavigation>
   );
 }

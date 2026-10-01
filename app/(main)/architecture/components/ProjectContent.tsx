@@ -2,9 +2,11 @@
 
 import Img from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { projects, type Project } from "../projects";
 import { suisse } from "@/app/fonts";
+
+import { InProjectModalContext, useProjectModalNavigation } from "../../components/ProjectModalNavigation";
 
 const description = `JUMP is located at the intersection of diverse urban areas in Aubervilliers, Paris. Commissioned by Icade, the building connects two green zones, “Place du Front Populaire” and the urban forest of “Parc Icade des Portes de Paris”. With its colossal landing, JUMP has established itself as the central point of convergence in the area. The building integrates a hotel, offices, retail spaces, and parking. The design embraces the area’s electic architecture and enhances the dynamism of this urban area served by Metro Line 12.`;
 
@@ -13,6 +15,8 @@ export default function ProjectContent({
 }: {
   project: Project;
 }) {
+  const inModal = useContext(InProjectModalContext);
+  const { openRelated } = useProjectModalNavigation();
   const [showMore, setShowMore] = useState(false);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
 
@@ -182,6 +186,10 @@ export default function ProjectContent({
         <Link
           key={relatedProject.slug}
           href={`/architecture/${relatedProject.slug}`}
+          replace={inModal}
+          onNavigate={() => {
+            if (inModal) openRelated(`/architecture/${relatedProject.slug}`);
+          }}
           scroll={false}
           className="group"
         >

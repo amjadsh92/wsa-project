@@ -4,14 +4,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
+import { InProjectModalContext, useProjectModalNavigation } from "../../components/ProjectModalNavigation";
+
 export default function ProjectModal({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const { fadeIn, finishTransition } = useProjectModalNavigation();
   const prefersReducedMotion = useReducedMotion();
-  const [hasArrived, setHasArrived] = useState(false);
+  const [hasArrived, setHasArrived] = useState(fadeIn);
   const [isClosing, setIsClosing] = useState(false);
   const isReady = hasArrived || Boolean(prefersReducedMotion);
 
@@ -43,15 +46,17 @@ export default function ProjectModal({
 
   return (
     <motion.div
-      initial={false}
+      initial={fadeIn ? { opacity: 0 } : false}
       animate={{ opacity: isClosing ? 0 : 1 }}
       transition={{
-        duration: prefersReducedMotion ? 0.15 : 0.5,
+        duration: prefersReducedMotion ? 0.15 : fadeIn && !isClosing ? 0.85 : 0.2,
         ease: "easeInOut",
       }}
       onAnimationComplete={() => {
         if (isClosing) router.back();
+        else if (fadeIn) finishTransition();
       }}
+      data-project-modal
       inert={isClosing}
       className="fixed inset-0 z-50 overflow-x-hidden overscroll-contain"
       style={{
@@ -62,7 +67,7 @@ export default function ProjectModal({
       {/* Space outside the modal panel, at the start of its document. */}
       <motion.div
         aria-hidden="true"
-        initial={{ opacity: 0 }}
+        initial={fadeIn ? false : { opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
         transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
         className="h-[10vh] bg-gray-200/70 backdrop-blur-[4px]"
@@ -81,18 +86,21 @@ export default function ProjectModal({
 
       <motion.div
         className="relative min-h-screen bg-white"
-        initial={{ y: prefersReducedMotion ? 0 : "100vh" }}
+        initial={{ y: fadeIn || prefersReducedMotion ? 0 : "100vh" }}
         animate={{ y: 0 }}
         transition={{
           type: "tween",
-          duration: prefersReducedMotion ? 0 : 1,
+          duration: prefersReducedMotion ? 0 : 0.5,
           ease: [0.22, 0, 0.18, 1],
         }}
         onAnimationComplete={() => setHasArrived(true)}
       >
         <div className="sticky top-6 z-20 flex h-0 justify-end pr-6">
           <button
-            onClick={() => setIsClosing(true)}
+            onClick={() => {
+              finishTransition();
+              setIsClosing(true);
+            }}
             disabled={isClosing}
             aria-label="Close project"
             className="
@@ -112,21 +120,23 @@ export default function ProjectModal({
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={fadeIn ? false : { opacity: 0 }}
           animate={{ opacity: isReady ? 1 : 0 }}
           transition={{
-            duration: prefersReducedMotion ? 0.15 : 1,
-            ease: "easeInOut",
+            duration: prefersReducedMotion ? 0.15 : 0.85,
+            ease: [0.22, 0, 0.18, 1],
           }}
         >
-          {children}
+          <InProjectModalContext.Provider value={true}>
+            {children}
+          </InProjectModalContext.Provider>
         </motion.div>
       </motion.div>
 
       {/* Space outside the modal panel, at the end of its document. */}
       <motion.div
         aria-hidden="true"
-        initial={{ opacity: 0 }}
+        initial={fadeIn ? false : { opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
         transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
         className="h-[10vh]  bg-gray-200/70 backdrop-blur-[4px]"

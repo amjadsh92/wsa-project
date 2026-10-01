@@ -1,3 +1,5 @@
+import { ProjectModalNavigation } from "../components/ProjectModalNavigation";
+
 export default function ArtLayout({
   children,
   modal,
@@ -6,9 +8,9 @@ export default function ArtLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <>
+    <ProjectModalNavigation>
       {children}
       {modal}
-    </>
+    </ProjectModalNavigation>
   );
 }
