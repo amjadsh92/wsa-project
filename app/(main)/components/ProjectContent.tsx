@@ -32,8 +32,8 @@ export default function ProjectContent({
   const [showMore, setShowMore] = useState(false);
 
   return (
-   <div className="pt-[1px]">
-     <div className={` ${suisse.className} flex justify-start m-4 gap-4 text-[0.8rem]`}>
+   <div className={`pt-[1px] `}>
+     <div className={` ${suisse.className} ${!inModal ? "mt-[82px]" : "mt-4"} flex justify-start m-4 gap-4 text-[0.8rem]`}>
       <div>{project.location}</div>
       <div>{project.year}</div>
       <div>{project.category}</div>
