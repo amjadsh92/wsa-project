@@ -24,7 +24,6 @@ export default function ProjectModal({
     const root = document.documentElement;
     const previousRootOverflow = root.style.overflow;
     const previousScrollbarGutter = root.style.scrollbarGutter;
-    const previousBodyOverflow = document.body.style.overflow;
     const previousPaddingRight = document.body.style.paddingRight;
     const scrollbarWidth = window.innerWidth - root.clientWidth;
 
@@ -32,7 +31,8 @@ export default function ProjectModal({
     // so the modal scrollbar occupies the browser's usual scrollbar position.
     root.style.overflow = "hidden";
     root.style.scrollbarGutter = "auto";
-    document.body.style.overflow = "hidden";
+    // Keep body overflow unchanged: making it a scroll container would move
+    // the background page's sticky headers away from their viewport positions.
 
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`;
@@ -41,7 +41,6 @@ export default function ProjectModal({
     return () => {
       root.style.overflow = previousRootOverflow;
       root.style.scrollbarGutter = previousScrollbarGutter;
-      document.body.style.overflow = previousBodyOverflow;
       document.body.style.paddingRight = previousPaddingRight;
     };
   }, []);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import BodyBackground from "./ui/components/BodyBackground";
 import Footer from "./ui/components/Footer";
+import { ProjectModalNavigation } from "./(main)/components/ProjectModalNavigation";
 
 
 export const metadata: Metadata = {
@@ -11,8 +12,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -24,7 +27,10 @@ export default function RootLayout({
         <BodyBackground />
         
         {children}
-     <Footer />
+        <div className="relative z-[2000]">
+          <ProjectModalNavigation>{modal}</ProjectModalNavigation>
+        </div>
+        <Footer />
         
       </body>
     </html>

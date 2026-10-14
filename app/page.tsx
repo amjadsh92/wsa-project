@@ -2,11 +2,10 @@
 import { useEffect,useState } from "react";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
-import Title from "./home/components/Title";
-import Subtitle from "./home/components/Subtitle";
-import Nav from "./home/components/Nav";
-import Projects from "./home/components/Projects";
-import Footer from "./home/components/Footer";
+import Title from "@/app/home/components/Title";
+import Subtitle from "@/app/home/components/Subtitle";
+import Nav from "@/app/home/components/Nav";
+import Projects from "@/app/home/components/Projects";
 import "primeicons/primeicons.css";
 
 const images = [

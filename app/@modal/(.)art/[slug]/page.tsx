@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import ProjectContent from "../../components/ProjectContent";
-import ProjectModal from "../../components/ProjectModal";
-import { getProjectBySlug } from "../../projects";
+import ProjectContent from "@/app/(main)/art/components/ProjectContent";
+import ProjectModal from "@/app/(main)/art/components/ProjectModal";
+import { getProjectBySlug } from "@/app/(main)/art/projects";
 
 export default async function ProjectModalPage({
   params,
