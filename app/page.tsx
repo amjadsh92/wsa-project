@@ -26,11 +26,14 @@ const descriptions = "";
 export default function Home() {
   const [hide, setHide] = useState(false);
   const [jump, setJump] = useState(false);
-   const [showOverlay, setShowOverlay] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [initialHidingOfOverlay, setInitialHidingOfOverlay] = useState(true)
   const [scope, animate] = useAnimate();
   
 
+useEffect(() =>{
 
+     setTimeout(() => setInitialHidingOfOverlay(false), 500 )})
 
 
   useEffect(() => {
@@ -45,11 +48,13 @@ export default function Home() {
         loadedCount++;
 
         if (loadedCount === images.length) {
+          if(!initialHidingOfOverlay){
           setShowOverlay(false);
+          }
         }
       };
     });
-  }, []);
+  }, [initialHidingOfOverlay]);
 
   useEffect(() => {
 
@@ -100,7 +105,7 @@ export default function Home() {
     <>
       {/* BLACK OVERLAY  */}
       <AnimatePresence>
-        {showOverlay && (
+        { showOverlay && (
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
