@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { InProjectModalContext, useProjectModalNavigation } from "./ProjectModalNavigation";
@@ -14,6 +14,7 @@ export default function ProjectModal({
   
 }) {
   const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
   const { fadeIn, finishTransition } = useProjectModalNavigation();
   const prefersReducedMotion = useReducedMotion();
   const [hasArrived, setHasArrived] = useState(fadeIn);
@@ -21,6 +22,7 @@ export default function ProjectModal({
   const isReady = hasArrived || Boolean(prefersReducedMotion);
 
   useEffect(() => {
+    const previouslyFocused = document.activeElement;
     const root = document.documentElement;
     const previousRootOverflow = root.style.overflow;
     const previousScrollbarGutter = root.style.scrollbarGutter;
@@ -42,11 +44,25 @@ export default function ProjectModal({
       root.style.overflow = previousRootOverflow;
       root.style.scrollbarGutter = previousScrollbarGutter;
       document.body.style.paddingRight = previousPaddingRight;
+      if (previouslyFocused instanceof HTMLElement && previouslyFocused.isConnected) {
+        previouslyFocused.focus({ preventScroll: true });
+      }
     };
   }, []);
 
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (isReady && !isClosing && modal && !modal.contains(document.activeElement)) {
+      modal.focus({ preventScroll: true });
+    }
+  }, [isReady, isClosing]);
+
   return (
     <motion.div
+      ref={modalRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-label="Project details"
       initial={fadeIn ? { opacity: 0 } : false}
       animate={{ opacity: isClosing ? 0 : 1 }}
       transition={{
