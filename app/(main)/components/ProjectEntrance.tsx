@@ -60,7 +60,7 @@ export default function ProjectEntrance({ children }: { children: ReactNode }) {
       }
 
       const visibleHeight = Math.max(0, bottom - top);
-      if (visibleHeight >= bounds.height * 0.2) {
+      if (visibleHeight >= bounds.height * 0.1) {
         finished = true;
         setEntrance("animate");
       }
@@ -98,12 +98,12 @@ export default function ProjectEntrance({ children }: { children: ReactNode }) {
     <motion.div
       ref={ref}
       className="motion-reduce:transform-none!"
-      initial={{ y: 60, opacity: 0 }}
-      animate={{ y: appeared ? 0 : 60, opacity: appeared ? 1 : 0 }}
+      initial={{ y: 30, opacity: 0 }}
+      animate={{ y: appeared ? 0 : 30, opacity: appeared ? 1 : 0 }}
       transition={{
         duration: prefersReducedMotion || entrance === "shown" ? 0 : 1,
         ease: [0.22, 1, 0.36, 1],
-        opacity: { duration: prefersReducedMotion || entrance === "shown" ? 0 : 0.18, ease: "easeOut" },
+        opacity: { duration: prefersReducedMotion || entrance === "shown" ? 0 : 0.7, ease: "easeOut" },
       }}
     >
       {children}
