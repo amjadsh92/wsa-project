@@ -232,6 +232,8 @@ export default function Art(){
 
       <Header3Content />
 
+      <div className="h-[calc(100vh-3*var(--header-height))]"></div>
+
       {/* <Footer /> */}
     </div>
   );

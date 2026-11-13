@@ -23,7 +23,7 @@ export default function ProjectGrid({
 }: ProjectGridProps) {
   return (
     <div
-      className={`grid grid-cols-3 gap-x-[clamp(1.5rem,12.5vw,11.25rem)] gap-y-[clamp(2rem,7vw,6.25rem)] px-[1.5rem] pb-[11.75rem] ${
+      className={`grid grid-cols-3 gap-x-[clamp(1.5rem,12.5vw,11.25rem)] max-[1250px]:gap-x-[clamp(0.75rem,6.25vw,5.625rem)] max-[960px]:grid-cols-2 max-[960px]:gap-x-[clamp(1.5rem,12.5vw,11.25rem)] max-[650px]:grid-cols-1 gap-y-[clamp(2rem,7vw,6.25rem)] px-[1.5rem] pb-[11.75rem] ${
         isFirstSection ? "pt-[10rem]" : "pt-[5rem]"
       }`}
     >
@@ -32,14 +32,14 @@ export default function ProjectGrid({
           <Link
             href={`${basePath}/${project.slug}`}
             scroll={false}
-            className="group relative block w-full min-w-0 cursor-pointer"
+            className="group relative block w-full min-w-0 cursor-pointer max-[650px]:mx-auto max-[650px]:w-[80%] max-[400px]:w-[90%]"
           >
             <div className="relative aspect-[340/300] w-full overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-[6px]">
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
-                sizes="33vw"
+                sizes="(width < 650px) calc(80vw - 2.4rem), (max-width: 960px) 50vw, 33vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div
@@ -51,7 +51,7 @@ export default function ProjectGrid({
           <div
             className={`${suisse.className} flex items-center justify-center pt-3 font-normal`}
           >
-            <h2 className="text-[0.9rem]">{project.title}</h2>
+            <h2 className="text-[0.9rem] max-[1200px]:text-[0.8rem]">{project.title}</h2>
           </div>
         </ProjectEntrance>
       ))}
