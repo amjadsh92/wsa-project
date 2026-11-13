@@ -232,6 +232,8 @@ export default function Architecture(){
 
       <Header3Content />
 
+      <div className="h-[calc(100vh-3*var(--header-height))]"></div>
+
       {/* <Footer /> */}
     </div>
   );

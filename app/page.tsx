@@ -31,9 +31,9 @@ export default function Home() {
   const [scope, animate] = useAnimate();
   
 
-useEffect(() =>{
+useEffect(() => {
 
-     setTimeout(() => setInitialHidingOfOverlay(false), 500 )})
+     setTimeout(() => setInitialHidingOfOverlay(false), 250 )})
 
 
   useEffect(() => {
@@ -159,7 +159,8 @@ useEffect(() =>{
                   damping: 25,
                 }
           }
-          className={`z-2 home flex flex-col bg-white mt-[-65vh] `}
+          // Keep the section just below the viewport despite subpixel rounding.
+          className={`z-2 home flex flex-col bg-white mt-[calc(1px_-_65vh)] `}
         >
           {/* Search bar */}
           <div
