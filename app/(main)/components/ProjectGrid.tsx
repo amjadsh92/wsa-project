@@ -34,7 +34,7 @@ export default function ProjectGrid({
             scroll={false}
             className="group relative block w-full min-w-0 cursor-pointer max-[650px]:mx-auto max-[650px]:w-[80%] max-[400px]:w-[90%]"
           >
-            <div className="relative aspect-[340/300] w-full overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-[6px]">
+            <div className="relative aspect-[340/300] w-full overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-[0.375rem]">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -43,7 +43,7 @@ export default function ProjectGrid({
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div
-                className="pointer-events-none absolute inset-0 opacity-0 backdrop-blur-[10px] transition-opacity duration-700 ease-out group-hover:opacity-100"
+                className="pointer-events-none absolute inset-0 opacity-0 backdrop-blur-[0.625rem] transition-opacity duration-700 ease-out group-hover:opacity-100"
                 style={{ WebkitMaskImage: blurMask, maskImage: blurMask }}
               />
             </div>

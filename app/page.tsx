@@ -33,7 +33,7 @@ export default function Home() {
 
 useEffect(() => {
 
-     setTimeout(() => setInitialHidingOfOverlay(false), 250 )})
+     setTimeout(() => setInitialHidingOfOverlay(false), 400 )})
 
 
   useEffect(() => {

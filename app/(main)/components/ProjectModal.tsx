@@ -87,7 +87,7 @@ export default function ProjectModal({
         initial={fadeIn ? false : { opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
         transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
-        className="h-[10vh] bg-gray-200/70 backdrop-blur-[4px]"
+        className="h-[10vh] bg-gray-200/70 backdrop-blur-[0.25rem]"
         style={{
           // WebkitMaskImage:
           //   "linear-gradient(-30deg, transparent 1rem, black 95%)",
@@ -102,7 +102,7 @@ export default function ProjectModal({
       />
 
       <motion.div
-        className="relative min-h-screen bg-white"
+        className="relative min-h-screen bg-white max-[960px]:min-h-dvh"
         initial={{ y: fadeIn || prefersReducedMotion ? 0 : "100vh" }}
         animate={{ y: 0 }}
         transition={{
@@ -112,7 +112,7 @@ export default function ProjectModal({
         }}
         onAnimationComplete={() => setHasArrived(true)}
       >
-        <div className={`sticky top-6 z-20 flex h-0 justify-end pr-6 `}>
+        <div className={`sticky top-6 z-20 flex h-0 justify-end pr-6 max-[960px]:top-[max(0.75rem,env(safe-area-inset-top))] max-[960px]:pr-[max(0.75rem,env(safe-area-inset-right))] `}>
           <button
             onClick={() => {
               finishTransition();
@@ -130,7 +130,7 @@ export default function ProjectModal({
               text-[2.25rem]
               font-light
               leading-none
-              cursor-pointer"
+              cursor-pointer [text-shadow:0_0_0.125rem_white,0_0_0.25rem_white,0_0_0.375rem_white]"
           >
             ×
           </button>
@@ -156,7 +156,7 @@ export default function ProjectModal({
         initial={fadeIn ? false : { opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
         transition={{ duration: prefersReducedMotion ? 0.15 : 0.4 }}
-        className="h-[10vh]  bg-gray-200/70 backdrop-blur-[4px]"
+        className="h-[10vh] bg-gray-200/70 backdrop-blur-[0.25rem]"
         style={{
           // WebkitMaskImage:
           //   "linear-gradient(-30deg, transparent 2rem, black 95%)",
