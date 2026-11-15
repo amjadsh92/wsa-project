@@ -105,27 +105,31 @@ function Architecture({ projects }: ArchitectureProps) {
               </Link>
             </div>
 
-            <Link
-              href={`/${project.category.toLowerCase()}/${project.slug}`}
-              scroll={false}
-              aria-label={`Open ${project.title}`}
+            <div
               style={{
                 zIndex: index >= 5 ? (index - 2) * 10 : 10,
 
                 position: "relative",
               }}
-              className={`block bg-white max-[960px]:bg-transparent h-[27vw] w-full max-[1200px]:h-[35vw] max-[960px]:h-[55vw] max-[650px]:h-[75vw] max-[500px]:h-[100vw] `}
+              className={`block bg-white pt-4 pb-[2.5rem] h-[27vw] w-full max-[1200px]:h-[35vw] max-[960px]:h-[55vw] max-[650px]:h-[75vw] max-[500px]:h-[100vw] `}
             >
-              <Img
-                style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(max-width: 960px) 100vw, 50vw"
-                className="object-cover pt-4 pb-[2.5rem] bg-white"
-                priority
-              />
-            </Link>
+              <Link
+                href={`/${project.category.toLowerCase()}/${project.slug}`}
+                scroll={false}
+                aria-label={`Open ${project.title}`}
+                className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
+              >
+                <Img
+                  style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 960px) 100vw, 50vw"
+                  className="object-cover bg-white"
+                  priority
+                />
+              </Link>
+            </div>
           </React.Fragment>
         );
       })}
@@ -167,22 +171,22 @@ function Art({ drawings, skipIntro }: DrawingsProps) {
             animate={skipIntro ? "visible" : undefined}
             whileInView={skipIntro ? undefined : "visible"}
             viewport={{ once: true, amount: 0.3 }}
-            className="relative w-[30vw] h-[30vw] max-[1200px]:w-[35vw] max-[1200px]:h-[35vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
+            className="relative bg-white pt-4 pb-[2.5rem] w-[30vw] h-[30vw] max-[1200px]:w-[35vw] max-[1200px]:h-[35vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
           >
             <Link
               href={`/${drawing.category.toLowerCase()}/${drawing.slug}`}
               scroll={false}
               aria-label={`Open ${drawing.title}`}
-              className="relative block h-full w-full"
+              className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
             >
-            <Img
-              src={drawing.image}
-              alt={drawing.title}
-              fill
-              sizes="(max-width: 960px) 60vw, 30vw"
-              className="object-cover pt-4 pb-[2.5rem] bg-white"
-              priority
-            />
+              <Img
+                src={drawing.image}
+                alt={drawing.title}
+                fill
+                sizes="(max-width: 960px) 60vw, 30vw"
+                className="object-cover bg-white"
+                priority
+              />
             </Link>
           </motion.div>
         ))}

@@ -1,4 +1,21 @@
  @import "tailwindcss"; 
+/* Draw keyboard focus inside the image's stacking context, so sticky headers
+   cover the image and its focus indicator together. */
+.home-project-image-link:focus-visible {
+  outline: none;
+}
+
+.home-project-image-link:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  outline: auto;
+  outline: 1px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
 #project-reload-preview {
   display: none;
 }
