@@ -6,6 +6,7 @@ import Title from "@/app/home/components/Title";
 import Subtitle from "@/app/home/components/Subtitle";
 import Nav from "@/app/home/components/Nav";
 import Projects from "@/app/home/components/Projects";
+import { useHomeModalRestoration } from "@/app/home/components/homeModalRestoration";
 import "primeicons/primeicons.css";
 
 const images = [
@@ -24,19 +25,26 @@ const descriptions = "";
 // }
 
 export default function Home() {
-  const [hide, setHide] = useState(false);
-  const [jump, setJump] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
-  const [initialHidingOfOverlay, setInitialHidingOfOverlay] = useState(true)
+  const restoredScroll = useHomeModalRestoration();
+  const isRestoringModal = restoredScroll !== null;
+  // Keep the intro skipped for this mounted background after restoration ends.
+  const [skipIntro] = useState(isRestoringModal);
+  const [hide, setHide] = useState(() => restoredScroll !== null && restoredScroll > 0);
+  const [jump, setJump] = useState(() => restoredScroll !== null && restoredScroll > window.innerHeight * 0.15);
+  const [showOverlay, setShowOverlay] = useState(!skipIntro);
+  const [initialHidingOfOverlay, setInitialHidingOfOverlay] = useState(!skipIntro);
   const [scope, animate] = useAnimate();
   
 
 useEffect(() => {
-
-     setTimeout(() => setInitialHidingOfOverlay(false), 400 )})
+  if (skipIntro) return;
+  const timer = window.setTimeout(() => setInitialHidingOfOverlay(false), 400);
+  return () => window.clearTimeout(timer);
+}, [skipIntro]);
 
 
   useEffect(() => {
+    if (skipIntro) return;
     let loadedCount = 0;
 
     images.forEach((src) => {
@@ -54,9 +62,10 @@ useEffect(() => {
         }
       };
     });
-  }, [initialHidingOfOverlay]);
+  }, [initialHidingOfOverlay, skipIntro]);
 
   useEffect(() => {
+    if (isRestoringModal) return;
 
     const handleScroll = () => {
       
@@ -72,7 +81,7 @@ useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isRestoringModal]);
 
   
 
@@ -107,6 +116,7 @@ useEffect(() => {
       <AnimatePresence>
         { showOverlay && (
           <motion.div
+            data-home-intro-overlay
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -124,8 +134,8 @@ useEffect(() => {
 
       {/* Title and subtitle above the Hero section */}
       <div className="fixed w-full z-1000 pointer-events-none">
-        <Title hide={hide} jump={jump} />
-        <Subtitle showOverlay={showOverlay} jump={jump} />
+        <Title hide={hide} jump={jump} skipIntro={skipIntro} />
+        <Subtitle showOverlay={showOverlay} jump={jump} skipIntro={skipIntro} />
       </div>
 
       <div className="flex flex-col">
@@ -153,7 +163,7 @@ useEffect(() => {
             y: jump ? "0vh" : "65vh",
           }}
           transition={
-             {
+             isRestoringModal ? { duration: 0 } : {
                   type: "spring",
                   stiffness: 225,
                   damping: 25,
@@ -181,7 +191,7 @@ useEffect(() => {
             <div
               className={`min-[960px]:flex-1 mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
-              <Projects />
+              <Projects skipIntro={skipIntro} />
             </div>
           </div>
           {/* Footer */}

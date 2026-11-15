@@ -21,9 +21,10 @@ type Drawing = Pick<Project, "slug" | "title" | "category" | "image">;
 
 type DrawingsProps = {
   drawings: Drawing[];
+  skipIntro: boolean;
 };
 
-export default function Projects() {
+export default function Projects({ skipIntro = false }: { skipIntro?: boolean }) {
   const projects = [
     {
       slug: "image1",
@@ -72,7 +73,7 @@ export default function Projects() {
   return (
     <>
       <Architecture projects={projects} />
-      <Art drawings={drawings} />
+      <Art drawings={drawings} skipIntro={skipIntro} />
     </>
   );
 }
@@ -132,7 +133,7 @@ function Architecture({ projects }: ArchitectureProps) {
   );
 }
 
-function Art({ drawings }: DrawingsProps) {
+function Art({ drawings, skipIntro }: DrawingsProps) {
   const imageVariants: Variants = {
     hidden: {
       opacity: 0,
@@ -162,8 +163,9 @@ function Art({ drawings }: DrawingsProps) {
           <motion.div
             key={`${drawing.category}/${drawing.slug}`}
             variants={imageVariants}
-            initial="hidden"
-            whileInView="visible"
+            initial={skipIntro ? false : "hidden"}
+            animate={skipIntro ? "visible" : undefined}
+            whileInView={skipIntro ? undefined : "visible"}
             viewport={{ once: true, amount: 0.3 }}
             className="relative w-[30vw] h-[30vw] max-[1200px]:w-[35vw] max-[1200px]:h-[35vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
           >

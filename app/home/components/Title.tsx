@@ -7,17 +7,19 @@ import { suisse } from "@/app/fonts";
 export default function Title({
   hide,
   jump,
+  skipIntro = false,
 }: {
   hide: boolean;
   jump: boolean;
+  skipIntro?: boolean;
 }) {
   return (
     <div
       className={`
     
     flex text-[3.4375rem] text-white w-fit mx-auto
-    font-extrabold pt-[3.75rem] animate-logo-enter
-    opacity-0 max-[500px]:text-[2.8125rem] max-[400px]:text-[2.1875rem]
+    font-extrabold pt-[3.75rem] ${skipIntro ? "opacity-100" : "animate-logo-enter opacity-0"}
+    max-[500px]:text-[2.8125rem] max-[400px]:text-[2.1875rem]
   `}
     >
       <span

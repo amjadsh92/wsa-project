@@ -3,6 +3,8 @@ import "./globals.css";
 import BodyBackground from "./ui/components/BodyBackground";
 import Footer from "./ui/components/Footer";
 import { ProjectModalNavigation } from "./(main)/components/ProjectModalNavigation";
+import ProjectModalReload from "./(main)/components/ProjectModalReload";
+import { modalReloadHeadScript, modalReloadPreviewScript } from "./(main)/components/projectModalReloadState";
 
 
 export const metadata: Metadata = {
@@ -20,17 +22,26 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      
+        <script dangerouslySetInnerHTML={{ __html: modalReloadHeadScript() }} />
       </head>
 
       <body className="p-0 m-0">
+        <div id="project-reload-preview" aria-hidden="true" inert suppressHydrationWarning dangerouslySetInnerHTML={{ __html: "" }} />
+        <div id="project-modal-frame" className="project-modal-frame" role="dialog" aria-label="Project details" tabIndex={-1}>
+          <div className="project-modal-backdrop" aria-hidden="true" />
+          <div id="project-modal-content" className="relative min-h-screen bg-white max-[960px]:min-h-dvh" />
+          <div className="project-modal-backdrop" aria-hidden="true" />
+        </div>
+        <script dangerouslySetInnerHTML={{ __html: modalReloadPreviewScript() }} />
         <BodyBackground />
         
+        <ProjectModalReload>
         {children}
-        <div className="relative z-[2000]">
+        <div data-project-modal-layer className="relative z-[2000]">
           <ProjectModalNavigation>{modal}</ProjectModalNavigation>
         </div>
         <Footer />
+        </ProjectModalReload>
         
       </body>
     </html>

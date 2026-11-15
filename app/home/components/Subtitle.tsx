@@ -7,16 +7,18 @@ import { useState } from "react";
 export default function Subtitle({
   showOverlay,
   jump,
+  skipIntro = false,
 }: {
   showOverlay: boolean;
   jump: boolean;
+  skipIntro?: boolean;
 }) {
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(skipIntro);
 
   return (
     <>
       <motion.div
-        initial="hidden"
+        initial={skipIntro ? false : "hidden"}
         animate={jump ? "jumped" : !showOverlay ? "visible" : "hidden"}
         variants={{
           hidden: {},

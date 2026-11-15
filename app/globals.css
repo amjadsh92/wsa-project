@@ -1,4 +1,85 @@
  @import "tailwindcss"; 
+#project-reload-preview {
+  display: none;
+}
+
+/* This frame exists in the initial HTML and also holds the live modal content. */
+.project-modal-frame {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+html[data-project-modal-loading] {
+  overflow: hidden;
+  scrollbar-gutter: auto;
+}
+
+html[data-project-modal-loading] #project-modal-frame,
+html[data-project-modal-entrance] #project-modal-frame,
+.project-modal-frame[data-project-modal],
+.project-modal-frame[data-project-modal-snapshot] {
+  display: block;
+}
+
+.project-modal-backdrop {
+  height: 10vh;
+  background: rgb(229 231 235 / 70%);
+  backdrop-filter: blur(0.25rem);
+  mask-image: linear-gradient(155deg, black 0%, black 20%, rgba(0,0,0,0.85) 40%, black 80%, rgba(0,0,0,0.5) 100%);
+}
+
+/* Start before hydration. Keep this flag independent of route loading so
+   mounting the live content cannot interrupt or restart the animation. */
+html[data-project-modal-entrance] #project-modal-content {
+  animation: project-modal-slide-up 500ms cubic-bezier(0.22, 0, 0.18, 1) both;
+}
+
+html[data-project-modal-entrance] #project-modal-frame > .project-modal-backdrop {
+  animation: project-modal-blur-in 400ms ease-out 500ms both;
+}
+
+@keyframes project-modal-slide-up {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(0); }
+}
+
+@keyframes project-modal-blur-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-project-modal-entrance] #project-modal-content,
+  html[data-project-modal-entrance] #project-modal-frame > .project-modal-backdrop {
+    animation: none;
+  }
+}
+
+html[data-project-restoring] {
+  overflow: hidden;
+  scrollbar-gutter: auto;
+}
+
+html[data-project-restoring] .project-route-shell {
+  visibility: hidden;
+}
+
+html[data-project-restoring] #project-reload-preview {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 1900;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  pointer-events: none;
+}
+
  html {
   scrollbar-gutter: stable;
 

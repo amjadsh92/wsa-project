@@ -30,6 +30,7 @@ export function ProjectModalNavigation({ children }: { children: React.ReactNode
       // visual snapshot only: it cannot receive focus or handle navigation.
       const snapshot = modal.cloneNode(true) as HTMLElement;
       snapshot.removeAttribute("data-project-modal");
+      snapshot.setAttribute("data-project-modal-snapshot", "");
       snapshot.removeAttribute("id");
       snapshot.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
       snapshot.inert = true;
