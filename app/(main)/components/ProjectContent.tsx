@@ -4,6 +4,7 @@ import Img from "next/image";
 import Link from "next/link";
 import { useContext, useState, type CSSProperties } from "react";
 import { suisse } from "@/app/fonts";
+import ProjectImageGallery from "./ProjectImageGallery";
 
 import { InProjectModalContext, useProjectModalNavigation } from "./ProjectModalNavigation";
 
@@ -90,80 +91,10 @@ export default function ProjectContent({
 
 
     
-<div className="flex w-full my-[9.375rem] max-[960px]:flex-col max-[960px]:my-[5rem] max-[650px]:my-[3rem]">
-  <div className="flex flex-col w-1/2 max-[960px]:w-full">
-
-    <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        />
-
-    <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        />    
-
-
-     
-    <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        />   
-    
-
-
-  </div>
-  <div className="flex flex-col w-1/2 max-[960px]:w-full">
-
- <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        />
-
-    <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        /> 
-
-     
-    <Img
-          src={project.image}
-          alt={project.title}
-          width="300"
-          height="300"
-          sizes="(width < 960px) 100vw, 50vw"
-          
-          className={`h-auto w-full ${inModal ? "max-[500px]:aspect-[4/3] max-[500px]:object-cover" : ""}`}
-        />     
-
-  </div>
-
-
-
-</div>
+<ProjectImageGallery
+  inModal={inModal}
+  images={Array.from({ length: 6 }, () => ({ src: project.image, alt: project.title }))}
+/>
 
 {relatedProjects.length > 0 && (
   <section className="pb-[5rem] px-[1.25rem] max-[650px]:px-0 max-[650px]:pb-[2.5rem]" aria-labelledby="related-heading">

@@ -7,11 +7,14 @@ export default function Footer(){
     return(
         <>
          <div className="flex h-fit justify-center items-center max-[960px]:hidden [@media(max-height:550px)]:hidden">
-                    <div
+                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- A full navigation restarts the home page and its intro. */}
+                    <a
+                      href="/"
+                      aria-label="KAAN home"
                       className={`${suisse.className} pt-6 w-fit text-black text-[10rem] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
                     >
                       KAAN
-                    </div>
+                    </a>
                   </div>
                   <div className={`${suisse.className} flex justify-between items-center border-t w-full h-[2.5rem] p-[0.625rem] text-[0.75rem] max-[960px]:hidden [@media(max-height:550px)]:hidden`}>
                    
@@ -49,21 +52,27 @@ export default function Footer(){
                   </div>
         
                   <div className="flex h-fit justify-center items-center min-[960px]:hidden [@media(max-height:550px)]:hidden">
-                    <div
+                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- A full navigation restarts the home page and its intro. */}
+                    <a
+                      href="/"
+                      aria-label="KAAN home"
                       className={`${suisse.className} pt-6 w-fit text-black text-[7.5rem] max-[650px]:text-[5.625rem] max-[500px]:text-[3.75rem] font-[450] tracking-wide leading-none scale-x-125 translate-y-4`}
                     >
                       KAAN
-                    </div>
+                    </a>
                   </div>
 
 
 
                   <div className="flex h-fit justify-center items-center [@media(min-height:550px)]:hidden">
-                    <div
+                    {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- A full navigation restarts the home page and its intro. */}
+                    <a
+                      href="/"
+                      aria-label="KAAN home"
                       className={`${suisse.className} pt-6 w-fit text-black text-[4rem] font-[450] tracking-wide leading-none scale-x-125`}
                     >
                       KAAN
-                    </div>
+                    </a>
                   </div>
                   <div className={`${suisse.className} flex flex-col gap-[0.625rem] justify-between items-center border-t w-full h-[2.5rem] p-[0.625rem] text-[0.6rem] [@media(min-height:550px)]:hidden`}>
                     <div className="flex justify-between items-center w-full">

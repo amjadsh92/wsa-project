@@ -14,8 +14,13 @@ export default function Title({
   skipIntro?: boolean;
 }) {
   return (
-    <div
+    // eslint-disable-next-line @next/next/no-html-link-for-pages -- A full navigation restarts the home page and its intro.
+    <a
+      href="/"
+      aria-label="KAAN Architecten home"
+      tabIndex={jump ? -1 : undefined}
       className={`
+    ${jump ? "pointer-events-none" : "pointer-events-auto"}
     
     flex text-[3.4375rem] text-white w-fit mx-auto
     font-extrabold pt-[3.75rem] ${skipIntro ? "opacity-100" : "animate-logo-enter opacity-0"}
@@ -48,6 +53,6 @@ export default function Title({
       >
         Architecten
       </motion.span>
-    </div>
+    </a>
   );
 }
