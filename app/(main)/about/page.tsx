@@ -229,6 +229,10 @@ export default function Architecture(){
 
       <Header3Content />
 
+      {/* Match the gallery pages: scroll the final content above the header
+          stack, leaving only empty space before the footer. */}
+      <div aria-hidden="true" className="h-[calc(100vh-3*var(--header-height))]" />
+
       {/* <Footer /> */}
     </div>
   );

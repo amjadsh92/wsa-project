@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model HomeSettings {
+  id          Int       @id @default(1)
+  revision    Int       @default(0)
+  draft       Json
+  published   Json
+  savedAt     DateTime?
+  publishedAt DateTime?
+}
+
+model ImageAsset {
+  id           String   @id
+  originalName String
+  width        Int
+  height       Int
+  bytes        Int
+  createdAt    DateTime @default(now())
+}

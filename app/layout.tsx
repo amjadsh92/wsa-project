@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import BodyBackground from "./ui/components/BodyBackground";
-import Footer from "./ui/components/Footer";
+import SiteFooter from "./ui/components/SiteFooter";
 import { ProjectModalNavigation } from "./(main)/components/ProjectModalNavigation";
 import ProjectModalReload from "./(main)/components/ProjectModalReload";
 import { modalReloadHeadScript, modalReloadPreviewScript } from "./(main)/components/projectModalReloadState";
@@ -40,7 +40,7 @@ export default function RootLayout({
         <div data-project-modal-layer className="relative z-[2000]">
           <ProjectModalNavigation>{modal}</ProjectModalNavigation>
         </div>
-        <Footer />
+        <SiteFooter />
         </ProjectModalReload>
         
       </body>

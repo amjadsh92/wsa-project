@@ -2,16 +2,18 @@
 
 import { motion } from "framer-motion";
 import { suisse } from "@/app/fonts";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 export default function Subtitle({
   showOverlay,
   jump,
   skipIntro = false,
+  words = ["Architecture", "Art", "Design"],
 }: {
   showOverlay: boolean;
   jump: boolean;
   skipIntro?: boolean;
+  words?: string[];
 }) {
   const [introDone, setIntroDone] = useState(skipIntro);
 
@@ -53,11 +55,12 @@ export default function Subtitle({
         }}
         className={`${suisse.className} text-[1.25rem] mx-auto w-fit text-white font-light max-[500px]:text-[1.125rem]`}
       >
-        <Word>Architecture</Word>
-        <Separator />
-        <Word>Art</Word>
-        <Separator />
-        <Word>Design</Word>
+        {words.map((word, index) => (
+          <Fragment key={index}>
+            {index > 0 && <Separator />}
+            <Word>{word}</Word>
+          </Fragment>
+        ))}
       </motion.div>
     </>
   );

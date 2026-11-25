@@ -9,6 +9,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 type CarouselProps = {
   images: string[];
+  positions?: { x: number; y: number; alt: string }[];
   titles: string[] | "";
   descriptions: string[] | "";
   speed: 300 | 500 | 700 | 1000;
@@ -16,6 +17,7 @@ type CarouselProps = {
 
 export default function Carousel({
   images,
+  positions,
   titles,
   descriptions,
   speed,
@@ -25,7 +27,7 @@ export default function Carousel({
   // The button that is currently highlighted
   const [currentButton, setCurrentButton] = useState(0);
   // Next project photo
-  const [next, setNext] = useState(1);
+  const [next, setNext] = useState(images.length > 1 ? 1 : 0);
   // Transition to the next photo should begin when animate is true
   const [animate, setAnimate] = useState(false);
   // Transition direction is to right
@@ -45,7 +47,7 @@ export default function Carousel({
   const [leftPressed, setLeftPressed] = useState(false);
 
   useEffect(() => {
-    if (!right || !clickable) {
+    if (images.length < 2 || !right || !clickable) {
       return;
     }
     // In normal flow this runs every 3 seconds
@@ -60,7 +62,7 @@ export default function Carousel({
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [next, keepPhoto]);
+  }, [next, keepPhoto, right, clickable, images.length]);
 
   // This runs when the  transition to the next image is finished
   const handleTransitionEnd = () => {
@@ -103,7 +105,7 @@ export default function Carousel({
   // This runs when you press the right arrow
 
   const goRight = () => {
-    if (!clickable) {
+    if (images.length < 2 || !clickable) {
       return;
     }
     setAnimate(true);
@@ -116,7 +118,7 @@ export default function Carousel({
   // This runs when you press the left arrow
 
   const goLeft = () => {
-    if (!clickable) {
+    if (images.length < 2 || !clickable) {
       return;
     }
     const newNext = (current - 1 + images.length) % images.length;
@@ -132,7 +134,7 @@ export default function Carousel({
   // This runs when you press a button that takes you to a specific photo
 
   const goTo = (index: number) => {
-    if (!clickable) {
+    if (images.length < 2 || !clickable) {
       return;
     }
 
@@ -194,11 +196,13 @@ export default function Carousel({
 
   return (
     <div className="relative h-screen overflow-hidden">
+      <span className="sr-only">{positions?.[current]?.alt}</span>
       {/* Current Background */}
       <div
         className={`absolute inset-0 bg-cover bg-center ${animate ? `transition-transform ${durationClass} ${right ? `-translate-x-full` : `translate-x-full`}` : "translate-x-0"}`}
         style={{
           backgroundImage: `url(${images[current]})`,
+          backgroundPosition: `${positions?.[current]?.x ?? 50}% ${positions?.[current]?.y ?? 50}%`,
         }}
         onTransitionEnd={handleTransitionEnd}
       >
@@ -217,6 +221,8 @@ export default function Carousel({
       </div>
 
       <button
+        hidden={images.length < 2}
+        aria-label="Next carousel image"
         onClick={(e) => {
           e.stopPropagation();
           animateRight();
@@ -235,6 +241,8 @@ export default function Carousel({
       </button>
 
       <button
+        hidden={images.length < 2}
+        aria-label="Previous carousel image"
         onClick={(e) => {
           e.stopPropagation();
           animateLeft();
@@ -263,6 +271,7 @@ export default function Carousel({
         }`}
         style={{
           backgroundImage: `url(${images[next]})`,
+          backgroundPosition: `${positions?.[next]?.x ?? 50}% ${positions?.[next]?.y ?? 50}%`,
         }}
       >
         {/* <div className="absolute inset-0 bg-black/10 z-10"> */}
@@ -283,7 +292,7 @@ export default function Carousel({
       <div className="absolute inset-0 bg-black/20 z-10" />
 
       <div className="relative mt-[90vh] h-fit w-fit mx-auto z-[999] flex gap-3">
-        {images.map((_, index) => (
+        {images.length > 1 && images.map((_, index) => (
           <div
             key={index}
             className="p-1 cursor-pointer group"
