@@ -1,4 +1,5 @@
 "use client";
+import { pagePath } from "@/lib/home-content";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { suisse } from "@/app/fonts";
@@ -146,6 +147,14 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
                   <div className={styles.fieldRow}><label htmlFor="companion">Word beside the title</label><Toggle label="Show companion word" checked={content.showCompanion} onChange={value => edit({ showCompanion: value })} /></div>
                   <input id="companion" value={content.companion} maxLength={40} onChange={e => edit({ companion: e.target.value })} placeholder="Architecten" disabled={!content.showCompanion} />
                 </div>
+                <div className={styles.divider} />
+                <h3 className={styles.subheading}>Page names</h3>
+                <p className={styles.help}>Used on the homepage and the navigation on each page. Publishing also changes the public URLs. Project links follow their page.</p>
+                {(["page1", "page2", "page3"] as const).map(key => (
+                  <label className={styles.field} key={key}>{key} — {pagePath(content.navigation, key)}
+                    <input aria-label={`Name for /${key}`} maxLength={30} value={content.navigation[key]} onChange={e => edit({ navigation: { ...content.navigation, [key]: e.target.value } })} />
+                  </label>
+                ))}
                 <div className={styles.divider} />
                 <h3 className={styles.subheading}>The words below</h3><p className={styles.help}>Keep all three, choose a few, or hide them entirely.</p>
                 {content.words.map((word, index) => <div className={styles.wordRow} key={index}><span>0{index + 1}</span><input aria-label={`Subtitle word ${index + 1}`} value={word} maxLength={30} disabled={!content.showWords[index]} onChange={e => { const words = [...content.words] as HomeContent["words"]; words[index] = e.target.value; edit({ words }); }} /><Toggle label={`Show subtitle word ${index + 1}`} checked={content.showWords[index]} onChange={value => { const showWords = [...content.showWords] as HomeContent["showWords"]; showWords[index] = value; edit({ showWords }); }} /></div>)}

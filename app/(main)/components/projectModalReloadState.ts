@@ -16,8 +16,8 @@ export function parseModalReloadSnapshot(raw: string | null, pathname: string): 
     const value = JSON.parse(raw);
     if (
       value.project !== pathname ||
-      !/^\/(art|architecture)\/[^/]+$/.test(value.project) ||
-      !["/", "/art", "/architecture", "/about"].includes(value.background) ||
+      !/^\/[^/?#]+\/[^/?#]+$/.test(value.project) ||
+      !/^\/(?:[^/?#]+)?$/.test(value.background) ||
       !Number.isFinite(value.pageScroll) || value.pageScroll < 0 ||
       typeof value.html !== "string" || value.html.length > 2_000_000 ||
       typeof value.backgroundColor !== "string" ||

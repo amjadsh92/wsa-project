@@ -16,7 +16,7 @@ export default function ProjectContent({ project }: { project: Project }) {
     <SharedProjectContent
       project={project}
       relatedProjects={relatedProjects}
-      basePath="/art"
+      basePath="/page2"
     />
   );
 }

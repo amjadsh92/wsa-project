@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 const source = await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8');
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
-const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
+const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 
 const image = { id: 'b102eb69-7680-43cb-9bbd-57bc2db52b21.webp', src: '/api/media/b102eb69-7680-43cb-9bbd-57bc2db52b21.webp', alt: 'Courtyard', x: 50, y: 50 };
 
@@ -30,4 +30,33 @@ test('only registered upload URLs and bounded image positions are accepted', () 
 });
 test('malformed, oversized and incomplete settings are rejected', () => {
   for (const value of [null, {}, { ...defaultHomeContent, title: 'X'.repeat(41) }, { ...defaultHomeContent, words: ['one'] }, { ...defaultHomeContent, showWords: [true, true, 'false'] }]) assert.throws(() => parseHomeContent(value));
+});
+
+test('older settings retain default navigation names', () => {
+  const { navigation, ...legacy } = defaultHomeContent;
+  assert.deepEqual(parseHomeContent(legacy).navigation, navigation);
+});
+test('navigation names are trimmed and validated before publishing', () => {
+  const navigation = { page1: ' Studio ', page2: 'Objects', page3: 'Buildings' };
+  assert.deepEqual(parseHomeContent({ ...defaultHomeContent, navigation }).navigation, { page1: 'Studio', page2: 'Objects', page3: 'Buildings' });
+  for (const value of [null, {}, { ...navigation, page2: '' }, { ...navigation, page1: 'x'.repeat(31) }]) {
+    assert.throws(() => parseHomeContent({ ...defaultHomeContent, navigation: value }));
+  }
+  assert.equal(parseHomeContent({ ...defaultHomeContent, navigation: { ...navigation, page2: '' } }, true).navigation.page2, '');
+});
+
+test('legacy navigation names migrate to stable page identifiers', () => {
+  assert.deepEqual(parseHomeContent({ ...defaultHomeContent, navigation: { about: 'Studio', art: 'Design', architecture: 'Buildings' } }).navigation, { page1: 'Studio', page2: 'Design', page3: 'Buildings' });
+});
+test('public page URLs must be unique and avoid reserved paths', () => {
+  for (const page2 of ['Admin', 'API', 'page1', 'About', '!!!']) {
+    assert.throws(() => parseHomeContent({ ...defaultHomeContent, navigation: { ...defaultHomeContent.navigation, page2 } }));
+  }
+});
+
+test('page names generate readable public URLs', () => {
+  assert.equal(pageSlug('  Our Studio  '), 'our-studio');
+  assert.equal(pageSlug('Café & Design'), 'cafe-design');
+  assert.equal(pagePath({ ...defaultHomeContent.navigation, page2: 'Design' }, 'page2'), '/design');
+  assert.throws(() => parseHomeContent({ ...defaultHomeContent, navigation: { page1: 'Our Studio', page2: 'Our-Studio', page3: 'Buildings' } }));
 });

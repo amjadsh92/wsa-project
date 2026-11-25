@@ -120,3 +120,12 @@ After changing the dev command, restart an existing dev server; changing the
 package script cannot release memory already held by a running process.
 See the [upstream report](https://github.com/vercel/next.js/issues/96140) for the
 matching development-only async-tracking stack.
+
+### Development modal routing
+
+The checked-in pnpm patch for Next 16.2.6 prevents its development file watcher
+from registering the same interception rewrite more than once. Otherwise route
+changes can turn a dynamic project URL into an invalid repeated `(.)` path,
+causing project clicks to fall back to standalone pages. `pnpm install` applies
+the patch automatically; restart an already running dev server after installing.
+Recheck this workaround when upgrading Next. Production routing is unchanged.

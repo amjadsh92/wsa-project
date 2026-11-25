@@ -1,17 +1,17 @@
 "use client";
 
+import { pagePath } from "@/lib/home-content";
 import { suisse } from "@/app/fonts";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavbar } from "./NavbarProvider";
 
-const NAV_ITEMS = [
-  { label: "About", href: "/about" },
-  { label: "Art", href: "/art" },
-  { label: "Architecture", href: "/architecture" },
-];
-
-export default function Navbar(){
+export default function Navbar({ navigation }: { navigation: import("@/lib/home-content").HomeContent["navigation"] }){
+  const NAV_ITEMS = [
+    { label: navigation.page1, href: pagePath(navigation, "page1") },
+    { label: navigation.page2, href: pagePath(navigation, "page2") },
+    { label: navigation.page3, href: pagePath(navigation, "page3") },
+  ];
   const { showNav } = useNavbar();
   const pathname = usePathname();
 
@@ -22,7 +22,7 @@ return(
           showNav ? "top-0" : "top-[-3.3125rem]"
         }`}
       >
-        <div className={`${suisse.className} relative flex h-[3.3125rem] justify-between items-center border-b ${pathname === "/about" ? "bg-[#E1E3E3]" : "bg-white"} p-3`}>
+        <div className={`${suisse.className} relative flex h-[3.3125rem] justify-between items-center border-b ${pathname === pagePath(navigation, "page1") ? "bg-[#E1E3E3]" : "bg-white"} p-3`}>
           <div className="flex justify-between items-center text-[0.875rem] ml-[0.625rem]">
              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional: forces a full reload so Home restarts from its true initial state, not a client-side route swap */}
             <a

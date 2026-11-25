@@ -1,0 +1,38 @@
+diff --git a/dist/esm/server/lib/router-utils/setup-dev-bundler.js b/dist/esm/server/lib/router-utils/setup-dev-bundler.js
+index ddb7d83eab907d4b31fd686a7381c15ff27246a5..8a04cddbc13f03d58eccd0735a73b5c78f565093 100644
+--- a/dist/esm/server/lib/router-utils/setup-dev-bundler.js
++++ b/dist/esm/server/lib/router-utils/setup-dev-bundler.js
+@@ -637,7 +637,13 @@ async function startWatcher(opts) {
+             serverFields.hasAppNotFound = hasRootAppNotFound;
+             opts.fsChecker.middlewareMatcher = ((_serverFields_middleware = serverFields.middleware) == null ? void 0 : _serverFields_middleware.matchers) ? getMiddlewareRouteMatcher((_serverFields_middleware1 = serverFields.middleware) == null ? void 0 : _serverFields_middleware1.matchers) : undefined;
+             const interceptionRoutes = generateInterceptionRoutesRewrites(Object.keys(appPaths), opts.nextConfig.basePath).map((item)=>buildCustomRoute('before_files_rewrite', item, opts.nextConfig.basePath, opts.nextConfig.experimental.caseSensitiveRoutes));
+-            opts.fsChecker.rewrites.beforeFiles.push(...interceptionRoutes);
++            // A watch update can rediscover the same interception route. Applying
++            // a dynamic rewrite twice adds the interception marker repeatedly.
++            opts.fsChecker.rewrites.beforeFiles.push(...interceptionRoutes.filter((route)=>
++                !opts.fsChecker.rewrites.beforeFiles.some((existing)=>
++                    existing.source === route.source && existing.destination === route.destination
++                )
++            ));
+             const exportPathMap = typeof nextConfig.exportPathMap === 'function' && await (nextConfig.exportPathMap == null ? void 0 : nextConfig.exportPathMap.call(nextConfig, {}, {
+                 dev: true,
+                 dir: opts.dir,
+diff --git a/dist/server/lib/router-utils/setup-dev-bundler.js b/dist/server/lib/router-utils/setup-dev-bundler.js
+index 2924899412660e0dfefe1bcecf6213f2e19a5c07..bc360477691d4bf272f6d688e80ac64e8baad7a5 100644
+--- a/dist/server/lib/router-utils/setup-dev-bundler.js
++++ b/dist/server/lib/router-utils/setup-dev-bundler.js
+@@ -705,7 +705,13 @@ async function startWatcher(opts) {
+             serverFields.hasAppNotFound = hasRootAppNotFound;
+             opts.fsChecker.middlewareMatcher = ((_serverFields_middleware = serverFields.middleware) == null ? void 0 : _serverFields_middleware.matchers) ? (0, _middlewareroutematcher.getMiddlewareRouteMatcher)((_serverFields_middleware1 = serverFields.middleware) == null ? void 0 : _serverFields_middleware1.matchers) : undefined;
+             const interceptionRoutes = (0, _generateinterceptionroutesrewrites.generateInterceptionRoutesRewrites)(Object.keys(appPaths), opts.nextConfig.basePath).map((item)=>(0, _filesystem.buildCustomRoute)('before_files_rewrite', item, opts.nextConfig.basePath, opts.nextConfig.experimental.caseSensitiveRoutes));
+-            opts.fsChecker.rewrites.beforeFiles.push(...interceptionRoutes);
++            // A watch update can rediscover the same interception route. Applying
++            // a dynamic rewrite twice adds the interception marker repeatedly.
++            opts.fsChecker.rewrites.beforeFiles.push(...interceptionRoutes.filter((route)=>
++                !opts.fsChecker.rewrites.beforeFiles.some((existing)=>
++                    existing.source === route.source && existing.destination === route.destination
++                )
++            ));
+             const exportPathMap = typeof nextConfig.exportPathMap === 'function' && await (nextConfig.exportPathMap == null ? void 0 : nextConfig.exportPathMap.call(nextConfig, {}, {
+                 dev: true,
+                 dir: opts.dir,

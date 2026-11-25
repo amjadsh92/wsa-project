@@ -1,5 +1,6 @@
 "use client";
 
+import { useProjectBasePath } from "@/app/ui/components/PageNames";
 import Img from "next/image";
 import Link from "next/link";
 import { useContext, useState, type CSSProperties } from "react";
@@ -22,11 +23,11 @@ const description = `JUMP is located at the intersection of diverse urban areas 
 export default function ProjectContent({
   project,
   relatedProjects,
-  basePath,
+  basePath: pageId,
 }: {
   project: Project;
   relatedProjects: readonly Project[];
-  basePath: "/art" | "/architecture";
+  basePath: "/page2" | "/page3";
 }) {
   const inModal = useContext(InProjectModalContext);
   const { openRelated } = useProjectModalNavigation();
@@ -34,6 +35,7 @@ export default function ProjectContent({
   const [relatedIndex, setRelatedIndex] = useState(0);
   const activeRelatedIndex = relatedProjects.length ? relatedIndex % relatedProjects.length : 0;
 
+  const basePath = useProjectBasePath(pageId);
   return (
    <div className={`pt-[0.0625rem] `}>
      <div className={` ${suisse.className} ${!inModal ? "mt-[5.125rem]" : "mt-4 pr-16"} flex flex-wrap justify-start m-4 gap-x-4 gap-y-2 text-[0.8rem] max-[650px]:text-[0.75rem]`}>

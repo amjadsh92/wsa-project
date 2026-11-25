@@ -4,3 +4,5 @@ allowBuilds:
   prisma: true
   sharp: true
   unrs-resolver: false
+patchedDependencies:
+  next@16.2.6: patches/next@16.2.6.patch

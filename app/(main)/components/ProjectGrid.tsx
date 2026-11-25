@@ -1,3 +1,5 @@
+"use client";
+import { useProjectBasePath } from "@/app/ui/components/PageNames";
 import Image, { type ImageProps } from "next/image";
 import Link from "next/link";
 import { suisse } from "@/app/fonts";
@@ -9,7 +11,7 @@ type ProjectGridProps = {
     title: string;
     image: ImageProps["src"];
   }[];
-  basePath: "/art" | "/architecture";
+  basePath: "/page2" | "/page3";
   isFirstSection?: boolean;
 };
 
@@ -18,9 +20,10 @@ const blurMask =
 
 export default function ProjectGrid({
   projects,
-  basePath,
+  basePath: pageId,
   isFirstSection = false,
 }: ProjectGridProps) {
+  const basePath = useProjectBasePath(pageId);
   return (
     <div
       className={`grid grid-cols-3 gap-x-[clamp(1.5rem,12.5vw,11.25rem)] max-[1250px]:gap-x-[clamp(0.75rem,6.25vw,5.625rem)] max-[960px]:grid-cols-2 max-[960px]:gap-x-[clamp(1.5rem,12.5vw,11.25rem)] max-[650px]:grid-cols-1 gap-y-[clamp(2rem,7vw,6.25rem)] px-[1.5rem] pb-[11.75rem] ${

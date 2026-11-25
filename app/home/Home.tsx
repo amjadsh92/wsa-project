@@ -1,5 +1,6 @@
 "use client";
 import { useEffect,useState,useMemo } from "react";
+import { PageNames } from "@/app/ui/components/PageNames";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import Title from "@/app/home/components/Title";
@@ -10,7 +11,7 @@ import { useHomeModalRestoration } from "@/app/home/components/homeModalRestorat
 import "primeicons/primeicons.css";
 import { visibleImages, visibleWords, type HomeContent } from "@/lib/home-content";
 
-export default function Home({ content, preview = false }: { content: HomeContent; preview?: boolean }) {
+function HomeContentView({ content, preview = false }: { content: HomeContent; preview?: boolean }) {
   const slides = useMemo(() => visibleImages(content), [content]);
   const images = useMemo(() => slides.map(image => image.src), [slides]);
   const restoredScroll = useHomeModalRestoration();
@@ -168,7 +169,7 @@ useEffect(() => {
             <div
               className={`sticky top-[calc(var(--search-bar-height)-2rem)] max-[960px]:top-0 min-[960px]:self-start z-[1001]`}
             >
-              <Nav paddingTop={"--nav-padding-top"} />
+              <Nav navigation={content.navigation} paddingTop={"--nav-padding-top"} />
             </div>
 
             {/* projects */}
@@ -184,4 +185,8 @@ useEffect(() => {
       </div>
     </>
   );
+}
+
+export default function Home(props: { content: HomeContent; preview?: boolean }) {
+ return <PageNames navigation={props.content.navigation}><HomeContentView {...props} /></PageNames>;
 }

@@ -1,3 +1,5 @@
+import { usePageNames } from "@/app/ui/components/PageNames";
+import { pagePath } from "@/lib/home-content";
 import Img from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -79,6 +81,7 @@ export default function Projects({ skipIntro = false }: { skipIntro?: boolean })
 }
 
 function Architecture({ projects }: ArchitectureProps) {
+  const navigation = usePageNames();
   return (
     <div>
       {projects.map((project, index) => {
@@ -95,7 +98,7 @@ function Architecture({ projects }: ArchitectureProps) {
               className={`sticky z-20 bg-white max-[960px]:relative max-[960px]:top-0! `}
             >
               <div className="border-t w-full font-[300] "></div>
-              <Link href={`/${project.category.toLowerCase()}/${project.slug}`} scroll={false} className="flex justify-between items-center w-full h-[2.2rem] max-[960px]:h-[2.5rem] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[0.625rem] max-[960px]:pt-[0.625rem]">
+              <Link href={`${pagePath(navigation, project.category === "Art" ? "page2" : "page3")}/${project.slug}`} scroll={false} className="flex justify-between items-center w-full h-[2.2rem] max-[960px]:h-[2.5rem] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[0.625rem] max-[960px]:pt-[0.625rem]">
                 <h3 className={`${suisse.className} text-[0.8125rem] max-[500px]:text-[0.6875rem] pr-[0.625rem]`}>
                   {project.title}
                 </h3>
@@ -114,7 +117,7 @@ function Architecture({ projects }: ArchitectureProps) {
               className={`block bg-white pt-4 pb-[2.5rem] h-[27vw] w-full max-[1200px]:h-[35vw] max-[960px]:h-[55vw] max-[650px]:h-[75vw] max-[500px]:h-[100vw] `}
             >
               <Link
-                href={`/${project.category.toLowerCase()}/${project.slug}`}
+                href={`${pagePath(navigation, project.category === "Art" ? "page2" : "page3")}/${project.slug}`}
                 scroll={false}
                 aria-label={`Open ${project.title}`}
                 className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
@@ -138,6 +141,7 @@ function Architecture({ projects }: ArchitectureProps) {
 }
 
 function Art({ drawings, skipIntro }: DrawingsProps) {
+  const navigation = usePageNames();
   const imageVariants: Variants = {
     hidden: {
       opacity: 0,
@@ -174,7 +178,7 @@ function Art({ drawings, skipIntro }: DrawingsProps) {
             className="relative bg-white pt-4 pb-[2.5rem] w-[30vw] h-[30vw] max-[1200px]:w-[35vw] max-[1200px]:h-[35vw] max-[960px]:w-[60vw] max-[960px]:h-[60vw] max-[600px]:w-[75vw] max-[600px]:h-[75vw] max-[400px]:w-[85vw] max-[400px]:h-[85vw] "
           >
             <Link
-              href={`/${drawing.category.toLowerCase()}/${drawing.slug}`}
+              href={`${pagePath(navigation, "page2")}/${drawing.slug}`}
               scroll={false}
               aria-label={`Open ${drawing.title}`}
               className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
