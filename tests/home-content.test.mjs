@@ -2,7 +2,11 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
-const source = await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8');
+const projectSource = await readFile(new URL('../lib/project-content.ts', import.meta.url), 'utf8');
+const projectCompiled = ts.transpileModule(projectSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
+const projectUrl = `data:text/javascript;base64,${Buffer.from(projectCompiled).toString('base64')}`;
+const { allProjects, parsePortfolio, defaultPortfolio, createProject } = await import(projectUrl);
+const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl);
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 
@@ -59,4 +63,46 @@ test('page names generate readable public URLs', () => {
   assert.equal(pageSlug('Café & Design'), 'cafe-design');
   assert.equal(pagePath({ ...defaultHomeContent.navigation, page2: 'Design' }, 'page2'), '/design');
   assert.throws(() => parseHomeContent({ ...defaultHomeContent, navigation: { page1: 'Our Studio', page2: 'Our-Studio', page3: 'Buildings' } }));
+});
+
+test('legacy documents receive independent projects in each header', () => {
+  const { portfolio: _, ...legacy } = defaultHomeContent;
+  const value = parseHomeContent(legacy);
+  assert.equal(value.portfolio.page2.length, 3);
+  assert.equal(new Set(allProjects(value.portfolio, 'page2').map(p => p.slug)).size, 27);
+  value.portfolio.page2[1].projects[0].title = 'Changed';
+  assert.notEqual(value.portfolio.page2[0].projects[0].title, 'Changed');
+});
+test('project category follows its header and text/images survive validation', () => {
+  const portfolio = defaultPortfolio();
+  portfolio.page2[1].title = 'Sculpture';
+  Object.assign(portfolio.page2[1].projects[0], { title: 'New title', location: 'Beirut', year: '2030', image: image.src, description: 'Before', moreDescription: 'After', images: [{ src: image.src, alt: 'Detail' }] });
+  const value = parsePortfolio(portfolio);
+  const project = allProjects(value, 'page2').find(p => p.slug === 'header2-image1');
+  assert.equal(project.category, 'Sculpture');
+  assert.equal(project.description, 'Before');
+  assert.equal(project.moreDescription, 'After');
+  assert.equal(project.images[0].src, image.src);
+});
+test('project validation rejects malformed media, years, duplicate URLs and oversized text', () => {
+  for (const patch of [{ image: '/etc/passwd' }, { year: '20x5' }, { description: 'x'.repeat(5001) }, { images: [{ src: 'https://example.com/x.jpg', alt: '' }] }, { title: '' }]) {
+    const portfolio = defaultPortfolio();
+    Object.assign(portfolio.page3[0].projects[0], patch);
+    assert.throws(() => parsePortfolio(portfolio));
+  }
+  const portfolio = defaultPortfolio();
+  portfolio.page2[1].projects[0].slug = 'image1';
+  assert.throws(() => parsePortfolio(portfolio), /unique/);
+});
+
+test('headers support empty lists and more than fifty independently editable projects', () => {
+  const portfolio = defaultPortfolio();
+  portfolio.page2[0].projects = [];
+  portfolio.page3[2].projects = Array.from({ length: 125 }, (_, i) => createProject('project-' + i));
+  const parsed = parsePortfolio(portfolio);
+  assert.equal(parsed.page2[0].projects.length, 0);
+  assert.equal(parsed.page3[2].projects.length, 125);
+  assert.equal(parsed.page3[2].projects[0].images.length, 0);
+  parsed.page3[2].projects[0].images.push({ src: image.src, alt: 'Detail' });
+  assert.equal(parsed.page3[2].projects[1].images.length, 0);
 });

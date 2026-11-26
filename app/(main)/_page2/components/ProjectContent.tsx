@@ -1,22 +1,8 @@
 "use client";
-
 import SharedProjectContent from "../../components/ProjectContent";
-import { projects, type Project } from "../projects";
-
-export default function ProjectContent({ project }: { project: Project }) {
-  const relatedProjects = projects
-    .filter(
-      (relatedProject) =>
-        relatedProject.slug !== project.slug &&
-        relatedProject.category === project.category,
-    )
-    .slice(0, 3);
-
-  return (
-    <SharedProjectContent
-      project={project}
-      relatedProjects={relatedProjects}
-      basePath="/page2"
-    />
-  );
+import { usePortfolio } from "@/app/ui/components/PortfolioContent";
+import { allProjects, type DisplayProject } from "@/lib/project-content";
+export default function ProjectContent({ project }: { project: DisplayProject }) {
+ const projects = allProjects(usePortfolio(), "page2");
+ return <SharedProjectContent project={project} relatedProjects={projects.filter(p => p.sectionId === project.sectionId && p.slug !== project.slug).slice(0, 3)} basePath="/page2" />;
 }

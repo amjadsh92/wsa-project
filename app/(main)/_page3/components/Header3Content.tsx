@@ -1,6 +1,7 @@
 import ProjectGrid from "../../components/ProjectGrid";
-import { projects } from "../projects";
-
+import { usePortfolio } from "@/app/ui/components/PortfolioContent";
+import { sectionProjects } from "@/lib/project-content";
 export default function Header3Content() {
-  return <ProjectGrid projects={projects} basePath="/page3" />;
+  const section = usePortfolio().page3[2];
+  return <ProjectGrid projects={sectionProjects(section)} basePath="/page3"  />;
 }

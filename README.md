@@ -129,3 +129,24 @@ changes can turn a dynamic project URL into an invalid repeated `(.)` path,
 causing project clicks to fall back to standalone pages. `pnpm install` applies
 the patch automatically; restart an already running dev server after installing.
 Recheck this workaround when upgrading Next. Production routing is unchanged.
+
+### Project pages and details
+
+The editor's page 2/page 3 sidebar links (below Homepage) manage each page's three header names and their
+project entries. Choose a header and project to edit its title, cover, location,
+four-digit year, introductory text, expanded text, and up to 20 additional images.
+Projects can be added or deleted within each header, with undo for the last deletion.
+There is no fixed project-count limit; the API retains its request-size limit.
+Empty headers are supported. Additional images can be reordered or removed. The category is derived from the
+header name; project slugs stay stable when titles change.
+
+Page and project previews use the same rendering components as the public site.
+Save draft keeps edits private; Publish changes publishes the entire content
+document, including homepage settings. Data uses the existing Prisma JSON
+draft/published fields, so no schema migration or database reset is needed.
+Older documents receive the existing placeholder content as defaults. Each header
+now has independent project entries; the old image1–image9 URLs belong to header 1.
+
+Uploaded project media is checked against registered assets before saving.
+Grid thumbnails, homepage project listings, related projects, standalone detail
+pages and modal galleries all read the published project content.

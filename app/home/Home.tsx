@@ -1,5 +1,6 @@
 "use client";
 import { useEffect,useState,useMemo } from "react";
+import { PortfolioContent } from "@/app/ui/components/PortfolioContent";
 import { PageNames } from "@/app/ui/components/PageNames";
 import Carousel from "@/app/home/components/Carousel";
 import { motion, AnimatePresence, useAnimate } from "framer-motion";
@@ -188,5 +189,5 @@ useEffect(() => {
 }
 
 export default function Home(props: { content: HomeContent; preview?: boolean }) {
- return <PageNames navigation={props.content.navigation}><HomeContentView {...props} /></PageNames>;
+ return <PageNames navigation={props.content.navigation}><PortfolioContent portfolio={props.content.portfolio}><HomeContentView {...props} /></PortfolioContent></PageNames>;
 }

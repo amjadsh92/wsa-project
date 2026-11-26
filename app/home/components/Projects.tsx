@@ -1,3 +1,5 @@
+import { usePortfolio } from "@/app/ui/components/PortfolioContent";
+import { allProjects } from "@/lib/project-content";
 import { usePageNames } from "@/app/ui/components/PageNames";
 import { pagePath } from "@/lib/home-content";
 import Img from "next/image";
@@ -27,50 +29,9 @@ type DrawingsProps = {
 };
 
 export default function Projects({ skipIntro = false }: { skipIntro?: boolean }) {
-  const projects = [
-    {
-      slug: "image1",
-      title: "Building 140 CERN",
-      location: "GENEVA, CH",
-      category:"Architecture",
-      image: "/home/images/project1.jpg",
-    },
-    {
-      slug: "image2",
-      title: "Building 140 CERN",
-      location: "GENEVA, CH",
-      category:"Architecture",
-      image: "/home/images/project1.jpg",
-    },
-    {
-      slug: "image3",
-      title: "Building 140 CERN",
-      location: "GENEVA, CH",
-      category:"Architecture",
-      image: "/home/images/project1.jpg",
-    },
-    {
-      slug: "image4",
-      title: "Building 140 CERN",
-      location: "GENEVA, CH",
-      category:"Architecture",
-      image: "/home/images/project1.jpg",
-    },
-    {
-      slug: "image5",
-      title: "Building 140 CERN",
-      location: "GENEVA, CH",
-      category:"Architecture",
-      image: "/home/images/project1.jpg",
-    },
-  ];
-
-  const drawings: Drawing[] = Array.from({ length: 5 }, (_, index) => ({
-    slug: `image${index + 1}`,
-    title: `Art project ${index + 1}`,
-    category: "Art",
-    image: "/home/images/project1.jpg",
-  }));
+  const portfolio = usePortfolio();
+  const projects = allProjects(portfolio, "page3").slice(0, 5);
+  const drawings = allProjects(portfolio, "page2").slice(0, 5);
 
   return (
     <>
@@ -98,7 +59,7 @@ function Architecture({ projects }: ArchitectureProps) {
               className={`sticky z-20 bg-white max-[960px]:relative max-[960px]:top-0! `}
             >
               <div className="border-t w-full font-[300] "></div>
-              <Link href={`${pagePath(navigation, project.category === "Art" ? "page2" : "page3")}/${project.slug}`} scroll={false} className="flex justify-between items-center w-full h-[2.2rem] max-[960px]:h-[2.5rem] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[0.625rem] max-[960px]:pt-[0.625rem]">
+              <Link href={`${pagePath(navigation, "page3")}/${project.slug}`} scroll={false} className="flex justify-between items-center w-full h-[2.2rem] max-[960px]:h-[2.5rem] max-[960px]:flex-col max-[960px]:items-start max-[960px]:pl-[0.625rem] max-[960px]:pt-[0.625rem]">
                 <h3 className={`${suisse.className} text-[0.8125rem] max-[500px]:text-[0.6875rem] pr-[0.625rem]`}>
                   {project.title}
                 </h3>
@@ -117,7 +78,7 @@ function Architecture({ projects }: ArchitectureProps) {
               className={`block bg-white pt-4 pb-[2.5rem] h-[27vw] w-full max-[1200px]:h-[35vw] max-[960px]:h-[55vw] max-[650px]:h-[75vw] max-[500px]:h-[100vw] `}
             >
               <Link
-                href={`${pagePath(navigation, project.category === "Art" ? "page2" : "page3")}/${project.slug}`}
+                href={`${pagePath(navigation, "page3")}/${project.slug}`}
                 scroll={false}
                 aria-label={`Open ${project.title}`}
                 className="home-project-image-link relative isolate block h-full w-full overflow-hidden"

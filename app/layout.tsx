@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import { readHomeDocument } from "@/lib/home-store";
+import { PortfolioContent } from "./ui/components/PortfolioContent";
 import { PageNames } from "./ui/components/PageNames";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -39,6 +40,7 @@ export default async function RootLayout({
         </div>
         <script dangerouslySetInnerHTML={{ __html: modalReloadPreviewScript() }} />
         <PageNames navigation={published.navigation}>
+        <PortfolioContent portfolio={published.portfolio}>
         <BodyBackground />
         
         <ProjectModalReload>
@@ -48,6 +50,7 @@ export default async function RootLayout({
         </div>
         <SiteFooter />
         </ProjectModalReload>
+        </PortfolioContent>
         </PageNames>
         
       </body>

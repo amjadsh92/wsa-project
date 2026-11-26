@@ -1,4 +1,6 @@
 "use client";
+import ConfirmDialog from "./ConfirmDialog";
+import ProjectEditor, { type PreviewTarget } from "./ProjectEditor";
 import { pagePath } from "@/lib/home-content";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
@@ -17,9 +19,11 @@ function Icon({ name }: { name: IconName }) {
 }
 
 export default function AdminPanel({ initialDocument }: { initialDocument: HomeDocument }) {
+  const [confirmation, setConfirmation] = useState<"publish" | "revert" | null>(null);
   const [document, setDocument] = useState(initialDocument);
   const [content, setContent] = useState(initialDocument.draft);
-  const [section, setSection] = useState<"identity" | "carousel">("identity");
+  const [section, setSection] = useState<"identity" | "carousel" | "page2" | "page3">("identity");
+  const [previewTarget, setPreviewTarget] = useState<PreviewTarget>(null);
   const [viewport, setViewport] = useState<"desktop" | "phone">("desktop");
   const [selected, setSelected] = useState(0);
   const [busy, setBusy] = useState("");
@@ -34,6 +38,8 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
   const dirty = JSON.stringify(content) !== JSON.stringify(document.draft);
   const unpublished = JSON.stringify(content) !== JSON.stringify(document.published);
   const active = content.images[selected];
+  const projectPage = section === "page2" || section === "page3" ? section : null;
+  const pageLabel = projectPage ? content.navigation[projectPage] : "Homepage";
   const previewWidth = viewport === "desktop" ? 1440 : 390;
   const previewHeight = viewport === "desktop" ? 960 : 780;
   const scale = Math.min(1, stageWidth / previewWidth);
@@ -46,14 +52,14 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
     return () => observer.disconnect();
   }, []);
   useEffect(() => {
-    const send = () => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content }, location.origin);
+    const send = () => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget }, location.origin);
     send();
     const ready = (event: MessageEvent) => {
       if (event.origin === location.origin && event.source === frameRef.current?.contentWindow && event.data?.type === "home-preview-ready") send();
     };
     window.addEventListener("message", ready);
     return () => window.removeEventListener("message", ready);
-  }, [content]);
+  }, [content, previewTarget]);
   useEffect(() => {
     if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
@@ -73,7 +79,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
       const result = await response.json();
       if (!response.ok) throw new Error(result.error ?? "Unable to save changes.");
       setDocument(result); setContent(result.draft);
-      setMessage(publish ? "Published. Your homepage is now up to date." : "Draft saved. Your public homepage is unchanged.");
+      setMessage(publish ? "Published. Your website is now up to date." : "Draft saved. Your public website is unchanged.");
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Unable to save changes."); }
     finally { setBusy(""); }
   }
@@ -98,7 +104,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
       if (added.length) {
         setContent(current => ({ ...current, images: replace ? current.images.map((image, i) => i === selected ? { ...added[0], alt: image.alt, x: image.x, y: image.y } : image) : [...current.images, ...added] }));
         if (!replace) setSelected(content.images.length);
-        setSection("carousel");
+        setSection("carousel"); setPreviewTarget(null);
       }
       setBusy("");
       if (fileRef.current) fileRef.current.value = "";
@@ -116,31 +122,58 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
 
   return (
     <div className={`${styles.shell} ${suisse.className}`}>
+      {confirmation && <ConfirmDialog
+        title={confirmation === "publish" ? "Ready to publish?" : "Restore the published version?"}
+        description={confirmation === "publish"
+          ? `Your changes to ${pageLabel}, along with any pending edits to other pages, will become visible on the website.`
+          : "This replaces your current edits with the published website content. Save the draft afterward to keep the restored version."}
+        confirmLabel={confirmation === "publish" ? "Publish changes" : "Restore version"}
+        onCancel={() => setConfirmation(null)}
+        onConfirm={() => {
+          setConfirmation(null);
+          if (confirmation === "publish") void save(true);
+          else { setContent(document.published); setSelected(0); setMessage("Published settings restored in the editor. Save the draft to keep them."); setError(""); }
+        }}
+      />}
+
       <aside className={styles.sidebar}>
         <a href="#editor" className={styles.brand}>KAAN<span>STUDIO / EDITOR</span></a>
         <div className={styles.navLabel}>YOUR WEBSITE</div>
-        <a href="#editor" className={styles.navActive}><span>01</span>Homepage<Icon name="arrow" /></a>
+        <nav className={styles.pageNavigation} aria-label="Website pages">
+          {(["home", "page2", "page3"] as const).map((page, index) => (
+            <a key={page} id={page + "-nav"} href="#editor" aria-current={(page === "home" ? !projectPage : projectPage === page) ? "page" : undefined} aria-disabled={!!busy}
+              className={`${styles.navLink} ${(page === "home" ? !projectPage : projectPage === page) ? styles.navActive : ""}`}
+              onClick={event => {
+                if (busy) { event.preventDefault(); return; }
+                setSection(page === "home" ? "identity" : page);
+                setPreviewTarget(page === "home" ? null : { page });
+              }}>
+              <span>{String(index + 1).padStart(2, "0")}</span>{page === "home" ? "Homepage" : content.navigation[page]}<Icon name="arrow" />
+            </a>
+          ))}
+        </nav>
         <div className={styles.sidebarBottom}><span className={styles.smallDot} />WORKSPACE<br /><p>A place to shape<br />your first impression.</p><a href="/" target="_blank" rel="noreferrer">Visit website <Icon name="external" /></a></div>
       </aside>
       <main className={styles.main} id="editor">
         <header className={styles.topbar}>
-          <span>Website / <strong>Homepage</strong></span>
+          <span>Website / <strong>{pageLabel}</strong></span>
           <div className={styles.actions}>
             <span className={styles.saveState}><i className={dirty ? styles.unsavedDot : styles.savedDot} />{dirty ? "Unsaved changes" : unpublished ? "Draft saved" : "Up to date"}</span>
             <button type="button" className={styles.secondaryButton} disabled={!!busy || !dirty} onClick={() => void save(false)}>Save draft</button>
-            <button type="button" className={styles.publishButton} disabled={!!busy} onClick={() => void save(true)}>{busy || "Publish changes"}<Icon name="arrow" /></button>
+            <button type="button" className={styles.publishButton} disabled={!!busy} onClick={() => setConfirmation("publish")}>{busy || "Publish changes"}<Icon name="arrow" /></button>
           </div>
         </header>
-        <div className={styles.pageHeading}><div><p className={styles.eyebrow}>THE FIRST IMPRESSION</p><h1>Make it yours<span>.</span></h1><p>Curate your images. Define your identity. Bring your homepage to life.</p></div><span className={styles.pageNumber}>01 / HOME</span></div>
+        <div className={styles.pageHeading}><div><p className={styles.eyebrow}>THE FIRST IMPRESSION</p><h1>{projectPage ? pageLabel : "Make it yours"}<span>.</span></h1><p>Curate your images. Define your identity. Shape your pages and project stories.</p></div><span className={styles.pageNumber}>{projectPage ? `${projectPage === "page2" ? "02" : "03"} / PROJECTS` : "01 / HOME"}</span></div>
         {(error || message) && <div role={error ? "alert" : "status"} className={error ? styles.error : styles.success}>{error || message}</div>}
         <div className={styles.workspace}>
-          <section className={styles.editor} aria-label="Homepage settings">
-            <div className={styles.tabs} role="tablist" aria-label="Editor sections">
-              <button type="button" role="tab" id="identity-tab" aria-controls="editor-panel" aria-selected={section === "identity"} onClick={() => setSection("identity")}><span>01</span>Identity</button>
-              <button type="button" role="tab" id="carousel-tab" aria-controls="editor-panel" aria-selected={section === "carousel"} onClick={() => setSection("carousel")}><span>02</span>Carousel <small>{content.images.length}</small></button>
-            </div>
-            <fieldset disabled={!!busy} className={styles.editorBody} id="editor-panel" role="tabpanel" aria-labelledby={`${section}-tab`}>
-              {section === "identity" ? <>
+          <section className={styles.editor} aria-label="Website settings">
+            {!projectPage && <div className={styles.tabs} role="tablist" aria-label="Homepage sections">
+              <button type="button" role="tab" id="identity-tab" aria-controls="editor-panel" aria-selected={section === "identity"} disabled={!!busy} onClick={() => { setSection("identity"); setPreviewTarget(null); }}><span>01</span>Identity</button>
+              <button type="button" role="tab" id="carousel-tab" aria-controls="editor-panel" aria-selected={section === "carousel"} disabled={!!busy} onClick={() => { setSection("carousel"); setPreviewTarget(null); }}><span>02</span>Carousel <small>{content.images.length}</small></button>
+
+            </div>}
+            <fieldset disabled={!!busy} className={styles.editorBody} id="editor-panel" role={projectPage ? "group" : "tabpanel"} aria-labelledby={projectPage ? `${projectPage}-nav` : `${section}-tab`}>
+              {section === "page2" || section === "page3" ? <ProjectEditor key={section} page={section} portfolio={content.portfolio} onChange={portfolio => edit({ portfolio })} preview={setPreviewTarget} setBusy={setBusy} onError={setError} /> : section === "identity" ? <>
                 <div className={styles.sectionHeading}><h2>A name. A point of view.</h2><p>Edit the words visitors see first.</p></div>
                 <label className={styles.field}>Main title <span>Required</span><input aria-label="Main title" value={content.title} maxLength={40} onChange={e => edit({ title: e.target.value })} placeholder="KAAN" /><small>This always appears on your homepage.</small></label>
                 <div className={styles.field}>
@@ -185,13 +218,13 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
           <section className={styles.preview} aria-label="Live website preview">
             <div className={styles.previewHeading}><div><span className={styles.liveDot} />LIVE PREVIEW</div><div className={styles.devices}><button type="button" aria-label="Desktop preview" aria-pressed={viewport === "desktop"} onClick={() => setViewport("desktop")}><Icon name="desktop" /></button><button type="button" aria-label="Mobile preview" aria-pressed={viewport === "phone"} onClick={() => setViewport("phone")}><Icon name="phone" /></button></div></div>
             <div className={styles.previewStage} ref={stageRef}>
-              <div className={styles.browser} style={{ width: previewWidth * scale }}><div className={styles.browserBar}><span>● ● ●</span><span>kaan / home</span><Icon name="image" /></div><div style={{ height: previewHeight * scale, overflow: "hidden" }}><iframe ref={frameRef} src="/admin/preview" title="Homepage draft preview" style={{ width: previewWidth, height: previewHeight, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }} onLoad={() => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content }, location.origin)} /></div></div>
+              <div className={styles.browser} style={{ width: previewWidth * scale }}><div className={styles.browserBar}><span>● ● ●</span><span>{previewTarget ? content.navigation[previewTarget.page] : "Home"}</span><Icon name="image" /></div><div style={{ height: previewHeight * scale, overflow: "hidden" }}><iframe ref={frameRef} src="/admin/preview" title="Website draft preview" style={{ width: previewWidth, height: previewHeight, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }} onLoad={() => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget }, location.origin)} /></div></div>
             </div>
             <div className={styles.previewNote}><span><span className={styles.smallDot} />{unpublished || dirty ? "Draft preview · not yet published" : "Matches your published homepage"}</span><span>Scroll inside to explore ↓</span></div>
             <div className={styles.publishingNote}><span>YOUR NEXT CHAPTER</span><h3>Good things deserve<br />a thoughtful introduction.</h3><p>Everything here is a draft until you publish. Take your time.</p></div>
           </section>
         </div>
-        <footer className={styles.panelFooter}><span>{document.publishedAt ? `Last published ${`${document.publishedAt.slice(0, 16).replace("T", " ")} UTC`}` : "Your first publication starts here."}</span><button type="button" disabled={!!busy || (!dirty && !unpublished)} onClick={() => { if (window.confirm("Replace your current edits with the published homepage?")) { setContent(document.published); setSelected(0); setMessage("Published settings restored in the editor. Save the draft to keep them."); setError(""); } }}>Revert to published version</button></footer>
+        <footer className={styles.panelFooter}><span>{document.publishedAt ? `Last published ${`${document.publishedAt.slice(0, 16).replace("T", " ")} UTC`}` : "Your first publication starts here."}</span><button type="button" disabled={!!busy || (!dirty && !unpublished)} onClick={() => setConfirmation("revert")}>Revert to published version</button></footer>
       </main>
     </div>
   );

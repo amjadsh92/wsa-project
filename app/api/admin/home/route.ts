@@ -11,7 +11,7 @@ async function save(request: Request, publish: boolean) {
   try {
     checkOrigin(request);
     let payload;
-    try { payload = JSON.parse((await readLimitedBody(request, 64 * 1024)).toString()); }
+    try { payload = JSON.parse((await readLimitedBody(request, 3 * 1024 * 1024)).toString()); }
     catch (error) { if (error instanceof RequestError) throw error; throw new RequestError("Invalid settings request."); }
     if (!payload || !Number.isInteger(payload.revision) || payload.revision < 0) throw new RequestError("Invalid draft revision.");
     let content;

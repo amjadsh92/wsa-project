@@ -1,3 +1,4 @@
+import { usePortfolio } from "@/app/ui/components/PortfolioContent";
 import GalleryHeader from "../../components/GalleryHeader";
 
 type Header2Props = {
@@ -13,9 +14,10 @@ export default function Header2({
   isOpaque,
   goToHeader2,
 }: Header2Props) {
+  const section = usePortfolio().page3[1];
   return (
     <GalleryHeader
-      title="Header2"
+      title={section.title}
       position={2}
       header2AttachedTop={header2AttachedTop}
       header3AttachedTop={header3AttachedTop}

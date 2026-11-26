@@ -120,3 +120,52 @@
 @media(max-width:960px) { .shell { grid-template-columns:1fr; } .sidebar { position:static; height:auto; padding:18px 24px; flex-direction:row; align-items:center; justify-content:space-between; } .brand { font-size:27px; letter-spacing:-1px; } .brand span { display:inline; font-size:8px; letter-spacing:1.5px; margin-left:16px; } .navLabel,.navActive,.sidebarBottom { display:none; } .topbar { min-height:75px; } .pageHeading { padding-top:30px; } .pageHeading h1 { font-size:42px; } .workspace { grid-template-columns:minmax(280px,360px) minmax(0,1fr); gap:22px; } }
 @media(max-width:720px) { .main { padding-inline:18px; } .topbar { flex-wrap:wrap; gap:12px; padding:15px 0; } .actions { margin-left:auto; } .publishButton,.secondaryButton { padding:0 12px; min-height:38px; font-size:10px; } .publishButton { gap:8px; } .pageHeading { padding-bottom:24px; } .pageHeading h1 { font-size:38px; } .pageNumber { display:none; } .workspace { grid-template-columns:1fr; } .preview { position:static; } .editorBody { padding:23px; } .publishingNote { display:none; } .previewStage { min-height:0; } .panelFooter { margin-top:22px; } }
 @media(prefers-reduced-motion:reduce) { .shell * { scroll-behavior:auto; } }
+
+.field select, .field textarea {
+  width: 100%; padding: .75rem; border: 1px solid #d5d5ce; background: #fff;
+  color: #222; font: inherit; border-radius: 0; min-width: 0;
+}
+.field textarea { resize: vertical; line-height: 1.5; }
+.projectImageRow { margin: 1rem 0; padding: 1rem 0; border-bottom: 1px solid #d5d5ce; }
+.projectImageThumb { height: 8rem; background-position: center; background-size: contain; background-repeat: no-repeat; background-color: #efefeb; }
+.tabs { flex-wrap: wrap; }
+
+.pageNavigation { display: flex; flex-direction: column; }
+.navLink { display: flex; gap: 12px; align-items: center; margin-inline: -22px; padding: 17px 20px; border-left: 2px solid transparent; font-size: 12px; overflow-wrap: anywhere; }
+.navLink span { font-size: 10px; color: #9aa18f; }
+.navLink svg { margin-left: auto; width: 14px; }
+.navLink:hover { background: #30332d; }
+.navLink.navActive { border-left-color: #d67550; background: #353831; }
+.navLink[aria-disabled=true] { opacity: .5; cursor: wait; }
+.projectToolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0; }
+.deleteProjectButton { padding: 10px 12px; border: 1px solid #d6b1a5; color: #9d3c2c; font-size: 11px; }
+@media(max-width:1200px) { .navLink { margin-inline: -17px; padding-inline: 15px; } }
+@media(max-width:960px) {
+  .sidebar { flex-wrap: wrap; gap: 20px; }
+  .pageNavigation { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .navLink, .navLink.navActive { display: flex; margin: 0; padding: 10px 12px; }
+}
+
+.confirmDialog {
+  position: fixed; inset: 0; margin: auto; width: min(480px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px); overflow-y: auto; padding: 38px;
+  border: 1px solid #dedfd8; border-radius: 8px; color: #242623; background: #fbfbf8;
+  box-shadow: 0 24px 90px #0003; animation: confirmationEnter .18s ease-out;
+}
+.confirmDialog::backdrop { background: #171b18a6; backdrop-filter: blur(5px); }
+.confirmClose { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; display: grid; place-items: center; color: #777b73; }
+.confirmClose:hover { color: #242623; background: #eeeee8; border-radius: 50%; }
+.confirmMark { width: 48px; height: 48px; display: grid; place-items: center; background: #e8ecdf; color: #48563b; border-radius: 50%; margin-bottom: 24px; }
+.confirmMark[data-destructive=true] { background: #f4e5de; color: #a3462d; }
+.confirmMark svg { width: 24px; height: 24px; }
+.confirmEyebrow { font-size: 9px; letter-spacing: 2px; color: #777b73; margin-bottom: 10px; }
+.confirmDialog h2 { font-size: 27px; line-height: 1.2; font-weight: 400; letter-spacing: -.8px; margin: 0 0 16px; }
+.confirmDescription { font-size: 13px; line-height: 1.8; color: #777b73; overflow-wrap: anywhere; }
+.confirmActions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 30px; padding-top: 22px; border-top: 1px solid #dedfd8; }
+.confirmPrimary { min-height: 40px; padding: 0 18px; background: #242623; color: white; font-size: 11px; border: 1px solid transparent; }
+.confirmPrimary:hover { background: #41463b; }
+.confirmPrimary[data-destructive=true] { background: #a3462d; }
+.confirmPrimary[data-destructive=true]:hover { background: #853822; }
+@keyframes confirmationEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width:500px) { .confirmDialog { padding: 28px 24px; } .confirmDialog h2 { font-size: 24px; } }
+@media(prefers-reduced-motion:reduce) { .confirmDialog { animation: none; } }

@@ -20,8 +20,10 @@ export async function readHomeDocument(): Promise<HomeDocument> {
 export async function writeHomeDocument(content: HomeContent, expectedRevision: number, publish: boolean): Promise<HomeDocument> {
   await readHomeDocument();
   return db.$transaction(async tx => {
-    const assets = await tx.imageAsset.count({ where: { id: { in: content.images.map(image => image.id) } } });
-    if (assets !== content.images.length) throw new ContentValidationError("An uploaded image is missing. Please upload it again.");
+    const sources = Object.values(content.portfolio).flatMap(sections => sections.flatMap(section => section.projects.flatMap(project => [project.image, ...project.images.map(image => image.src)])));
+    const ids = [...new Set([...content.images.map(image => image.id), ...sources.filter(src => src.startsWith("/api/media/")).map(src => src.slice("/api/media/".length))])];
+    const assets = await tx.imageAsset.count({ where: { id: { in: ids } } });
+    if (assets !== ids.length) throw new ContentValidationError("An uploaded image is missing. Please upload it again.");
     const now = new Date();
     const updated = await tx.homeSettings.updateMany({
       where: { id: 1, revision: expectedRevision },

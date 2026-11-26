@@ -9,16 +9,7 @@ import ProjectImageGallery from "./ProjectImageGallery";
 
 import { InProjectModalContext, useProjectModalNavigation } from "./ProjectModalNavigation";
 
-type Project = {
-  slug: string;
-  title: string;
-  location: string;
-  year: string;
-  category: string;
-  image: string;
-};
-
-const description = `JUMP is located at the intersection of diverse urban areas in Aubervilliers, Paris. Commissioned by Icade, the building connects two green zones, “Place du Front Populaire” and the urban forest of “Parc Icade des Portes de Paris”. With its colossal landing, JUMP has established itself as the central point of convergence in the area. The building integrates a hotel, offices, retail spaces, and parking. The design embraces the area’s electic architecture and enhances the dynamism of this urban area served by Metro Line 12.`;
+import type { DisplayProject as Project } from "@/lib/project-content";
 
 export default function ProjectContent({
   project,
@@ -61,26 +52,26 @@ export default function ProjectContent({
         />
 </div>
 
-<p className={`${suisse.className} text-[1.57990625rem] mt-[5rem] leading-tight w-[75%] pl-[1.25rem] max-[960px]:w-full max-[960px]:pr-[1.25rem] max-[960px]:text-[1.25rem] max-[960px]:mt-[3rem] max-[650px]:text-[1.125rem] max-[650px]:leading-relaxed max-[650px]:mt-[2rem] ${inModal ? "max-[400px]:text-[1rem]" : ""}`}>
+<p className={`${suisse.className} text-[1.57990625rem] whitespace-pre-line mt-[5rem] leading-tight w-[75%] pl-[1.25rem] max-[960px]:w-full max-[960px]:pr-[1.25rem] max-[960px]:text-[1.25rem] max-[960px]:mt-[3rem] max-[650px]:text-[1.125rem] max-[650px]:leading-relaxed max-[650px]:mt-[2rem] ${inModal ? "max-[400px]:text-[1rem]" : ""}`}>
 
-  {description}
+  {project.description}
 
 
 </p>
 
 <div id="additional-paragraphs">
   {showMore &&
-    [1, 2].map((paragraphNumber) => (
+    project.moreDescription.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => (
       <p
-        key={paragraphNumber}
-        className={`${suisse.className} mt-[5rem] w-[75%] pl-[1.25rem] text-[1.57990625rem] leading-tight max-[960px]:w-full max-[960px]:pr-[1.25rem] max-[960px]:text-[1.25rem] max-[960px]:mt-[3rem] max-[650px]:text-[1.125rem] max-[650px]:leading-relaxed max-[650px]:mt-[2rem] ${inModal ? "max-[400px]:text-[1rem]" : ""}`}
+        key={index}
+        className={`${suisse.className} whitespace-pre-line mt-[5rem] w-[75%] pl-[1.25rem] text-[1.57990625rem] leading-tight max-[960px]:w-full max-[960px]:pr-[1.25rem] max-[960px]:text-[1.25rem] max-[960px]:mt-[3rem] max-[650px]:text-[1.125rem] max-[650px]:leading-relaxed max-[650px]:mt-[2rem] ${inModal ? "max-[400px]:text-[1rem]" : ""}`}
       >
-        {description}
+        {paragraph}
       </p>
     ))}
 </div>
 
-<button
+{project.moreDescription && <button
   type="button"
   className="mt-[2.5rem] cursor-pointer ml-[1.25rem] text-[2.5rem] leading-none min-h-12 min-w-12 max-[650px]:mt-[1.5rem]"
   aria-expanded={showMore}
@@ -89,14 +80,14 @@ export default function ProjectContent({
   onClick={() => setShowMore((isVisible) => !isVisible)}
 >
   {showMore ? "−" : "+"}
-</button>
+</button>}
 
 
     
-<ProjectImageGallery
+{project.images.length > 0 && <ProjectImageGallery
   inModal={inModal}
-  images={Array.from({ length: 6 }, () => ({ src: project.image, alt: project.title }))}
-/>
+  images={project.images}
+/>}
 
 {relatedProjects.length > 0 && (
   <section className="pb-[5rem] px-[1.25rem] max-[650px]:px-0 max-[650px]:pb-[2.5rem]" aria-labelledby="related-heading">
