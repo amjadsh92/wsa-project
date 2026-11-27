@@ -1,6 +1,7 @@
 "use client";
+import ProjectCover from "@/app/ui/components/ProjectCover";
 import { useProjectBasePath } from "@/app/ui/components/PageNames";
-import Image, { type ImageProps } from "next/image";
+import { type ImageProps } from "next/image";
 import Link from "next/link";
 import { suisse } from "@/app/fonts";
 import ProjectEntrance from "./ProjectEntrance";
@@ -10,6 +11,9 @@ type ProjectGridProps = {
     slug: string;
     title: string;
     image: ImageProps["src"];
+    coverX?: number;
+    coverY?: number;
+    coverZoom?: number;
   }[];
   basePath: "/page2" | "/page3";
   isFirstSection?: boolean;
@@ -38,13 +42,8 @@ export default function ProjectGrid({
             className="group relative block w-full min-w-0 cursor-pointer max-[650px]:mx-auto max-[650px]:w-[80%] max-[400px]:w-[90%]"
           >
             <div className="relative aspect-[340/300] w-full overflow-hidden transition-transform duration-300 ease-out group-hover:-translate-y-[0.375rem]">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(width < 650px) calc(80vw - 2.4rem), (max-width: 960px) 50vw, 33vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
+              <ProjectCover src={project.image} alt={project.title} coverX={project.coverX} coverY={project.coverY} coverZoom={project.coverZoom}
+                sizes="(width < 400px) 90vw, (width < 650px) 80vw, (width < 960px) 50vw, 33vw" />
               <div
                 className="pointer-events-none absolute inset-0 opacity-0 backdrop-blur-[0.625rem] transition-opacity duration-700 ease-out group-hover:opacity-100"
                 style={{ WebkitMaskImage: blurMask, maskImage: blurMask }}

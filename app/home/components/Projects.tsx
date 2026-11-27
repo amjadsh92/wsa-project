@@ -2,7 +2,7 @@ import { usePortfolio } from "@/app/ui/components/PortfolioContent";
 import { allProjects } from "@/lib/project-content";
 import { usePageNames } from "@/app/ui/components/PageNames";
 import { pagePath } from "@/lib/home-content";
-import Img from "next/image";
+import ProjectCover from "@/app/ui/components/ProjectCover";
 import Link from "next/link";
 import React from "react";
 import { suisse } from "@/app/fonts";
@@ -15,13 +15,16 @@ type Project = {
   location: string;
   category: string;
   image: string;
+  coverX: number;
+  coverY: number;
+  coverZoom: number;
 };
 
 type ArchitectureProps = {
   projects: Project[];
 };
 
-type Drawing = Pick<Project, "slug" | "title" | "category" | "image">;
+type Drawing = Pick<Project, "slug" | "title" | "category" | "image" | "coverX" | "coverY" | "coverZoom">;
 
 type DrawingsProps = {
   drawings: Drawing[];
@@ -83,15 +86,7 @@ function Architecture({ projects }: ArchitectureProps) {
                 aria-label={`Open ${project.title}`}
                 className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
               >
-                <Img
-                  style={{ zIndex: index >= 5 ? (index - 2) * 10 : 10 }}
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 960px) 100vw, 50vw"
-                  className="object-cover bg-white"
-                  priority
-                />
+                <ProjectCover src={project.image} alt={project.title} coverX={project.coverX} coverY={project.coverY} coverZoom={project.coverZoom} priority />
               </Link>
             </div>
           </React.Fragment>
@@ -144,14 +139,7 @@ function Art({ drawings, skipIntro }: DrawingsProps) {
               aria-label={`Open ${drawing.title}`}
               className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
             >
-              <Img
-                src={drawing.image}
-                alt={drawing.title}
-                fill
-                sizes="(max-width: 960px) 60vw, 30vw"
-                className="object-cover bg-white"
-                priority
-              />
+              <ProjectCover src={drawing.image} alt={drawing.title} coverX={drawing.coverX} coverY={drawing.coverY} coverZoom={drawing.coverZoom} priority />
             </Link>
           </motion.div>
         ))}

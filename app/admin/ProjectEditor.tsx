@@ -2,6 +2,7 @@
 import ConfirmDialog from "./ConfirmDialog";
 import { useState } from "react";
 import { MAX_UPLOAD_BYTES } from "@/lib/home-content";
+import ProjectCover from "@/app/ui/components/ProjectCover";
 import { createProject, type EditableProject, type Portfolio, type PortfolioPageId } from "@/lib/project-content";
 import styles from "./admin.module.css";
 export type PreviewTarget = { page: PortfolioPageId; slug?: string } | null;
@@ -10,6 +11,7 @@ export default function ProjectEditor({ page, portfolio, onChange, preview, setB
   preview: (target: PreviewTarget) => void; setBusy: (value: string) => void; onError: (value: string) => void;
 }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [fitZoom, setFitZoom] = useState<number | null>(null);
   const [header, setHeader] = useState(0);
   const [selected, setSelected] = useState(0);
   const [deleted, setDeleted] = useState<{ project: EditableProject; index: number; header: number } | null>(null);
@@ -57,7 +59,7 @@ export default function ProjectEditor({ page, portfolio, onChange, preview, setB
       }
     } catch (error) { uploadError = error instanceof Error ? error.message : "Upload failed."; }
     finally {
-      if (images.length) updateProject(cover ? { image: images[0].src } : { images: [...project.images, ...images] });
+      if (images.length) updateProject(cover ? { image: images[0].src, coverX: 50, coverY: 50, coverZoom: 1 } : { images: [...project.images, ...images] });
       if (uploadError) onError(uploadError);
       setBusy("");
     }
@@ -104,8 +106,18 @@ export default function ProjectEditor({ page, portfolio, onChange, preview, setB
         <button type="button" className={styles.deleteProjectButton} onClick={() => setConfirmDelete(true)}>Delete project</button>
       </div>
       <label className={styles.field}>Project title<input value={project.title} maxLength={120} onChange={e => updateProject({ title: e.target.value })} /></label>
-      <div className={styles.selectedImage} style={{ backgroundImage: `url(${project.image})` }} role="img" aria-label={project.title} />
+      <div className={styles.selectedImage} style={{ aspectRatio: "340 / 300", overflow: "hidden" }} role="img" aria-label={`Cover crop preview: ${project.title}`}>
+        <ProjectCover src={project.image} alt={project.title} coverX={project.coverX} coverY={project.coverY} coverZoom={project.coverZoom} onFitZoom={setFitZoom} />
+      </div>
       <label className={styles.field}>Choose / replace cover image<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => { void upload(e.target.files, true); e.target.value = ""; }} /><small>Used in the grid, related projects, and at the top of the modal.</small></label>
+      <h3 className={styles.subheading}>Cover crop & zoom</h3>
+      <p className={styles.help}>Zoom and position the image using the preview above. Zoom below 100% to reveal more of the image; empty space may appear around it. The full image remains visible inside the project.</p>
+      <label className={styles.rangeRow}>Zoom<input type="range" min="1" max="300" step="1" value={Math.round(project.coverZoom * 100)} onChange={e => updateProject({ coverZoom: Number(e.target.value) / 100 })} /><span>{Math.round(project.coverZoom * 100)}%</span></label>
+      <label className={styles.rangeRow}>Horizontal<input type="range" min="0" max="100" value={project.coverX} onChange={e => updateProject({ coverX: Number(e.target.value) })} /><span>{project.coverX}%</span></label>
+      <label className={styles.rangeRow}>Vertical<input type="range" min="0" max="100" value={project.coverY} onChange={e => updateProject({ coverY: Number(e.target.value) })} /><span>{project.coverY}%</span></label>
+      <button type="button" className={styles.textButton} disabled={fitZoom === null} onClick={() => { if (fitZoom !== null) updateProject({ coverX: 50, coverY: 50, coverZoom: Math.max(0.01, fitZoom) }); }}>Fit full image</button>
+      <button type="button" className={styles.textButton} onClick={() => updateProject({ coverX: 50, coverY: 50 })}>Center cover</button>
+      <button type="button" className={styles.textButton} onClick={() => updateProject({ coverX: 50, coverY: 50, coverZoom: 1 })}>Reset crop & zoom</button>
       <label className={styles.field}>Location<input maxLength={120} value={project.location} onChange={e => updateProject({ location: e.target.value })} /></label>
       <label className={styles.field}>Year<input inputMode="numeric" maxLength={4} value={project.year} onChange={e => updateProject({ year: e.target.value.replace(/\D/g, "") })} placeholder="2025" /></label>
       <p className={styles.help}>Category: <strong>{section.title}</strong> · follows this header’s name.</p>

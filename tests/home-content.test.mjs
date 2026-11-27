@@ -5,7 +5,7 @@ import ts from 'typescript';
 const projectSource = await readFile(new URL('../lib/project-content.ts', import.meta.url), 'utf8');
 const projectCompiled = ts.transpileModule(projectSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const projectUrl = `data:text/javascript;base64,${Buffer.from(projectCompiled).toString('base64')}`;
-const { allProjects, parsePortfolio, defaultPortfolio, createProject } = await import(projectUrl);
+const { allProjects, parsePortfolio, defaultPortfolio, createProject, coverGeometry } = await import(projectUrl);
 const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl);
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
@@ -105,4 +105,57 @@ test('headers support empty lists and more than fifty independently editable pro
   assert.equal(parsed.page3[2].projects[0].images.length, 0);
   parsed.page3[2].projects[0].images.push({ src: image.src, alt: 'Detail' });
   assert.equal(parsed.page3[2].projects[1].images.length, 0);
+});
+
+test('cover positions default to the center for existing projects and preserve edits', () => {
+  const portfolio = defaultPortfolio();
+  delete portfolio.page2[0].projects[0].coverX;
+  delete portfolio.page2[0].projects[0].coverY;
+  let parsed = parsePortfolio(portfolio);
+  assert.equal(parsed.page2[0].projects[0].coverX, 50);
+  assert.equal(parsed.page2[0].projects[0].coverY, 50);
+  parsed.page2[0].projects[0].coverX = 20;
+  parsed.page2[0].projects[0].coverY = 85;
+  parsed = parsePortfolio(parsed);
+  assert.equal(allProjects(parsed, 'page2')[0].coverX, 20);
+  assert.equal(allProjects(parsed, 'page2')[0].coverY, 85);
+});
+test('cover positions reject invalid values', () => {
+  for (const value of [-1, 101, NaN, Infinity, '50', null]) {
+    const portfolio = defaultPortfolio();
+    portfolio.page3[0].projects[0].coverY = value;
+    assert.throws(() => parsePortfolio(portfolio), /Cover position/);
+  }
+});
+
+test('cover zoom migrates old projects and survives a save round trip', () => {
+  const portfolio = defaultPortfolio();
+  delete portfolio.page2[0].projects[0].coverZoom;
+  assert.equal(parsePortfolio(portfolio).page2[0].projects[0].coverZoom, 1);
+  portfolio.page2[0].projects[0].coverZoom = 2.25;
+  const project = parsePortfolio(portfolio).page2[0].projects[0];
+  assert.equal(project.coverZoom, 2.25);
+  assert.equal(coverGeometry(100, 100, 200, 100, project.coverZoom).width, 450);
+});
+test('cover zoom supports zooming out and rejects values outside the supported range', () => {
+  for (const coverZoom of [0, 0.009, 3.01, NaN, Infinity, null, '2']) {
+    const portfolio = defaultPortfolio();
+    portfolio.page3[0].projects[0].coverZoom = coverZoom;
+    assert.throws(() => parsePortfolio(portfolio), /Cover zoom/);
+  }
+});
+
+test('zoomed-out settings survive validation', () => {
+  const portfolio = defaultPortfolio();
+  portfolio.page2[0].projects[0].coverZoom = 0.25;
+  assert.equal(parsePortfolio(portfolio).page2[0].projects[0].coverZoom, 0.25);
+});
+test('fit full image reveals all pixels for wide and tall covers', () => {
+  for (const [width, height] of [[2000, 200], [200, 2000], [800, 600]]) {
+    const base = coverGeometry(340, 300, width, height);
+    const fitted = coverGeometry(340, 300, width, height, base.fitZoom);
+    assert.ok(fitted.width <= 340.0001 && fitted.height <= 300.0001);
+    assert.ok(fitted.left >= -0.0001 && fitted.top >= -0.0001);
+    assert.ok(Math.abs(fitted.width / fitted.height - width / height) < 0.0001);
+  }
 });

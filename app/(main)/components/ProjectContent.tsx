@@ -1,5 +1,6 @@
 "use client";
 
+import ProjectCover from "@/app/ui/components/ProjectCover";
 import { useProjectBasePath } from "@/app/ui/components/PageNames";
 import Img from "next/image";
 import Link from "next/link";
@@ -48,7 +49,8 @@ export default function ProjectContent({
           alt={project.title}
           fill
           sizes="100vw"
-          className="object-cover"
+          quality={90}
+          className="object-contain"
         />
 </div>
 
@@ -116,13 +118,8 @@ export default function ProjectContent({
           className="group max-[960px]:min-w-0 max-[960px]:flex-1 max-[650px]:flex-none max-[650px]:w-full"
         >
           <div className="relative aspect-[4/3] w-[22vw] max-[960px]:w-full max-[650px]:aspect-[16/9] overflow-hidden">
-            <Img
-              src={relatedProject.image}
-              alt={relatedProject.title}
-              fill
-              sizes="(width < 650px) 100vw, 40vw"
-              className="object-cover"
-            />
+            <ProjectCover src={relatedProject.image} alt={relatedProject.title} coverX={relatedProject.coverX} coverY={relatedProject.coverY} coverZoom={relatedProject.coverZoom}
+              sizes="(width < 650px) 100vw, 40vw" />
           </div>
 
           <div className={`${suisse.className} mt-3 text-[0.75rem] max-[650px]:px-5`}>

@@ -2,6 +2,7 @@ export type PortfolioPageId = "page2" | "page3";
 export type ProjectImage = { src: string; alt: string };
 export type EditableProject = {
   slug: string; title: string; location: string; year: string;
+  coverX: number; coverY: number; coverZoom: number;
   image: string; description: string; moreDescription: string; images: ProjectImage[];
 };
 export type ProjectSection = { id: string; title: string; projects: EditableProject[] };
@@ -15,7 +16,7 @@ export function defaultPortfolio(): Portfolio {
     projects: Array.from({ length: 9 }, (_, i) => ({
       slug: section === 0 ? "image" + (i + 1) : "header" + (section + 1) + "-image" + (i + 1),
       title: "Building 140 CERN", location: "GENEVA, CH", year: "2025",
-      image: defaultProjectImage, description: defaultDescription,
+      coverX: 50, coverY: 50, coverZoom: 1, image: defaultProjectImage, description: defaultDescription,
       moreDescription: defaultDescription + "\n\n" + defaultDescription,
       images: Array.from({ length: 6 }, () => ({ src: defaultProjectImage, alt: "Building 140 CERN" })),
     })),
@@ -39,6 +40,11 @@ export function parsePortfolio(value: unknown, preview = false): Portfolio {
     if (value !== defaultProjectImage && (typeof value !== "string" || !/^\/api\/media\/[a-f0-9-]{36}\.webp$/.test(value))) throw new Error("Choose an uploaded project image.");
     return value as string;
   };
+  const position = (value: unknown) => {
+    if (value === undefined) return 50;
+    if (typeof value !== "number" || !Number.isFinite(value) || value < 0 || value > 100) throw new Error("Cover position must be between 0 and 100.");
+    return value;
+  };
   const result = {} as Portfolio;
   for (const page of ["page2", "page3"] as const) {
     const sections = obj[page];
@@ -51,10 +57,13 @@ export function parsePortfolio(value: unknown, preview = false): Portfolio {
         projects: section.projects.map((p: EditableProject) => {
           if (!p || typeof p.slug !== "string" || !/^[a-z0-9-]{1,80}$/.test(p.slug) || slugs.has(p.slug)) throw new Error("Project URLs must be unique within their page.");
           slugs.add(p.slug);
+          const coverZoom = p.coverZoom === undefined ? 1 : p.coverZoom;
+          if (typeof coverZoom !== "number" || !Number.isFinite(coverZoom) || coverZoom < 0.01 || coverZoom > 3) throw new Error("Cover zoom must be between 1% and 300%.");
           const year = text(p.year, 4, "project year");
           if (year && !(preview ? /^\d{0,4}$/ : /^\d{4}$/).test(year)) throw new Error("Use a four-digit project year.");
           if (!Array.isArray(p.images) || p.images.length > 20) throw new Error("Use up to 20 additional images per project.");
           return {
+            coverZoom, coverX: position(p.coverX), coverY: position(p.coverY),
             slug: p.slug, title: text(p.title, 120, "project title", true),
             location: text(p.location, 120, "location"), year, image: image(p.image),
             description: text(p.description, 5000, "description"), moreDescription: text(p.moreDescription, 10000, "expanded description"),
@@ -71,5 +80,17 @@ export function parsePortfolio(value: unknown, preview = false): Portfolio {
 }
 
 export function createProject(slug: string): EditableProject {
-  return { slug, title: "New project", location: "", year: "", image: defaultProjectImage, description: "", moreDescription: "", images: [] };
+  return { slug, coverX: 50, coverY: 50, coverZoom: 1, title: "New project", location: "", year: "", image: defaultProjectImage, description: "", moreDescription: "", images: [] };
+}
+
+// Size the entire image first; only the outer card clips overflowing pixels.
+export function coverGeometry(width: number, height: number, naturalWidth: number, naturalHeight: number, zoom = 1, x = 50, y = 50) {
+  const fillScale = Math.max(width / naturalWidth, height / naturalHeight);
+  const imageWidth = naturalWidth * fillScale * zoom;
+  const imageHeight = naturalHeight * fillScale * zoom;
+  return {
+    width: imageWidth, height: imageHeight,
+    left: (width - imageWidth) * x / 100, top: (height - imageHeight) * y / 100,
+    fitZoom: Math.min(width / naturalWidth, height / naturalHeight) / fillScale,
+  };
 }
