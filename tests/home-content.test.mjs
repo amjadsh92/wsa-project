@@ -6,7 +6,11 @@ const projectSource = await readFile(new URL('../lib/project-content.ts', import
 const projectCompiled = ts.transpileModule(projectSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const projectUrl = `data:text/javascript;base64,${Buffer.from(projectCompiled).toString('base64')}`;
 const { allProjects, parsePortfolio, defaultPortfolio, createProject, coverGeometry } = await import(projectUrl);
-const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl);
+const aboutSource = await readFile(new URL('../lib/about-content.ts', import.meta.url), 'utf8');
+const aboutCompiled = ts.transpileModule(aboutSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
+const aboutUrl = `data:text/javascript;base64,${Buffer.from(aboutCompiled).toString('base64')}`;
+const { parseAboutSections, defaultAboutSections } = await import(aboutUrl);
+const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl).replace('./about-content', aboutUrl);
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 
@@ -158,4 +162,19 @@ test('fit full image reveals all pixels for wide and tall covers', () => {
     assert.ok(fitted.left >= -0.0001 && fitted.top >= -0.0001);
     assert.ok(Math.abs(fitted.width / fitted.height - width / height) < 0.0001);
   }
+});
+
+test('legacy content receives the existing About sections without changing their text', () => {
+  const { about, ...legacy } = defaultHomeContent;
+  assert.deepEqual(parseHomeContent(legacy).about, defaultAboutSections);
+  const copy = parseAboutSections(undefined);
+  copy[0].title = 'Changed';
+  assert.notEqual(defaultAboutSections[0].title, 'Changed');
+});
+test('About Markdown preserves formatting and validates section shape', () => {
+  const sections = structuredClone(defaultAboutSections);
+  sections[1].title = 'Capabilities';
+  sections[1].markdown = '## Heading\n\n| Name | Value |\n| --- | --- |\n| A | B |\n\n![Image](/architecture/images/project1.jpg)\n';
+  assert.deepEqual(parseAboutSections(sections), sections);
+  for (const value of [[], null, [{ ...sections[0], id: 'bad' }, ...sections.slice(1)], [{ ...sections[0], markdown: 5 }, ...sections.slice(1)]]) assert.throws(() => parseAboutSections(value));
 });

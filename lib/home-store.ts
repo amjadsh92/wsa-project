@@ -21,7 +21,8 @@ export async function writeHomeDocument(content: HomeContent, expectedRevision: 
   await readHomeDocument();
   return db.$transaction(async tx => {
     const sources = Object.values(content.portfolio).flatMap(sections => sections.flatMap(section => section.projects.flatMap(project => [project.image, ...project.images.map(image => image.src)])));
-    const ids = [...new Set([...content.images.map(image => image.id), ...sources.filter(src => src.startsWith("/api/media/")).map(src => src.slice("/api/media/".length))])];
+    const aboutUploads = content.about.flatMap(section => section.markdown.match(/\/api\/media\/[a-f0-9-]{36}\.webp/g) ?? []).map(src => src.slice("/api/media/".length));
+    const ids = [...new Set([...aboutUploads, ...content.images.map(image => image.id), ...sources.filter(src => src.startsWith("/api/media/")).map(src => src.slice("/api/media/".length))])];
     const assets = await tx.imageAsset.count({ where: { id: { in: ids } } });
     if (assets !== ids.length) throw new ContentValidationError("An uploaded image is missing. Please upload it again.");
     const now = new Date();

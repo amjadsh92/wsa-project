@@ -5,7 +5,7 @@ import { MAX_UPLOAD_BYTES } from "@/lib/home-content";
 import ProjectCover from "@/app/ui/components/ProjectCover";
 import { createProject, type EditableProject, type Portfolio, type PortfolioPageId } from "@/lib/project-content";
 import styles from "./admin.module.css";
-export type PreviewTarget = { page: PortfolioPageId; slug?: string } | null;
+export type PreviewTarget = { page: PortfolioPageId | "page1"; slug?: string; header?: string } | null;
 export default function ProjectEditor({ page, portfolio, onChange, preview, setBusy, onError }: {
   page: PortfolioPageId; portfolio: Portfolio; onChange: (portfolio: Portfolio) => void;
   preview: (target: PreviewTarget) => void; setBusy: (value: string) => void; onError: (value: string) => void;

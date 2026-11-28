@@ -8,6 +8,8 @@ import { PageNames } from "@/app/ui/components/PageNames";
 import { PortfolioContent } from "@/app/ui/components/PortfolioContent";
 import { NavbarProvider } from "@/app/(main)/NavbarProvider";
 import Navbar from "@/app/(main)/Navbar";
+import { AboutContent } from "@/app/ui/components/AboutContent";
+import Page1 from "@/app/(main)/_page1/Page";
 import Page2 from "@/app/(main)/_page2/Page";
 import Page3 from "@/app/(main)/_page3/Page";
 import ProjectContent from "@/app/(main)/components/ProjectContent";
@@ -22,7 +24,7 @@ export default function PreviewPage() {
       try {
         setContent(parseHomeContent(event.data.content, true));
         const target = event.data.target;
-        setTarget(target && ["page2", "page3"].includes(target.page) ? { page: target.page, slug: typeof target.slug === "string" ? target.slug : undefined } : null);
+        setTarget(target && ["page1", "page2", "page3"].includes(target.page) ? { page: target.page, slug: typeof target.slug === "string" ? target.slug : undefined, header: ["header1", "header2", "header3"].includes(target.header) ? target.header : undefined } : null);
       } catch { /* Ignore malformed messages. */ }
     };
     window.addEventListener("message", receive);
@@ -34,16 +36,21 @@ export default function PreviewPage() {
     return () => { window.removeEventListener("message", receive); document.removeEventListener("click", keepPreview, true); };
   }, []);
   useEffect(() => { window.scrollTo(0, 0); }, [target?.page, target?.slug]);
-  const projects = target ? allProjects(content.portfolio, target.page) : [];
+  useEffect(() => {
+    if (target?.page !== "page1" || !target.header) return;
+    const frame = requestAnimationFrame(() => document.querySelector(`[data-about-section="${target.header}"]`)?.scrollIntoView({ block: "start" }));
+    return () => cancelAnimationFrame(frame);
+  }, [target?.page, target?.header]);
+  const projects = target && target.page !== "page1" ? allProjects(content.portfolio, target.page) : [];
   const project = projects.find(project => project.slug === target?.slug);
-  return <PageNames navigation={content.navigation}><PortfolioContent portfolio={content.portfolio}>
-    {!target ? <Home content={content} preview /> : project ? (
+  return <PageNames navigation={content.navigation}><PortfolioContent portfolio={content.portfolio}><AboutContent sections={content.about}>
+    {!target ? <Home content={content} preview /> : project && target.page !== "page1" ? (
       <InProjectModalContext.Provider value={true}>
         <div className="bg-white min-h-screen pt-4">
           <ProjectContent key={target.page + project.slug} project={project} relatedProjects={projects.filter(p => p.sectionId === project.sectionId && p.slug !== project.slug).slice(0, 3)} basePath={`/${target.page}`} />
         </div>
       </InProjectModalContext.Provider>
-    ) : <NavbarProvider><Navbar navigation={content.navigation} />{target.page === "page2" ? <Page2 /> : <Page3 />}</NavbarProvider>}
+    ) : <NavbarProvider><Navbar navigation={content.navigation} />{target.page === "page1" ? <Page1 /> : target.page === "page2" ? <Page2 /> : <Page3 />}</NavbarProvider>}
     <Footer />
-  </PortfolioContent></PageNames>;
+  </AboutContent></PortfolioContent></PageNames>;
 }

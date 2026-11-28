@@ -1,3 +1,4 @@
+import { defaultAboutSections, parseAboutSections, type AboutSection } from "./about-content";
 import { defaultPortfolio, parsePortfolio, type Portfolio } from "./project-content";
 export type HeroImage = {
   id: string;
@@ -8,6 +9,7 @@ export type HeroImage = {
 };
 
 export type HomeContent = {
+  about: AboutSection[];
   portfolio: Portfolio;
   navigation: { page1: string; page2: string; page3: string };
   title: string;
@@ -33,6 +35,7 @@ export const fallbackImage: HeroImage = {
 };
 export const defaultHomeContent: HomeContent = {
   navigation: { page1: "About", page2: "Art", page3: "Architecture" },
+  about: defaultAboutSections,
   portfolio: defaultPortfolio(),
   title: "KAAN",
   companion: "Architecten",
@@ -79,6 +82,7 @@ export function parseHomeContent(value: unknown, allowEmptyTitle = false): HomeC
   });
   if (new Set(images.map(img => img.id)).size !== images.length) throw new Error("The same upload cannot appear twice.");
   return {
+    about: parseAboutSections(v.about, allowEmptyTitle),
     portfolio: parsePortfolio(v.portfolio, allowEmptyTitle), navigation, title, companion: text(v.companion, 40, "Companion word"), showCompanion: v.showCompanion,
     words: v.words.map(w => text(w, 30, "Subtitle word")) as HomeContent["words"],
     showWords: v.showWords as HomeContent["showWords"], images,

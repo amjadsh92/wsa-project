@@ -169,3 +169,11 @@
 @keyframes confirmationEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @media(max-width:500px) { .confirmDialog { padding: 28px 24px; } .confirmDialog h2 { font-size: 24px; } }
 @media(prefers-reduced-motion:reduce) { .confirmDialog { animation: none; } }
+
+.markdownToolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+.markdownToolbar button { border: 1px solid #d5d5ce; padding: 7px 10px; font-size: 11px; background: white; }
+.markdownToolbar button:hover { background: #e8ecdf; }
+.field .markdownInput { font-family: monospace; font-size: 13px; line-height: 1.7; tab-size: 2; }
+.markdownHelp { font-size: 11px; line-height: 1.7; color: #62675e; margin: 24px 0; }
+.markdownHelp summary { cursor: pointer; }
+.markdownHelp pre { white-space: pre-wrap; padding: 14px; background: #eceee7; margin: 12px 0; overflow-wrap: anywhere; }

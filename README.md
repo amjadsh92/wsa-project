@@ -150,3 +150,22 @@ now has independent project entries; the old image1–image9 URLs belong to head
 Uploaded project media is checked against registered assets before saving.
 Grid thumbnails, homepage project listings, related projects, standalone detail
 pages and modal galleries all read the published project content.
+
+### About page Markdown
+
+The first page now has its own sidebar link using its editable navigation name.
+Each of its three headers has a name and Markdown body. The editor includes
+insertion shortcuts, an image upload action, and a Markdown guide. Selecting a
+header scrolls the preview to that section.
+
+The public page and editor preview share the same react-markdown/remark-gfm
+renderer: headings, emphasis, links, lists, tables, images, quotes, code blocks,
+task lists and strikethrough are supported. Raw HTML is skipped and the default
+safe URL transformation is retained. Images can use uploaded media URLs or
+external image URLs. Uploaded media referenced in Markdown is checked against
+the database before saving.
+
+Content is stored in the existing Prisma draft/published JSON document under
+`about`. Existing documents receive the prior About text and header names as
+defaults; no database migration or reset is needed. Save draft and Publish use
+the same revision checking and confirmation flow as the other pages.

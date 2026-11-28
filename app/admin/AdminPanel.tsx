@@ -1,4 +1,5 @@
 "use client";
+import AboutEditor from "./AboutEditor";
 import ConfirmDialog from "./ConfirmDialog";
 import ProjectEditor, { type PreviewTarget } from "./ProjectEditor";
 import { pagePath } from "@/lib/home-content";
@@ -22,7 +23,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
   const [confirmation, setConfirmation] = useState<"publish" | "revert" | null>(null);
   const [document, setDocument] = useState(initialDocument);
   const [content, setContent] = useState(initialDocument.draft);
-  const [section, setSection] = useState<"identity" | "carousel" | "page2" | "page3">("identity");
+  const [section, setSection] = useState<"identity" | "carousel" | "page1" | "page2" | "page3">("identity");
   const [previewTarget, setPreviewTarget] = useState<PreviewTarget>(null);
   const [viewport, setViewport] = useState<"desktop" | "phone">("desktop");
   const [selected, setSelected] = useState(0);
@@ -38,7 +39,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
   const dirty = JSON.stringify(content) !== JSON.stringify(document.draft);
   const unpublished = JSON.stringify(content) !== JSON.stringify(document.published);
   const active = content.images[selected];
-  const projectPage = section === "page2" || section === "page3" ? section : null;
+  const projectPage = section === "page1" || section === "page2" || section === "page3" ? section : null;
   const pageLabel = projectPage ? content.navigation[projectPage] : "Homepage";
   const previewWidth = viewport === "desktop" ? 1440 : 390;
   const previewHeight = viewport === "desktop" ? 960 : 780;
@@ -140,7 +141,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
         <a href="#editor" className={styles.brand}>KAAN<span>STUDIO / EDITOR</span></a>
         <div className={styles.navLabel}>YOUR WEBSITE</div>
         <nav className={styles.pageNavigation} aria-label="Website pages">
-          {(["home", "page2", "page3"] as const).map((page, index) => (
+          {(["home", "page1", "page2", "page3"] as const).map((page, index) => (
             <a key={page} id={page + "-nav"} href="#editor" aria-current={(page === "home" ? !projectPage : projectPage === page) ? "page" : undefined} aria-disabled={!!busy}
               className={`${styles.navLink} ${(page === "home" ? !projectPage : projectPage === page) ? styles.navActive : ""}`}
               onClick={event => {
@@ -163,7 +164,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
             <button type="button" className={styles.publishButton} disabled={!!busy} onClick={() => setConfirmation("publish")}>{busy || "Publish changes"}<Icon name="arrow" /></button>
           </div>
         </header>
-        <div className={styles.pageHeading}><div><p className={styles.eyebrow}>THE FIRST IMPRESSION</p><h1>{projectPage ? pageLabel : "Make it yours"}<span>.</span></h1><p>Curate your images. Define your identity. Shape your pages and project stories.</p></div><span className={styles.pageNumber}>{projectPage ? `${projectPage === "page2" ? "02" : "03"} / PROJECTS` : "01 / HOME"}</span></div>
+        <div className={styles.pageHeading}><div><p className={styles.eyebrow}>THE FIRST IMPRESSION</p><h1>{projectPage ? pageLabel : "Make it yours"}<span>.</span></h1><p>Curate your images. Define your identity. Shape your pages and project stories.</p></div><span className={styles.pageNumber}>{projectPage ? `${projectPage === "page1" ? "02 / ABOUT" : projectPage === "page2" ? "03 / PROJECTS" : "04 / PROJECTS"}` : "01 / HOME"}</span></div>
         {(error || message) && <div role={error ? "alert" : "status"} className={error ? styles.error : styles.success}>{error || message}</div>}
         <div className={styles.workspace}>
           <section className={styles.editor} aria-label="Website settings">
@@ -173,7 +174,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
 
             </div>}
             <fieldset disabled={!!busy} className={styles.editorBody} id="editor-panel" role={projectPage ? "group" : "tabpanel"} aria-labelledby={projectPage ? `${projectPage}-nav` : `${section}-tab`}>
-              {section === "page2" || section === "page3" ? <ProjectEditor key={section} page={section} portfolio={content.portfolio} onChange={portfolio => edit({ portfolio })} preview={setPreviewTarget} setBusy={setBusy} onError={setError} /> : section === "identity" ? <>
+              {section === "page1" ? <AboutEditor sections={content.about} onChange={about => edit({ about })} selectHeader={header => setPreviewTarget({ page: "page1", header })} setBusy={setBusy} onError={setError} /> : section === "page2" || section === "page3" ? <ProjectEditor key={section} page={section} portfolio={content.portfolio} onChange={portfolio => edit({ portfolio })} preview={setPreviewTarget} setBusy={setBusy} onError={setError} /> : section === "identity" ? <>
                 <div className={styles.sectionHeading}><h2>A name. A point of view.</h2><p>Edit the words visitors see first.</p></div>
                 <label className={styles.field}>Main title <span>Required</span><input aria-label="Main title" value={content.title} maxLength={40} onChange={e => edit({ title: e.target.value })} placeholder="KAAN" /><small>This always appears on your homepage.</small></label>
                 <div className={styles.field}>

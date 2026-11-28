@@ -1,3 +1,4 @@
+import { useAboutSections } from "@/app/ui/components/AboutContent";
 
 import { suisse } from "@/app/fonts";
 
@@ -5,6 +6,7 @@ import { suisse } from "@/app/fonts";
 export default function  Header1({header2AttachedTop, isOpaque, goToHeader1}:{header2AttachedTop:boolean, isOpaque:boolean, goToHeader1: () => void}){
 
 
+const title = useAboutSections()[0].title;
 return(
 
    <>
@@ -26,7 +28,7 @@ return(
             />
             <div onClick={goToHeader1} className={`${suisse.className} cursor-pointer pl-[1.25rem] relative font-[400] tracking-wide text-[2.5rem] max-[960px]:text-[2.1875rem] max-[750px]:text-[2.03125rem]
               max-[650px]:text-[1.875rem] max-[500px]:text-[1.71875rem]`}>
-              About me
+              {title}
             </div>
 
 
