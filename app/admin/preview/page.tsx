@@ -17,12 +17,14 @@ import { InProjectModalContext } from "@/app/(main)/components/ProjectModalNavig
 import type { PreviewTarget } from "../ProjectEditor";
 export default function PreviewPage() {
   const [content, setContent] = useState(defaultHomeContent);
+  const [homeProjects, setHomeProjects] = useState(false);
   const [target, setTarget] = useState<PreviewTarget>(null);
   useEffect(() => {
     const receive = (event: MessageEvent) => {
       if (event.origin !== location.origin || event.source !== window.parent || event.data?.type !== "home-preview") return;
       try {
         setContent(parseHomeContent(event.data.content, true));
+        setHomeProjects(event.data.homeProjects === true);
         const target = event.data.target;
         setTarget(target && ["page1", "page2", "page3"].includes(target.page) ? { page: target.page, slug: typeof target.slug === "string" ? target.slug : undefined, header: ["header1", "header2", "header3"].includes(target.header) ? target.header : undefined } : null);
       } catch { /* Ignore malformed messages. */ }
@@ -41,6 +43,11 @@ export default function PreviewPage() {
     const frame = requestAnimationFrame(() => document.querySelector(`[data-about-section="${target.header}"]`)?.scrollIntoView({ block: "start" }));
     return () => cancelAnimationFrame(frame);
   }, [target?.page, target?.header]);
+  useEffect(() => {
+    if (target || !homeProjects) return;
+    const frame = requestAnimationFrame(() => document.querySelector("[data-home-projects]")?.scrollIntoView({ block: "start" }));
+    return () => cancelAnimationFrame(frame);
+  }, [homeProjects, target]);
   const projects = target && target.page !== "page1" ? allProjects(content.portfolio, target.page) : [];
   const project = projects.find(project => project.slug === target?.slug);
   return <PageNames navigation={content.navigation}><PortfolioContent portfolio={content.portfolio}><AboutContent sections={content.about}>

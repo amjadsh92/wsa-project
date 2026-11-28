@@ -177,7 +177,7 @@ useEffect(() => {
             <div
               className={`min-[960px]:flex-1 mt-[calc(var(--nav-height-block)+var(--nav-padding-top))]`}
             >
-              <Projects skipIntro={skipIntro} />
+              <Projects selection={content.homeProjects} skipIntro={skipIntro} />
             </div>
           </div>
           {/* Footer */}

@@ -181,3 +181,12 @@
 .imageAlignment { display: flex; gap: 6px; margin: 12px 0; }
 .imageAlignment button { flex: 1; padding: 8px; border: 1px solid #d5d5ce; background: white; font-size: 11px; }
 .imageAlignment button[aria-pressed=true] { background: #242623; border-color: #242623; color: white; }
+
+.homeProjectCard { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+.homeProjectThumb { position: relative; width: 76px; height: 76px; background: white; }
+.homeProjectCard .imageActions { flex-wrap: wrap; margin-top: 8px; }
+
+.homeCropEditor { grid-column: 1 / -1; min-width: 0; }
+.homeCropFrame { position: relative; width: 100%; background: white; outline: 1px solid var(--line); }
+.homeCropEditor .imageActions { flex-wrap: wrap; }
+.homeCropEditor small { color: var(--muted); font-size: 10px; }

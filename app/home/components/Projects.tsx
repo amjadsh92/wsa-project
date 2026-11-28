@@ -1,7 +1,6 @@
 import { usePortfolio } from "@/app/ui/components/PortfolioContent";
-import { allProjects } from "@/lib/project-content";
 import { usePageNames } from "@/app/ui/components/PageNames";
-import { pagePath } from "@/lib/home-content";
+import { pagePath, selectedHomeProjects, type HomeProjects } from "@/lib/home-content";
 import ProjectCover from "@/app/ui/components/ProjectCover";
 import Link from "next/link";
 import React from "react";
@@ -18,28 +17,30 @@ type Project = {
   coverX: number;
   coverY: number;
   coverZoom: number;
+  coverFit?: boolean;
 };
 
 type ArchitectureProps = {
   projects: Project[];
 };
 
-type Drawing = Pick<Project, "slug" | "title" | "category" | "image" | "coverX" | "coverY" | "coverZoom">;
+type Drawing = Pick<Project, "slug" | "title" | "category" | "image" | "coverX" | "coverY" | "coverZoom" | "coverFit">;
 
 type DrawingsProps = {
   drawings: Drawing[];
   skipIntro: boolean;
+  title: string;
 };
 
-export default function Projects({ skipIntro = false }: { skipIntro?: boolean }) {
+export default function Projects({ selection, skipIntro = false }: { selection: HomeProjects; skipIntro?: boolean }) {
   const portfolio = usePortfolio();
-  const projects = allProjects(portfolio, "page3").slice(0, 5);
-  const drawings = allProjects(portfolio, "page2").slice(0, 5);
+  const projects = selectedHomeProjects(portfolio, selection, "page3");
+  const drawings = selectedHomeProjects(portfolio, selection, "page2");
 
   return (
     <>
       <Architecture projects={projects} />
-      <Art drawings={drawings} skipIntro={skipIntro} />
+      <Art drawings={drawings} skipIntro={skipIntro} title={selection.artTitle} />
     </>
   );
 }
@@ -47,7 +48,7 @@ export default function Projects({ skipIntro = false }: { skipIntro?: boolean })
 function Architecture({ projects }: ArchitectureProps) {
   const navigation = usePageNames();
   return (
-    <div>
+    <div data-home-projects>
       {projects.map((project, index) => {
         return (
           <React.Fragment key={`${project.category}/${project.slug}`}>
@@ -83,10 +84,11 @@ function Architecture({ projects }: ArchitectureProps) {
               <Link
                 href={`${pagePath(navigation, "page3")}/${project.slug}`}
                 scroll={false}
+                data-home-cover={`page3/${project.slug}`}
                 aria-label={`Open ${project.title}`}
                 className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
               >
-                <ProjectCover src={project.image} alt={project.title} coverX={project.coverX} coverY={project.coverY} coverZoom={project.coverZoom} priority />
+                <ProjectCover src={project.image} alt={project.title} coverX={project.coverX} coverY={project.coverY} coverZoom={project.coverZoom} coverFit={project.coverFit} priority />
               </Link>
             </div>
           </React.Fragment>
@@ -96,7 +98,7 @@ function Architecture({ projects }: ArchitectureProps) {
   );
 }
 
-function Art({ drawings, skipIntro }: DrawingsProps) {
+function Art({ drawings, skipIntro, title }: DrawingsProps) {
   const navigation = usePageNames();
   const imageVariants: Variants = {
     hidden: {
@@ -119,7 +121,7 @@ function Art({ drawings, skipIntro }: DrawingsProps) {
     <div className="sticky top-[var(--search-bar-height)] z-40 bg-white">
       <div className="sticky top-[var(--search-bar-height)]  border-t w-full z-50 bg-white"></div>
       <div className="sticky top-[var(--search-bar-height)] flex justify-start z-40 bg-white items-center h-[3.125rem] max-[960px]:relative  max-[960px]:top-0! ">
-        <h3 className={`${suisse.className} text-[1.125rem] max-[960px]:text-[1.375rem] max-[500px]:text-[1.125rem] max-[500px]:text-[1.125rem] max-[400px]:text-[1rem]  max-[960px]:pl-[0.625rem]`}>Art Work</h3>
+        <h3 className={`${suisse.className} text-[1.125rem] max-[960px]:text-[1.375rem] max-[500px]:text-[1.125rem] max-[500px]:text-[1.125rem] max-[400px]:text-[1rem]  max-[960px]:pl-[0.625rem]`}>{title}</h3>
       </div>
 
       <div className="relative z-30 mt-[2.5rem] flex flex-wrap justify-center items-center gap-[3.125rem] max-[500px]:gap-[1.875rem] max-[500px]:mt-[1.25rem] max-[400px]:mt-[0.625rem]">
@@ -136,10 +138,11 @@ function Art({ drawings, skipIntro }: DrawingsProps) {
             <Link
               href={`${pagePath(navigation, "page2")}/${drawing.slug}`}
               scroll={false}
+              data-home-cover={`page2/${drawing.slug}`}
               aria-label={`Open ${drawing.title}`}
               className="home-project-image-link relative isolate block h-full w-full overflow-hidden"
             >
-              <ProjectCover src={drawing.image} alt={drawing.title} coverX={drawing.coverX} coverY={drawing.coverY} coverZoom={drawing.coverZoom} priority />
+              <ProjectCover src={drawing.image} alt={drawing.title} coverX={drawing.coverX} coverY={drawing.coverY} coverZoom={drawing.coverZoom} coverFit={drawing.coverFit} priority />
             </Link>
           </motion.div>
         ))}

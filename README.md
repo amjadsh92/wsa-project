@@ -172,3 +172,22 @@ Content is stored in the existing Prisma draft/published JSON document under
 `about`. Existing documents receive the prior About text and header names as
 defaults; no database migration or reset is needed. Save draft and Publish use
 the same revision checking and confirmation flow as the other pages.
+
+### Homepage project selection
+
+Homepage → Projects selects up to five projects from page 3 for the first group
+and up to five from page 2 below the editable Art Work header. Projects can be
+added, removed, or reordered independently of their source pages. The homepage
+uses the source title, cover settings, and modal link. Deleting a source project
+also clears its homepage placement. Existing documents default to their previous
+first-five lists; explicitly empty lists stay empty. Selection and header changes
+use the existing preview, draft, and publish flow (`homeProjects` in the JSON
+document); no database migration is needed.
+
+Homepage → Projects has an **Adjust image** panel on every selected project,
+opened automatically after adding one. Dragging, zoom, position sliders, fit,
+fill, and reset controls save a homepage-only override under `homeProjects.covers`.
+Existing selections inherit their original settings until adjusted; new selections
+start fully fitted. The editor measures the live preview's image frame, including
+when switching desktop/phone. Source projects and their other page placements
+are unaffected. Removing the homepage selection clears its override.

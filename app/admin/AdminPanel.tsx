@@ -1,8 +1,9 @@
 "use client";
+import HomeProjectsEditor from "./HomeProjectsEditor";
 import AboutEditor from "./AboutEditor";
 import ConfirmDialog from "./ConfirmDialog";
 import ProjectEditor, { type PreviewTarget } from "./ProjectEditor";
-import { pagePath } from "@/lib/home-content";
+import { pagePath, reconcileHomeProjects } from "@/lib/home-content";
 
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { suisse } from "@/app/fonts";
@@ -23,7 +24,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
   const [confirmation, setConfirmation] = useState<"publish" | "revert" | null>(null);
   const [document, setDocument] = useState(initialDocument);
   const [content, setContent] = useState(initialDocument.draft);
-  const [section, setSection] = useState<"identity" | "carousel" | "page1" | "page2" | "page3">("identity");
+  const [section, setSection] = useState<"identity" | "carousel" | "projects" | "page1" | "page2" | "page3">("identity");
   const [previewTarget, setPreviewTarget] = useState<PreviewTarget>(null);
   const [viewport, setViewport] = useState<"desktop" | "phone">("desktop");
   const [selected, setSelected] = useState(0);
@@ -53,14 +54,14 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
     return () => observer.disconnect();
   }, []);
   useEffect(() => {
-    const send = () => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget }, location.origin);
+    const send = () => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget, homeProjects: section === "projects" }, location.origin);
     send();
     const ready = (event: MessageEvent) => {
       if (event.origin === location.origin && event.source === frameRef.current?.contentWindow && event.data?.type === "home-preview-ready") send();
     };
     window.addEventListener("message", ready);
     return () => window.removeEventListener("message", ready);
-  }, [content, previewTarget]);
+  }, [content, previewTarget, section]);
   useEffect(() => {
     if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
@@ -68,7 +69,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
     return () => window.removeEventListener("beforeunload", warn);
   }, [dirty]);
 
-  const edit = (patch: Partial<HomeContent>) => { setContent(current => ({ ...current, ...patch })); setMessage(""); setError(""); };
+  const edit = (patch: Partial<HomeContent>) => { setContent(current => ({ ...current, ...patch, ...(patch.portfolio ? { homeProjects: reconcileHomeProjects(current.homeProjects, patch.portfolio) } : {}) })); setMessage(""); setError(""); };
   const editImage = (patch: Partial<HeroImage>) => edit({ images: content.images.map((image, i) => i === selected ? { ...image, ...patch } : image) });
   async function save(publish: boolean) {
     setBusy(publish ? "Publishing…" : "Saving…"); setError(""); setMessage("");
@@ -171,10 +172,10 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
             {!projectPage && <div className={styles.tabs} role="tablist" aria-label="Homepage sections">
               <button type="button" role="tab" id="identity-tab" aria-controls="editor-panel" aria-selected={section === "identity"} disabled={!!busy} onClick={() => { setSection("identity"); setPreviewTarget(null); }}><span>01</span>Identity</button>
               <button type="button" role="tab" id="carousel-tab" aria-controls="editor-panel" aria-selected={section === "carousel"} disabled={!!busy} onClick={() => { setSection("carousel"); setPreviewTarget(null); }}><span>02</span>Carousel <small>{content.images.length}</small></button>
-
+              <button type="button" role="tab" id="projects-tab" aria-controls="editor-panel" aria-selected={section === "projects"} disabled={!!busy} onClick={() => { setSection("projects"); setPreviewTarget(null); }}><span>03</span>Projects</button>
             </div>}
             <fieldset disabled={!!busy} className={styles.editorBody} id="editor-panel" role={projectPage ? "group" : "tabpanel"} aria-labelledby={projectPage ? `${projectPage}-nav` : `${section}-tab`}>
-              {section === "page1" ? <AboutEditor sections={content.about} onChange={about => edit({ about })} selectHeader={header => setPreviewTarget({ page: "page1", header })} setBusy={setBusy} onError={setError} /> : section === "page2" || section === "page3" ? <ProjectEditor key={section} page={section} portfolio={content.portfolio} onChange={portfolio => edit({ portfolio })} preview={setPreviewTarget} setBusy={setBusy} onError={setError} /> : section === "identity" ? <>
+              {section === "projects" ? <HomeProjectsEditor previewFrame={frameRef} viewport={viewport} content={content} onChange={homeProjects => edit({ homeProjects })} /> : section === "page1" ? <AboutEditor sections={content.about} onChange={about => edit({ about })} selectHeader={header => setPreviewTarget({ page: "page1", header })} setBusy={setBusy} onError={setError} /> : section === "page2" || section === "page3" ? <ProjectEditor key={section} page={section} portfolio={content.portfolio} onChange={portfolio => edit({ portfolio })} preview={setPreviewTarget} setBusy={setBusy} onError={setError} /> : section === "identity" ? <>
                 <div className={styles.sectionHeading}><h2>A name. A point of view.</h2><p>Edit the words visitors see first.</p></div>
                 <label className={styles.field}>Main title <span>Required</span><input aria-label="Main title" value={content.title} maxLength={40} onChange={e => edit({ title: e.target.value })} placeholder="KAAN" /><small>This always appears on your homepage.</small></label>
                 <div className={styles.field}>
@@ -219,7 +220,7 @@ export default function AdminPanel({ initialDocument }: { initialDocument: HomeD
           <section className={styles.preview} aria-label="Live website preview">
             <div className={styles.previewHeading}><div><span className={styles.liveDot} />LIVE PREVIEW</div><div className={styles.devices}><button type="button" aria-label="Desktop preview" aria-pressed={viewport === "desktop"} onClick={() => setViewport("desktop")}><Icon name="desktop" /></button><button type="button" aria-label="Mobile preview" aria-pressed={viewport === "phone"} onClick={() => setViewport("phone")}><Icon name="phone" /></button></div></div>
             <div className={styles.previewStage} ref={stageRef}>
-              <div className={styles.browser} style={{ width: previewWidth * scale }}><div className={styles.browserBar}><span>● ● ●</span><span>{previewTarget ? content.navigation[previewTarget.page] : "Home"}</span><Icon name="image" /></div><div style={{ height: previewHeight * scale, overflow: "hidden" }}><iframe ref={frameRef} src="/admin/preview" title="Website draft preview" style={{ width: previewWidth, height: previewHeight, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }} onLoad={() => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget }, location.origin)} /></div></div>
+              <div className={styles.browser} style={{ width: previewWidth * scale }}><div className={styles.browserBar}><span>● ● ●</span><span>{previewTarget ? content.navigation[previewTarget.page] : "Home"}</span><Icon name="image" /></div><div style={{ height: previewHeight * scale, overflow: "hidden" }}><iframe ref={frameRef} src="/admin/preview" title="Website draft preview" style={{ width: previewWidth, height: previewHeight, transform: `scale(${scale})`, transformOrigin: "top left", border: 0 }} onLoad={() => frameRef.current?.contentWindow?.postMessage({ type: "home-preview", content, target: previewTarget, homeProjects: section === "projects" }, location.origin)} /></div></div>
             </div>
             <div className={styles.previewNote}><span><span className={styles.smallDot} />{unpublished || dirty ? "Draft preview · not yet published" : "Matches your published homepage"}</span><span>Scroll inside to explore ↓</span></div>
             <div className={styles.publishingNote}><span>YOUR NEXT CHAPTER</span><h3>Good things deserve<br />a thoughtful introduction.</h3><p>Everything here is a draft until you publish. Take your time.</p></div>

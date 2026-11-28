@@ -12,7 +12,7 @@ const aboutUrl = `data:text/javascript;base64,${Buffer.from(aboutCompiled).toStr
 const { parseAboutSections, defaultAboutSections, aboutImageLayout } = await import(aboutUrl);
 const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl).replace('./about-content', aboutUrl);
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
-const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
+const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath, MAX_HOME_PROJECTS, selectedHomeProjects, reconcileHomeProjects } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 
 const image = { id: 'b102eb69-7680-43cb-9bbd-57bc2db52b21.webp', src: '/api/media/b102eb69-7680-43cb-9bbd-57bc2db52b21.webp', alt: 'Courtyard', x: 50, y: 50 };
 
@@ -190,4 +190,81 @@ test('About image layouts persist and older sections retain their defaults', () 
     assert.throws(() => parseAboutSections([{ ...section, imageLayouts: [{ ...section.imageLayouts[0], ...patch }] }, ...defaultAboutSections.slice(1)]));
   }
   assert.throws(() => parseAboutSections([{ ...section, imageLayouts: [...section.imageLayouts, { ...section.imageLayouts[0], src: '/image%20one.webp' }] }, ...defaultAboutSections.slice(1)]), /duplicate/);
+});
+
+
+test('legacy homepage picks the first five projects from its actual portfolio', () => {
+  const legacy = structuredClone(defaultHomeContent);
+  delete legacy.homeProjects;
+  legacy.portfolio.page3[0].projects.reverse();
+  const parsed = parseHomeContent(legacy);
+  assert.deepEqual(parsed.homeProjects.page3, legacy.portfolio.page3[0].projects.slice(0, 5).map(p => p.slug));
+  assert.equal(parsed.homeProjects.artTitle, 'Art Work');
+});
+test('homepage selections preserve order, empty groups, title and original project details', () => {
+  const content = structuredClone(defaultHomeContent);
+  content.homeProjects = { page3: ['image6', 'image2'], page2: [], artTitle: 'Selected artwork' };
+  content.portfolio.page3[0].projects[5].title = 'Updated source title';
+  const parsed = parseHomeContent(content);
+  assert.deepEqual(parsed.homeProjects, content.homeProjects);
+  assert.deepEqual(selectedHomeProjects(parsed.portfolio, parsed.homeProjects, 'page3').map(p => p.title), ['Updated source title', 'Building 140 CERN']);
+  assert.deepEqual(selectedHomeProjects(parsed.portfolio, parsed.homeProjects, 'page2'), []);
+});
+test('homepage project limits and page membership are validated on save', () => {
+  const content = structuredClone(defaultHomeContent);
+  content.portfolio.page2[0].projects.push(createProject('art-only'));
+  for (const slugs of [['art-only'], ['missing'], ['image1', 'image1'], Array.from({ length: MAX_HOME_PROJECTS + 1 }, (_, i) => 'image' + (i + 1)), null]) {
+    assert.throws(() => parseHomeContent({ ...content, homeProjects: { ...content.homeProjects, page3: slugs } }));
+  }
+  assert.throws(() => parseHomeContent({ ...content, homeProjects: { ...content.homeProjects, artTitle: '' } }));
+});
+test('deleting a source project removes its homepage placement without filling it', () => {
+  const content = structuredClone(defaultHomeContent);
+  content.portfolio.page3[0].projects = content.portfolio.page3[0].projects.filter(p => p.slug !== 'image2');
+  const homeProjects = reconcileHomeProjects(content.homeProjects, content.portfolio);
+  assert.deepEqual(homeProjects.page3, ['image1', 'image3', 'image4', 'image5']);
+  assert.deepEqual(homeProjects.page2, content.homeProjects.page2);
+  assert.doesNotThrow(() => parseHomeContent({ ...content, homeProjects }));
+});
+
+
+test('source project covers retain their original defaults and geometry', () => {
+  assert.equal(createProject('new-project').coverFit, undefined);
+  const project = parsePortfolio(defaultPortfolio()).page3[0].projects[0];
+  assert.equal(project.coverFit, undefined);
+  assert.deepEqual(coverGeometry(340, 300, 2000, 200), coverGeometry(340, 300, 2000, 200, 1, 50, 50, false));
+});
+test('fit mode preserves the entire image across frame sizes and allows an intentional zoom crop', () => {
+  for (const [fw, fh] of [[340, 300], [700, 320], [390, 334]]) {
+    for (const [w, h] of [[2000, 200], [200, 2000], [800, 600]]) {
+      const fit = coverGeometry(fw, fh, w, h, 1, 50, 50, true);
+      assert.ok(fit.width <= fw + 0.0001 && fit.height <= fh + 0.0001);
+      assert.ok(fit.left >= -0.0001 && fit.top >= -0.0001);
+      const zoomed = coverGeometry(fw, fh, w, h, 2, 50, 50, true);
+      assert.equal(zoomed.width, fit.width * 2);
+      assert.equal(zoomed.height, fit.height * 2);
+      assert.ok(zoomed.width > fw || zoomed.height > fh);
+    }
+  }
+});
+
+
+test('homepage crop settings persist independently of their source project and page', () => {
+  const content = structuredClone(defaultHomeContent);
+  const original = structuredClone(content.portfolio);
+  content.homeProjects.covers = [{ page: 'page3', slug: 'image1', coverX: 23, coverY: 71, coverZoom: .8, coverFit: true }];
+  const parsed = parseHomeContent(content);
+  assert.deepEqual(parsed.homeProjects.covers, content.homeProjects.covers);
+  const selected = selectedHomeProjects(parsed.portfolio, parsed.homeProjects, 'page3')[0];
+  assert.equal(selected.coverZoom, .8);
+  assert.equal(selected.coverX, 23);
+  assert.equal(selected.coverFit, true);
+  assert.equal(selectedHomeProjects(parsed.portfolio, parsed.homeProjects, 'page2')[0].coverZoom, 1);
+  assert.deepEqual(parsed.portfolio, original);
+  for (const patch of [{ coverZoom: 4 }, { coverX: -1 }, { coverY: NaN }, { coverFit: 'true' }, { page: 'page1' }, { slug: 'image9' }]) {
+    assert.throws(() => parseHomeContent({ ...content, homeProjects: { ...content.homeProjects, covers: [{ ...content.homeProjects.covers[0], ...patch }] } }));
+  }
+  assert.throws(() => parseHomeContent({ ...content, homeProjects: { ...content.homeProjects, covers: [...content.homeProjects.covers, ...content.homeProjects.covers] } }));
+  content.portfolio.page3[0].projects.shift();
+  assert.deepEqual(reconcileHomeProjects(content.homeProjects, content.portfolio).covers, []);
 });

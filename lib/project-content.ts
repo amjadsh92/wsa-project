@@ -84,8 +84,8 @@ export function createProject(slug: string): EditableProject {
 }
 
 // Size the entire image first; only the outer card clips overflowing pixels.
-export function coverGeometry(width: number, height: number, naturalWidth: number, naturalHeight: number, zoom = 1, x = 50, y = 50) {
-  const fillScale = Math.max(width / naturalWidth, height / naturalHeight);
+export function coverGeometry(width: number, height: number, naturalWidth: number, naturalHeight: number, zoom = 1, x = 50, y = 50, fit = false) {
+  const fillScale = fit ? Math.min(width / naturalWidth, height / naturalHeight) : Math.max(width / naturalWidth, height / naturalHeight);
   const imageWidth = naturalWidth * fillScale * zoom;
   const imageHeight = naturalHeight * fillScale * zoom;
   return {
