@@ -9,7 +9,7 @@ const { allProjects, parsePortfolio, defaultPortfolio, createProject, coverGeome
 const aboutSource = await readFile(new URL('../lib/about-content.ts', import.meta.url), 'utf8');
 const aboutCompiled = ts.transpileModule(aboutSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const aboutUrl = `data:text/javascript;base64,${Buffer.from(aboutCompiled).toString('base64')}`;
-const { parseAboutSections, defaultAboutSections } = await import(aboutUrl);
+const { parseAboutSections, defaultAboutSections, aboutImageLayout } = await import(aboutUrl);
 const source = (await readFile(new URL('../lib/home-content.ts', import.meta.url), 'utf8')).replace('./project-content', projectUrl).replace('./about-content', aboutUrl);
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { defaultHomeContent, fallbackImage, parseHomeContent, visibleImages, visibleWords, pageSlug, pagePath } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
@@ -177,4 +177,17 @@ test('About Markdown preserves formatting and validates section shape', () => {
   sections[1].markdown = '## Heading\n\n| Name | Value |\n| --- | --- |\n| A | B |\n\n![Image](/architecture/images/project1.jpg)\n';
   assert.deepEqual(parseAboutSections(sections), sections);
   for (const value of [[], null, [{ ...sections[0], id: 'bad' }, ...sections.slice(1)], [{ ...sections[0], markdown: 5 }, ...sections.slice(1)]]) assert.throws(() => parseAboutSections(value));
+});
+
+
+test('About image layouts persist and older sections retain their defaults', () => {
+  const section = { ...defaultAboutSections[0], imageLayouts: [{ src: '/image one.webp', align: 'center', width: 55 }] };
+  const parsed = parseAboutSections([section, ...defaultAboutSections.slice(1)]);
+  assert.deepEqual(parsed[0].imageLayouts, section.imageLayouts);
+  assert.equal(aboutImageLayout(parsed[0], '/image%20one.webp').width, 55);
+  assert.deepEqual(aboutImageLayout(defaultAboutSections[0], '/other.webp'), { src: '/other.webp', align: 'left', width: 100 });
+  for (const patch of [{ width: 0 }, { width: 101 }, { width: NaN }, { align: 'top' }, { src: '' }]) {
+    assert.throws(() => parseAboutSections([{ ...section, imageLayouts: [{ ...section.imageLayouts[0], ...patch }] }, ...defaultAboutSections.slice(1)]));
+  }
+  assert.throws(() => parseAboutSections([{ ...section, imageLayouts: [...section.imageLayouts, { ...section.imageLayouts[0], src: '/image%20one.webp' }] }, ...defaultAboutSections.slice(1)]), /duplicate/);
 });

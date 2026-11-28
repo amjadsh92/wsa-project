@@ -1,4 +1,12 @@
-export type AboutSection = { id: string; title: string; markdown: string };
+export type AboutImageLayout = { src: string; align: "left" | "center" | "right"; width: number };
+export type AboutSection = { id: string; title: string; markdown: string; imageLayouts?: AboutImageLayout[] };
+export function imageKey(src: string) {
+  try { return new URL(src, "https://markdown.invalid/").href; } catch { return src; }
+}
+export function aboutImageLayout(section: AboutSection, src: string): AboutImageLayout {
+  return section.imageLayouts?.find(image => imageKey(image.src) === imageKey(src)) ?? { src, align: "left", width: 100 };
+}
+
 export const defaultAboutSections: AboutSection[] = [
   {
     "id": "header1",
@@ -23,6 +31,18 @@ export function parseAboutSections(value: unknown, preview = false): AboutSectio
     if (!section || section.id !== "header" + (index + 1)) throw new Error("Invalid About header.");
     if (typeof section.title !== "string" || section.title.length > 60 || (!preview && !section.title.trim())) throw new Error("Enter an About header name of up to 60 characters.");
     if (typeof section.markdown !== "string" || section.markdown.length > 100000) throw new Error("Use up to 100,000 characters per About section.");
-    return { id: section.id, title: section.title.trim(), markdown: section.markdown };
+    let imageLayouts: AboutImageLayout[] | undefined;
+    if (section.imageLayouts !== undefined) {
+      if (!Array.isArray(section.imageLayouts)) throw new Error("Invalid About image settings.");
+      const seen = new Set<string>();
+      imageLayouts = section.imageLayouts.map((image: AboutImageLayout) => {
+        if (!image || typeof image.src !== "string" || !image.src || image.src.length > 4096 || seen.has(imageKey(image.src))) throw new Error("Invalid or duplicate About image.");
+        if (!["left", "center", "right"].includes(image.align)) throw new Error("Choose left, center, or right image alignment.");
+        if (typeof image.width !== "number" || !Number.isFinite(image.width) || image.width < 10 || image.width > 100) throw new Error("Image width must be between 10% and 100%.");
+        seen.add(imageKey(image.src));
+        return { src: image.src, align: image.align, width: image.width };
+      });
+    }
+    return { id: section.id, title: section.title.trim(), markdown: section.markdown, ...(imageLayouts === undefined ? {} : { imageLayouts }) };
   });
 }

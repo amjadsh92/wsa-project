@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
-import type { AboutSection } from "@/lib/about-content";
+import { useMemo, useRef, useState } from "react";
+import { aboutImageLayout, imageKey, type AboutImageLayout, type AboutSection } from "@/lib/about-content";
+import { markdownImages } from "@/lib/markdown-images";
 import { MAX_UPLOAD_BYTES } from "@/lib/home-content";
 import styles from "./admin.module.css";
 
@@ -14,6 +15,11 @@ export default function AboutEditor({ sections, onChange, selectHeader, setBusy,
   const [selected, setSelected] = useState(0);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const section = sections[selected];
+  const images = useMemo(() => markdownImages(section.markdown), [section.markdown]);
+  const updateImage = (src: string, patch: Partial<AboutImageLayout>) => {
+    const layout = { ...aboutImageLayout(section, src), ...patch, src };
+    edit({ imageLayouts: [...(section.imageLayouts ?? []).filter(image => imageKey(image.src) !== imageKey(src)), layout] });
+  };
   const edit = (patch: Partial<AboutSection>) => onChange(sections.map((item, i) => i === selected ? { ...item, ...patch } : item));
   function insert(markdown: string, start = textarea.current?.selectionStart ?? section.markdown.length, end = textarea.current?.selectionEnd ?? start) {
     edit({ markdown: section.markdown.slice(0, start) + markdown + section.markdown.slice(end) });
@@ -54,6 +60,22 @@ export default function AboutEditor({ sections, onChange, selectHeader, setBusy,
       <textarea ref={textarea} className={styles.markdownInput} rows={24} maxLength={100000} spellCheck value={section.markdown} onChange={e => edit({ markdown: e.target.value })} />
     </label>
     <label className={styles.field}>Insert an image<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => { void upload(e.target.files?.[0]); e.target.value = ""; }} /><small>Uploads the image and inserts Markdown at your cursor. You can also use an image URL: ![Description](https://…)</small></label>
+    {!!images.length && <section aria-label="Image layout controls">
+      <h3 className={styles.subheading}>Image layout</h3>
+      <p className={styles.help}>Choose alignment and width for each image. Width is relative to the content area; images keep their proportions and won’t be enlarged beyond their original size. Reusing an image in this header shares its settings.</p>
+      {images.map((image, index) => {
+        const layout = aboutImageLayout(section, image.src);
+        return <div className={styles.projectImageRow} key={imageKey(image.src)}>
+          <div className={styles.projectImageThumb} style={{ backgroundImage: `url(${JSON.stringify(image.src)})` }} role="img" aria-label={image.alt} />
+          <p className={styles.help}>Image {index + 1}: {image.alt}</p>
+          <div className={styles.imageAlignment} role="group" aria-label={`Image ${index + 1} alignment`}>
+            {(["left", "center", "right"] as const).map(align => <button type="button" key={align} aria-pressed={layout.align === align} onClick={() => updateImage(image.src, { align })}>{align === "center" ? "Center" : align === "left" ? "Left" : "Right"}</button>)}
+          </div>
+          <label className={styles.rangeRow}>Image {index + 1} width<input type="range" min="10" max="100" step="1" value={layout.width} onChange={e => updateImage(image.src, { width: Number(e.target.value) })} /><span>{layout.width}%</span></label>
+          <button type="button" className={styles.textButton} onClick={() => updateImage(image.src, { align: "left", width: 100 })}>Reset image layout</button>
+        </div>;
+      })}
+    </section>}
     <details className={styles.markdownHelp}><summary>Markdown guide</summary>
       <pre>{"## Heading\n**Bold** and *italic*\n- List item\n1. Numbered item\n[Link text](https://example.com)\n![Image description](/api/media/your-image.webp)\n\n| Name | Details |\n| --- | --- |\n| Example | Information |\n\n> Quotation\n\n---"}</pre>
       <p>Blank lines separate paragraphs. Tables, checklists, strikethrough, and code blocks are supported.</p>

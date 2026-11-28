@@ -177,3 +177,7 @@
 .markdownHelp { font-size: 11px; line-height: 1.7; color: #62675e; margin: 24px 0; }
 .markdownHelp summary { cursor: pointer; }
 .markdownHelp pre { white-space: pre-wrap; padding: 14px; background: #eceee7; margin: 12px 0; overflow-wrap: anywhere; }
+
+.imageAlignment { display: flex; gap: 6px; margin: 12px 0; }
+.imageAlignment button { flex: 1; padding: 8px; border: 1px solid #d5d5ce; background: white; font-size: 11px; }
+.imageAlignment button[aria-pressed=true] { background: #242623; border-color: #242623; color: white; }

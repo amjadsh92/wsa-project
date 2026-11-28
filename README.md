@@ -156,7 +156,10 @@ pages and modal galleries all read the published project content.
 The first page now has its own sidebar link using its editable navigation name.
 Each of its three headers has a name and Markdown body. The editor includes
 insertion shortcuts, an image upload action, and a Markdown guide. Selecting a
-header scrolls the preview to that section.
+header scrolls the preview to that section. Each Markdown image has left, center,
+or right alignment and a 10–100% width slider with live preview. Images retain
+their proportions and are capped at their original pixel width. Settings are
+saved per image URL within each header, including reference-style images.
 
 The public page and editor preview share the same react-markdown/remark-gfm
 renderer: headings, emphasis, links, lists, tables, images, quotes, code blocks,
